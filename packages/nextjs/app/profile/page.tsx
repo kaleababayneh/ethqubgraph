@@ -24,7 +24,6 @@ const Profile = () => {
 
   
   let activeAccount = useActiveAccount();
-  //let { address: connectedAddress } = useAccount();
   let connectedAddress = activeAccount?.address;
 
 
