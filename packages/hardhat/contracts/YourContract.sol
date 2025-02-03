@@ -1,75 +1,77 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
 
-// Useful for debugging. Remove when deploying to a live network.
 import "hardhat/console.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-// Use openzeppelin to inherit battle-tested implementations (ERC20, ERC721, etc)
-// import "@openzeppelin/contracts/access/Ownable.sol";
-
-/**
- * A smart contract that allows changing a state variable of the contract and tracking the changes
- * It also allows the owner to withdraw the Ether in the contract
- * @author BuidlGuidl
- */
+// I am building a community pool saving
 contract YourContract {
-    // State Variables
-    address public immutable owner;
-    string public greeting = "Building Unstoppable Apps!!!";
-    bool public premium = false;
-    uint256 public totalCounter = 0;
-    mapping(address => uint) public userGreetingCounter;
+    // constant
 
-    // Events: a way to emit log statements from smart contract that can be listened to by external parties
-    event GreetingChange(address indexed greetingSetter, string newGreeting, bool premium, uint256 value);
+    uint256 public constant TOKEN_DECIMALS = 10**18;
 
-    // Constructor: Called once on contract deployment
-    // Check packages/hardhat/deploy/00_deploy_your_contract.ts
-    constructor(address _owner) {
-        owner = _owner;
+    // state variables
+    address public immutable creator;
+
+
+    string public equbTitle;
+    uint256 public immutable creationTime = block.timestamp;
+    
+    uint256 public poolAmount;
+    uint256 public individualContribution;
+
+    uint256 public currentCycle;
+    uint256 public totalCycles;
+    uint256 public cycleDuration;
+
+    address[] public members;
+    address[] public currentMembers;   
+
+    
+    constructor(address _creator, string memory _equbTitle, uint256 _poolAmount,  uint256 _totalCycles, uint256 _cycleDuration) {
+        creator = _creator;
+        equbTitle = _equbTitle;
+        poolAmount = _poolAmount;
+        individualContribution = _poolAmount / _totalCycles;
+        totalCycles = _totalCycles;
+        cycleDuration = _cycleDuration;
+        currentCycle = 0;
     }
 
-    // Modifier: used to define a set of rules that must be met before or after a function is executed
-    // Check the withdraw() function
+ 
     modifier isOwner() {
-        // msg.sender: predefined variable that represents address of the account that called the current function
-        require(msg.sender == owner, "Not the Owner");
+        require(msg.sender == creator, "Not the Owner");
         _;
     }
 
-    /**
-     * Function that allows anyone to change the state variable "greeting" of the contract and increase the counters
-     *
-     * @param _newGreeting (string memory) - new greeting to save on the contract
-     */
-    function setGreeting(string memory _newGreeting) public payable {
-        // Print data to the hardhat chain console. Remove when deploying to a live network.
-        console.log("Setting new greeting '%s' from %s", _newGreeting, msg.sender);
+    function getBalance(address _account) public view returns (uint256) {
+        return _account.balance;
+    }
 
-        // Change state variables
-        greeting = _newGreeting;
-        totalCounter += 1;
-        userGreetingCounter[msg.sender] += 1;
+   
+    function joinEqub() public payable {
 
-        // msg.value: built-in global variable that represents the amount of ether sent with the transaction
-        if (msg.value > 0) {
-            premium = true;
-        } else {
-            premium = false;
-        }
+        require(members.length < totalCycles, "Equb is full");
+        require(getBalance(msg.sender) >= individualContribution, "Insufficient balance");
+        // send individual contribution to the contract
+        (bool success, ) = address(this).call{value: individualContribution}("");
+        require(success, "Failed to send Ether");
+
+        members.push(msg.sender);
 
         // emit: keyword used to trigger an event
-        emit GreetingChange(msg.sender, _newGreeting, msg.value > 0, msg.value);
     }
+
+    
 
     /**
      * Function that allows the owner to withdraw all the Ether in the contract
      * The function can only be called by the owner of the contract as defined by the isOwner modifier
      */
-    function withdraw() public isOwner {
-        (bool success, ) = owner.call{ value: address(this).balance }("");
-        require(success, "Failed to send Ether");
-    }
+    // function withdraw() public isOwner {
+    //     (bool success, ) = owner.call{ value: address(this).balance }("");
+    //     require(success, "Failed to send Ether");
+    // }
 
     /**
      * Function that allows the contract to receive ETH
