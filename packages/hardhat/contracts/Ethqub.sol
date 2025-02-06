@@ -166,6 +166,9 @@ contract Ethqub {
         emit WinnerPicked(luckyWinner);
     }
 
+    function equbDetails() public view returns (string memory, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256) {
+        return (equbTitle, creationTime, startingTime, cycleStartTime, lastTimeStamp, poolAmount, individualContribution, currentCycle, totalCycles, cycleDuration, members.length);
+    }
 
     /**
      * Function that allows the contract to receive ETH

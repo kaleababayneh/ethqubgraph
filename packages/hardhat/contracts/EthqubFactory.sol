@@ -9,17 +9,37 @@ import "./Ethqub.sol";
 contract EthqubFactory {
 
     Ethqub[] public ethqubArray;
+    mapping(address => Ethqub) public ethqubMapping; // Store address to contract mapping
+
+    event EthqubCreated(address indexed contractAddress, address indexed creator);
 
     function createEthqub(address _creator, string memory _equbTitle, uint256 _poolAmount, uint256 _totalCycles, uint256 _cycleDuration,address priceFeedAddress) public {
         Ethqub ethqub = new Ethqub(_creator, _equbTitle, _poolAmount, _totalCycles, _cycleDuration, priceFeedAddress);
         ethqubArray.push(ethqub);
+        ethqubMapping[address(ethqub)] = ethqub;
+        emit EthqubCreated(address(ethqub), _creator);
+
     }
 
-    function ethqubGet(uint256 _yourContractIndex) public view returns (Ethqub) {
-        Ethqub ethqub = ethqubArray[_yourContractIndex];
-        return ethqub;
+    function getEthqubDetails(address contractAddress) public view returns (
+        string memory, 
+        uint256, 
+        uint256, 
+        uint256, 
+        uint256, 
+        uint256, 
+        uint256, 
+        uint256, 
+        uint256, 
+        uint256, 
+        uint256
+    ) {
+        require(address(ethqubMapping[contractAddress]) != address(0), "Contract does not exist");
+        
+        Ethqub ethqubInstance = Ethqub(payable(contractAddress)); 
+        return ethqubInstance.equbDetails();
     }
-
+    
     function getDeployedContracts() public view returns (Ethqub[] memory)  {
         return ethqubArray;
     }

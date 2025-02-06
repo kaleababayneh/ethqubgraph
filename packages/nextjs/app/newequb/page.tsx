@@ -7,7 +7,7 @@ import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth/useScaffoldWrite
 
 
 
-const Equb = () => {
+const NewEqub = () => {
 
   const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract({
     contractName: "EthqubFactory" 
@@ -105,4 +105,4 @@ const Equb = () => {
   );
 };
 
-export default Equb;
+export default NewEqub;
