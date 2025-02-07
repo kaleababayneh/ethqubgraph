@@ -68,6 +68,9 @@ contract Ethqub {
         cycleDuration = _cycleDuration;
         currentCycle = 0;
         //priceFeed = AggregatorV3Interface(priceFeedAddress);
+        members.push(msg.sender);
+        currentMembers.push(msg.sender);
+        numberOfCyclesDuePaid[msg.sender] += 1;
     }
 
 
@@ -85,6 +88,7 @@ contract Ethqub {
         members.push(msg.sender);
         currentMembers.push(msg.sender);
         numberOfCyclesDuePaid[msg.sender] += 1;
+        
         // emit: keyword used to trigger an event
         // if all members join set the starting time
         if (members.length == totalCycles) {

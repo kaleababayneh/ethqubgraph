@@ -4,12 +4,27 @@ import { ThemeProvider } from "~~/components/ThemeProvider";
 import "~~/styles/globals.css";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
-export const metadata = getMetadata({ title: "Scaffold-ETH 2 App", description: "Built with 🏗 Scaffold-ETH 2" });
+
+import { Climate_Crisis} from "next/font/google"
+import { Anek_Bangla } from "next/font/google";
+
+const ClimateCrisis = Climate_Crisis({
+  variable: "--font-climate-crisis",
+  subsets: ["latin"],
+  axes: ["YEAR"]
+});
+
+const AnekBangla = Anek_Bangla({
+  variable: "--font-anek-bangla",
+  subsets: ["latin"],
+});
+
+export const metadata = getMetadata({ title: " ETHqub", description: "Community Saving",  });
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <html suppressHydrationWarning>
-      <body>
+      <body className={`${ClimateCrisis.variable} ${AnekBangla.variable}`}>
         <ThemeProvider enableSystem>
           <ScaffoldEthAppWithProviders>{children}</ScaffoldEthAppWithProviders>
         </ThemeProvider>
