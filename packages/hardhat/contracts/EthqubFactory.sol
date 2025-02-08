@@ -13,12 +13,12 @@ contract EthqubFactory {
 
     event EthqubCreated(address indexed contractAddress, address indexed creator);
 
-    function createEthqub(address _creator, string memory _equbTitle, uint256 _poolAmount, uint256 _totalCycles, uint256 _cycleDuration,address priceFeedAddress) public {
+    function createEthqub(address _creator, string memory _equbTitle, uint256 _poolAmount, uint256 _totalCycles, uint256 _cycleDuration,address priceFeedAddress) public returns (address) {
         Ethqub ethqub = new Ethqub(_creator, _equbTitle, _poolAmount, _totalCycles, _cycleDuration, priceFeedAddress);
         ethqubArray.push(ethqub);
         ethqubMapping[address(ethqub)] = ethqub;
         emit EthqubCreated(address(ethqub), _creator);
-
+        return address(ethqub);
     }
 
     function getEthqubDetails(address contractAddress) public view returns (
@@ -43,4 +43,5 @@ contract EthqubFactory {
     function getDeployedContracts() public view returns (Ethqub[] memory)  {
         return ethqubArray;
     }
+
 }

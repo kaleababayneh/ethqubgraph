@@ -3,8 +3,12 @@ import React, { useState } from 'react';
 import Header from '~~/components/custom/Header';
 import JoinTopHeader from '~~/components/custom/JoinTopHeader';
 import EachInput from '~~/components/custom/EachInput';
-import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth/useScaffoldWriteContract";
+import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
+import { useScaffoldReadContract } from '~~/hooks/scaffold-eth';
+import { useScaffoldWatchContractEvent } from '~~/hooks/scaffold-eth';
 import { useAccount } from 'wagmi';
+
+
 
 const Create = () => {
   const { address: connectedAddress } = useAccount();
@@ -12,6 +16,8 @@ const Create = () => {
   const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract({
     contractName: "EthqubFactory"
   });
+
+
 
   const [creator, setCreator] = useState(connectedAddress);
   const [equbTitle, setEqubTitle] = useState('');
@@ -21,9 +27,11 @@ const Create = () => {
   const [priceFeedAddress, setPriceFeedAddress] = useState(connectedAddress);
 
   const handleSubmit = async (e: React.FormEvent) => {
+    let deployedAddress;
     e.preventDefault();
     try {
-      writeYourContractAsync({
+      await writeYourContractAsync(
+        {
         functionName: "createEthqub",
         args: [
           connectedAddress,
@@ -33,13 +41,31 @@ const Create = () => {
           BigInt(cycleDuration),
           connectedAddress
         ]
-      }).then(() => {
-      setEqubTitle('');
-      setPoolAmount('');
-      setTotalCycles('');
-      setCycleDuration('');
-      setPriceFeedAddress('');
-      });
+      },  
+      {
+        onBlockConfirmation: txnReceipt => {
+        deployedAddress = txnReceipt.logs[0].topics[1];
+        // only take last 20 digits
+        deployedAddress = "0x" + deployedAddress?.slice(-40);
+        //console.log("📦 Transaction blockHash", txnReceipt.logs[0].topics);
+        //console.log("📦 Transaction blockHash", deployedAddress);
+        window.location.href = `/equbdetail/${deployedAddress}`;
+      }
+    }
+    ).then((transaction) => {
+
+
+        setEqubTitle('');
+        setPoolAmount('');
+        setTotalCycles('');
+        setCycleDuration('');
+        
+
+          });
+        // get the equb address from the transaction object
+        // go to http://localhost:3000/equbdetail/equbAddress
+   
+     
     } catch (error) {
       console.error(error);
     }
