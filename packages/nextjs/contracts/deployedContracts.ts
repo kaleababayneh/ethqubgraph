@@ -5,9 +5,9 @@
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
-  31337: {
+  11155111: {
     EthqubFactory: {
-      address: "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+      address: "0x2457279b5AEd753748f21C6999103fC244b00795",
       abi: [
         {
           anonymous: false,
@@ -181,98 +181,6 @@ const deployedContracts = {
               internalType: "uint256",
               name: "",
               type: "uint256",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-      ],
-      inheritedFunctions: {},
-    },
-  },
-  11155111: {
-    EthqubFactory: {
-      address: "0x4Bcb60f6e6D33C8a640D50F5A76eE2553C2BEA8B",
-      abi: [
-        {
-          inputs: [
-            {
-              internalType: "string",
-              name: "_equbTitle",
-              type: "string",
-            },
-            {
-              internalType: "uint256",
-              name: "_poolAmount",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "_totalCycles",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "_cycleDuration",
-              type: "uint256",
-            },
-            {
-              internalType: "address",
-              name: "priceFeedAddress",
-              type: "address",
-            },
-          ],
-          name: "createEthqub",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          name: "ethqubArray",
-          outputs: [
-            {
-              internalType: "contract Ethqub",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "_yourContractIndex",
-              type: "uint256",
-            },
-          ],
-          name: "ethqubGet",
-          outputs: [
-            {
-              internalType: "contract Ethqub",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "getDeployedContracts",
-          outputs: [
-            {
-              internalType: "contract Ethqub[]",
-              name: "",
-              type: "address[]",
             },
           ],
           stateMutability: "view",

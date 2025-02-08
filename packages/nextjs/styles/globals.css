@@ -238,7 +238,7 @@ p {
   width: 444px;
   height: 1076px;
   z-index: 2;
-  background: linear-gradient(to bottom, rgba(20, 20, 20, 0.7), rgba(20, 20, 20, 0) 50%, rgba(20, 20, 20, 0.7));
+  background: linear-gradient(to bottom, rgba(20, 20, 20, 0.7), rgba(20, 20, 20, 0) 20%, rgba(20, 20, 20, 0) 80%, rgba(20, 20, 20, 0.7));
 }
 
 
@@ -289,4 +289,222 @@ p {
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
   margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.custom-join {
+  display: flex;
+}
+
+.custom-join-side {
+  min-width: 300px;
+  max-width: 300px;
+  width: 300px;
+  margin-left: 80px;
+  margin-top: 60px;
+}
+
+.custom-join-side-header-title {
+  font-family: var(--font-anek-bangla);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 78px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+
+}
+.custom-join-side-search-icon {
+  position: relative;
+  top: 20px;
+}
+
+.custom-join-side-search-input {
+  padding-left: 20px;
+
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #D3D3D3;
+}
+
+.custom-join-side-filters {
+  margin-top: 30px;
+}
+
+.each-filter {
+  height: fit-content;
+  margin: 10px 0px;
+}
+
+.each-filter-title {
+  color: #D3D3D3;
+  font-family: var(--font-anek-bangla);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0.3199999928474426px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+
+}
+
+
+.each-filter-input {
+  padding: 10px;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #D3D3D3;
+  background-color: #1D1D1D;
+  width: 235px;
+  height: 35px;
+  margin-top: 10px;
+}
+
+.custom-join-main {
+  display: flex;
+  flex-direction: column;
+  margin-top: 60px;
+  margin-left: 80px;
+  width: 900px ;
+}
+
+.custom-join-main-body {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; 
+}
+.equb-card {
+  background-color: #1D1D1D;
+  width: 430px;
+  height: 160px;
+  margin: 10px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+.equb-card-side {
+  width: 260px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.equb-card-image {
+  width: 130px !important;
+  height: 130px !important;
+}
+
+.equb-card-content{
+  width: 100%;
+  height: 100%;
+  padding: 10px 15px;
+  padding-top: 25px;
+}
+.equb-card-content-title {
+  font-family: var(--font-anek-bangla);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.1599999964237213px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+
+}
+
+.equb-card-content-desc{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0px;
+  margin-top: 7px;
+}
+
+.desc-tag {
+  width: fit-content;
+  height: 21px;
+  margin: 5px 0px;
+  margin-right: 10px;
+  padding: 10px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.equb-card-content-footer {
+  display: flex;
+  justify-content: end;
+  margin-right: 15px;
+  margin-top: 15px;
+  font-family: var(--font-anek-bangla);
+  font-size: 16px;
+  font-weight: 500;
+  color: #ECECEC;
+}
+
+.custom-create {
+  width: 760px;
+  height:  600px;
+  margin: auto;
+  margin-top: 60px;
+}
+
+.custom-create-logo {
+  width: 170px !important;
+  height: 170px !important;
+  margin-top: 20px;
+  background-color: #333;
+}
+
+.custom-create-input {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.each-input {
+  height: fit-content;
+  width: 350px;
+  margin: 20px 0px;
+  padding-right: 10px;
+}
+
+.each-input-title {
+  color: #D3D3D3;
+  font-family: var(--font-anek-bangla);
+  font-size: 17px;
+  margin-bottom: 5px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: left;
+  text-underline-position: from-font;
+  letter-spacing: 1px;
+}
+
+.each-input-input {
+  padding: 10px;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #D3D3D3;
+  background-color: #1D1D1D;
+  width: 235px;
+  height: 35px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.custom-create-button {
+  display: flex;
+  justify-content: end;
+  align-items: flex-end;
+  margin-top: 10px;
+  margin-right: 40px;
 }

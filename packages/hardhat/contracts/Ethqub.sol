@@ -67,10 +67,10 @@ contract Ethqub {
         totalCycles = _totalCycles;
         cycleDuration = _cycleDuration;
         currentCycle = 0;
-        //priceFeed = AggregatorV3Interface(priceFeedAddress);
         members.push(msg.sender);
         currentMembers.push(msg.sender);
         numberOfCyclesDuePaid[msg.sender] += 1;
+
     }
 
 

@@ -15,11 +15,11 @@ const HomeBody = () => {
         </div>
         <div className='custom-homebody-content'>
         <div className='custom-homebody-content-join'>
-                <a href='/'>Join Equb</a>
+                <a href='/join'>Join Equb</a>
             </div>
 
             <div className='custom-homebody-content-create'>
-                <a href='/'>Create Equb</a>
+                <a href='/create'>Create Equb</a>
             </div>
         </div>
     </div>
@@ -51,7 +51,7 @@ const HomeBody = () => {
             <WaveyIcon />
         </div>
         <div className='custom-homebody3-waveyIcon custom-homebody3-waveyIconCover'>
-            xx
+           
         </div>
         <div className='custom-homebody3-placeholder'>
         </div>
@@ -62,7 +62,7 @@ const HomeBody = () => {
             </div>
 
             <div className='custom-homebody3-main-content'>
-                Born in Ethiopia Build in ETHiopia 
+                Born in Ethiopia Buidl in ETHiopia 
             </div>
 
             <div className='custom-homebody3-main-subtitle'>
