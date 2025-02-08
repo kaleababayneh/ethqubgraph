@@ -8,7 +8,6 @@ import { useAccount } from 'wagmi';
 
 const Create = () => {
   const { address: connectedAddress } = useAccount();
-  console.log("connected   ",connectedAddress);
 
   const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract({
     contractName: "EthqubFactory"

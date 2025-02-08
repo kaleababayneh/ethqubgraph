@@ -11,7 +11,7 @@ const HomeBody = () => {
             Revolutionizing Community Lending with Blockchain
         </div>
         <div className='custom-homebody-subtitle'>
-            On-chain reputation based under-collateralized community lending.
+            Verfiable on-chain reputation based under-collateralized community lending.
         </div>
         <div className='custom-homebody-content'>
         <div className='custom-homebody-content-join'>
@@ -45,7 +45,8 @@ const HomeBody = () => {
                 Why Ethqub?
             </div>
             <div className='custom-homebody3-content-description'>
-                Equb is a traditional Ethiopian rotating savings and credit system where members contribute money regularly, and one member receives the pooled funds each round.            </div>
+                According to World Bank statistics, an estimated 1.7 billion people in the world are unbanked, while over 44% of the current banked population is not eligible for credit which means 72% of the world population is defined as not credible and it is impossible to use the traditional financial system
+            </div>
         </div>
         <div className='custom-homebody3-waveyIcon'>
             <WaveyIcon />
@@ -59,6 +60,10 @@ const HomeBody = () => {
         <div className='custom-homebody3-main'>
             <div className='custom-homebody3-main-title'>
                 <Logo />
+            </div>
+
+            <div className='custom-homebody3-main-value'>
+                Bringing value to the Ethereum 
             </div>
 
             <div className='custom-homebody3-main-content'>

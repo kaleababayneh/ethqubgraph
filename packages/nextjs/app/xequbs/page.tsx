@@ -8,7 +8,6 @@ const Equbs = () => {
          functionName: "getDeployedContracts",
     });
 
-    console.log(equbLists);
 
     return (
         <div>

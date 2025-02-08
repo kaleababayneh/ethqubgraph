@@ -94,7 +94,7 @@ p {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  width: 905px;
+  width: 1010px;
   height: 100%;
   padding: 0 100px;
   margin: 0 auto;
@@ -224,7 +224,7 @@ p {
   text-align: center;
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
-
+  margin-top: 30px;
 }
 
 .custom-homebody3-waveyIcon {
@@ -278,6 +278,14 @@ p {
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
   margin-top: 35px;
+}
+
+.custom-homebody3-main-value {
+  font-family: var(--font-anek-bangla);
+  font-size: 25px;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .custom-homebody3-main-subtitle {
@@ -502,9 +510,58 @@ p {
 }
 
 .custom-create-button {
+  width: 100%;
   display: flex;
   justify-content: end;
   align-items: flex-end;
+  margin-top: 30px;
+  margin-right: 20px;
+}
+
+.custom-detail {
+  width: 760px;
+  height: 100%;
+  margin: auto;
+  margin-top: 60px;
+}
+
+.custom-detail-title {
+
+}
+
+.custom-detail-logo {
+  width: 170px !important;
+  height: 170px !important;
+  margin-top: 20px;
+  background-color: #333;
+}
+
+.each-detail-input {
+  height: fit-content;
+  width: 350px;
+  margin: 20px 0px;
+  padding-right: 10px;
+}
+
+.each-detail-input-title {
+  color: #D3D3D3;
+  font-family: var(--font-anek-bangla);
+  font-size: 17px;
+  margin-bottom: 5px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: left;
+  text-underline-position: from-font;
+  letter-spacing: 1px;
+}
+
+.each-detail-input-input {
+  padding: 10px;
+  outline: none;
+  border: none;
+  background-color: #1D1D1D;
+  width: 235px;
+  height: 35px;
   margin-top: 10px;
-  margin-right: 40px;
+  width: 100%;
 }

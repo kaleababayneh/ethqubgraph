@@ -28,7 +28,7 @@ const Header = () => {
         </div>
 
         <div className='custom-header-center'>
-            <Logo />
+            <a href='/'> <Logo /></a>
         </div>
 
         <div className='custom-header-right'>

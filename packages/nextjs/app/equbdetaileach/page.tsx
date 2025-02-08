@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
-import EqubDetailEachEvery from '../equbdetaileachevery/page'; // Uncomment if needed
+import Detail from '~~/app/detail/page'; // Uncomment if needed
 
 interface EqubDetailEachProps {
   equbDetails: string[];
@@ -20,10 +20,13 @@ const EqubDetailEach: React.FC<EqubDetailEachProps> = ({ equbDetails }) => {
   });
 
 
+  console.log("Dara",detailsData);
+
+
   return (
     <div>
       {detailsData.map((item, index) => (
-        <EqubDetailEachEvery key={index} equbDetail={item} />
+        <Detail key={index} equbDetail={item} />
       ))}
     </div>
   );
