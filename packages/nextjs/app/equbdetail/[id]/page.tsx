@@ -3,7 +3,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
 import { useParams } from "next/navigation";
-import Detail from '~~/app/detail/page';
+import Detail from '~~/app/detail/[id]/page';
 
 interface EqubDetailInfo {
   data: any;

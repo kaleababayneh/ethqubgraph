@@ -1,12 +1,13 @@
 "use client";
 import React from "react";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
+import Detail from '~~/app/detail/[id]/page';
 
-interface EqubDetailEachGenProps {
+interface EqubDetailEachProps {
   equbDetails: string[];
 }
 
-const EqubDetailEachGen: React.FC<EqubDetailEachGenProps> = ({ equbDetails }) => {
+const EqubDetailEach: React.FC<EqubDetailEachProps> = ({ equbDetails }) => {
 
   const detailsData = equbDetails.map((address: string) => {
     const { data, isLoading, error } = useScaffoldReadContract({
@@ -18,15 +19,17 @@ const EqubDetailEachGen: React.FC<EqubDetailEachGenProps> = ({ equbDetails }) =>
     return { data, isLoading, error, address };
   });
 
+
+  console.log("Dara",detailsData);
+
+
   return (
     <div>
-       {detailsData.map((item, index) => (
-
-        // <Detail key={index} equbDetail={item} />
-        <div> {item.toString()} </div>
-      ))} 
+      {detailsData.map((item, index) => (
+        <Detail key={index} equbDetail={item} />
+      ))}
     </div>
   );
 };
 
-export default EqubDetailEachGen;
+export default EqubDetailEach;

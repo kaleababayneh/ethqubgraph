@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
-import EqubDetailEach from "../equbdetaileach/page";
+import EqubDetailEachGen from '~~/app/equbdetaileach/page';
 
 const EqubDetail = () => {
     const { data: equbList } = useScaffoldReadContract({
@@ -16,7 +16,7 @@ const EqubDetail = () => {
         <div>
             <h1>Equb Detail</h1>
             {isArray ? (
-                <EqubDetailEach equbDetails={equbList} /> 
+                <EqubDetailEachGen equbDetails={equbList} /> 
             ) : (
                 <p>Loading...</p>
             )}
