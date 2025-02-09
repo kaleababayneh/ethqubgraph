@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     EthqubFactory: {
-      address: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      address: "0x9A676e781A523b5d0C0e43731313A708CB607508",
       abi: [
         {
           anonymous: false,
@@ -54,6 +54,11 @@ const deployedContracts = {
               internalType: "uint256",
               name: "_cycleDuration",
               type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "_ipfsHash",
+              type: "string",
             },
             {
               internalType: "address",
@@ -187,6 +192,11 @@ const deployedContracts = {
               internalType: "uint256",
               name: "",
               type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
             },
           ],
           stateMutability: "view",

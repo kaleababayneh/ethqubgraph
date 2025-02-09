@@ -464,10 +464,14 @@ p {
 }
 
 .custom-create-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 170px !important;
   height: 170px !important;
   margin-top: 20px;
   background-color: #333;
+  color: #aaa;
 }
 
 .custom-create-input {

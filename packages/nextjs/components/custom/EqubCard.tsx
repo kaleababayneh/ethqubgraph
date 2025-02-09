@@ -5,11 +5,17 @@ import Tag from './Tag';
 
 const EqubCard = (
     {
-        // equbTit,
-        // equbRating,
-        // equbType,
-        // equbAmount,
-        // equbStatus
+        // equbTitle,  
+        // creationTime,  
+        // startingTime,  
+        // cycleStartTime,  
+        // lastTimeStamp,  
+        // poolAmount,  
+        // individualContribution,  
+        // currentCycle,  
+        // totalCycles,  
+        // cycleDuration,  
+        // numberOfMembers,          
     }
 ) => {
   return (

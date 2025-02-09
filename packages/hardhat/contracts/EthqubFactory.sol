@@ -13,8 +13,8 @@ contract EthqubFactory {
 
     event EthqubCreated(address indexed contractAddress, address indexed creator);
 
-    function createEthqub(address _creator, string memory _equbTitle, uint256 _poolAmount, uint256 _totalCycles, uint256 _cycleDuration,address priceFeedAddress) public returns (address) {
-        Ethqub ethqub = new Ethqub(_creator, _equbTitle, _poolAmount, _totalCycles, _cycleDuration, priceFeedAddress);
+    function createEthqub(address _creator, string memory _equbTitle, uint256 _poolAmount, uint256 _totalCycles, uint256 _cycleDuration,string memory _ipfsHash,address priceFeedAddress) public returns (address) {
+        Ethqub ethqub = new Ethqub(_creator, _equbTitle, _poolAmount, _totalCycles, _cycleDuration,_ipfsHash, priceFeedAddress);
         ethqubArray.push(ethqub);
         ethqubMapping[address(ethqub)] = ethqub;
         emit EthqubCreated(address(ethqub), _creator);
@@ -32,7 +32,8 @@ contract EthqubFactory {
         uint256, 
         uint256, 
         uint256, 
-        uint256
+        uint256,
+        string memory
     ) {
         require(address(ethqubMapping[contractAddress]) != address(0), "Contract does not exist");
         

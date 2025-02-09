@@ -36,6 +36,7 @@ contract Ethqub {
 
     address public luckyWinner;  
     uint256 public randomNumber;
+    string public ipfsHash;
 
     
     // events
@@ -58,7 +59,7 @@ contract Ethqub {
         _;
     }
 
-    constructor(address _creator, string memory _equbTitle, uint256 _poolAmount,  uint256 _totalCycles, uint256 _cycleDuration, address /*priceFeedAddress*/) {
+    constructor(address _creator, string memory _equbTitle, uint256 _poolAmount,  uint256 _totalCycles, uint256 _cycleDuration, string memory _ipfsHash, address /*priceFeedAddress*/) {
         creator = _creator;
         luckyWinner = creator;
         equbTitle = _equbTitle;
@@ -70,7 +71,7 @@ contract Ethqub {
         members.push(msg.sender);
         currentMembers.push(msg.sender);
         numberOfCyclesDuePaid[msg.sender] += 1;
-
+        ipfsHash = _ipfsHash;
     }
 
 
@@ -126,6 +127,7 @@ contract Ethqub {
             currentCycle,
             gasleft()
         )));
+
         return randomNumber  % currentMembers.length;
     }
 
@@ -170,8 +172,8 @@ contract Ethqub {
         emit WinnerPicked(luckyWinner);
     }
 
-    function equbDetails() public view returns (string memory, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256) {
-        return (equbTitle, creationTime, startingTime, cycleStartTime, lastTimeStamp, poolAmount, individualContribution, currentCycle, totalCycles, cycleDuration, members.length);
+    function equbDetails() public view returns (string memory, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, string memory) {
+        return (equbTitle, creationTime, startingTime, cycleStartTime, lastTimeStamp, poolAmount, individualContribution, currentCycle, totalCycles, cycleDuration, members.length, ipfsHash);
     }
 
     /**

@@ -6,14 +6,21 @@ import EachInput from '~~/components/custom/EachInput';
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 import { useScaffoldReadContract } from '~~/hooks/scaffold-eth';
 import { useScaffoldWatchContractEvent } from '~~/hooks/scaffold-eth';
+import { useEffect, useRef } from 'react';
 import { useAccount } from 'wagmi';
-import { uploadToIPFS } from './config';
 import confetti from 'canvas-confetti';
 
 
 
 const Create = () => {
   const { address: connectedAddress } = useAccount();
+
+  const [file, setFile] = useState<File>();
+  const [url, setUrl] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
 
   const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract({
     contractName: "EthqubFactory"
@@ -26,18 +33,44 @@ const Create = () => {
   const [poolAmount, setPoolAmount] = useState('');
   const [totalCycles, setTotalCycles] = useState('');
   const [cycleDuration, setCycleDuration] = useState('');
+
   const [priceFeedAddress, setPriceFeedAddress] = useState(connectedAddress);
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      const jsonData = file; // Replace with actual JSON data if needed
-      const fileName = file.name;
-      await uploadToIPFS({ jsonData, fileName });
+  const uploadFile = async () => {
+    try {
+      if (!file) {
+        alert("No file selected");
+        return;
+      }
+
+      setUploading(true);
+      const data = new FormData();
+      data.set("file", file);
+      const uploadRequest = await fetch("/api/files", {
+        method: "POST",
+        body: data,
+      });
+      const ipfsUrl = await uploadRequest.json();
+      setUrl(ipfsUrl);
+      setUploading(false);
+    } catch (e) {
+      console.log(e);
+      setUploading(false);
+      alert("Trouble uploading file");
     }
-  }
+  };
 
-
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target?.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string);
+      };
+      reader.readAsDataURL(selectedFile);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     let deployedAddress: any;
@@ -52,6 +85,7 @@ const Create = () => {
           BigInt(poolAmount),
           BigInt(totalCycles),
           BigInt(cycleDuration),
+          url,
           connectedAddress
         ]
       },  
@@ -89,6 +123,7 @@ const Create = () => {
     }
   };
 
+
   return (
     <>
       <JoinTopHeader />
@@ -97,23 +132,39 @@ const Create = () => {
         <div className="custom-create-title">
           Create Equb
         </div>
-        <div className="custom-create-logo">
+        <div className="custom-create-logo" onClick={() => fileInputRef.current?.click()}>
+        {previewUrl || url ? (
+            <img src={previewUrl || url} alt="Upload Image" style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }} />
+          ) : (
+            <p>Upload image</p>
+          )}
         </div>
-        {/* <div  className="custom-create-image">
-          <input type="file" onChange={handleImageUpload} />
-        </div> */}
-        <form onSubmit={handleSubmit} className='custom-create-input'>
-         
-          {/* <EachInput name="Creator Address" value={creator} onChange={(e) => setCreator(e.target.value)} /> */}
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          onChange={handleChange}
+        />
+        <div className="custom-create-image">
+          <button type="button" disabled={uploading} onClick={uploadFile}>
+            {uploading ? "Uploading..." : "IPFS Upload"}
+          </button>
+        </div>
+         <form onSubmit={handleSubmit} className='custom-create-input'>
+          {/* <EachInput name="Creator Address" value={creator} onChange={(e) => setCreator(e.target.value)} />  */}
           <EachInput name="Ethqub's title" value={equbTitle} onChange={(e) => setEqubTitle(e.target.value)} />
           <EachInput name='Total Pool Size' value={poolAmount} onChange={(e) => setPoolAmount(e.target.value)} />
           <EachInput name='Number of Pool Participants' value={totalCycles} onChange={(e) => setTotalCycles(e.target.value)} />
           <EachInput name='Payment Frequency' value={cycleDuration} onChange={(e) => setCycleDuration(e.target.value)} />
-          {/* <EachInput name='Price Feed Address' value={priceFeedAddress} onChange={(e) => setPriceFeedAddress(e.target.value)} /> */}
+           {/* <EachInput name='Price Feed Address' value={priceFeedAddress} onChange={(e) => setPriceFeedAddress(e.target.value)} />  */}
           <button type='submit' className='custom-create-button'>
             Create equb
           </button>
-        </form> 
+        </form>  
       </div>
     </>
   );

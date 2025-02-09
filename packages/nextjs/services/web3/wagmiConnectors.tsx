@@ -6,7 +6,8 @@ import {
   rainbowWallet,
   safeWallet,
   walletConnectWallet,
-  phantomWallet
+  phantomWallet,
+  
 
 } from "@rainbow-me/rainbowkit/wallets";
 import { rainbowkitBurnerWallet } from "burner-connector";
@@ -18,11 +19,9 @@ const { onlyLocalBurnerWallet, targetNetworks } = scaffoldConfig;
 const wallets = [
   metaMaskWallet,
   walletConnectWallet,
-  phantomWallet,
-  ledgerWallet,
+  safeWallet,
   coinbaseWallet,
   rainbowWallet,
-  safeWallet,
   ...(!targetNetworks.some(network => network.id !== (chains.hardhat as chains.Chain).id) || !onlyLocalBurnerWallet
     ? [rainbowkitBurnerWallet]
     : []),
