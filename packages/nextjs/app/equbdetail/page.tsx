@@ -13,14 +13,13 @@ const EqubDetail = () => {
     const isArray = Array.isArray(equbList);
 
     return (
-        <div>
-            <h1>Equb Detail</h1>
+        <>
             {isArray ? (
                 <EqubDetailEachGen equbDetails={equbList} /> 
             ) : (
                 <p>Loading...</p>
             )}
-        </div>
+        </>
     );
 };
 

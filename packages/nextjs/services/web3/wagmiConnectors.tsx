@@ -6,6 +6,8 @@ import {
   rainbowWallet,
   safeWallet,
   walletConnectWallet,
+  phantomWallet
+
 } from "@rainbow-me/rainbowkit/wallets";
 import { rainbowkitBurnerWallet } from "burner-connector";
 import * as chains from "viem/chains";
@@ -16,6 +18,7 @@ const { onlyLocalBurnerWallet, targetNetworks } = scaffoldConfig;
 const wallets = [
   metaMaskWallet,
   walletConnectWallet,
+  phantomWallet,
   ledgerWallet,
   coinbaseWallet,
   rainbowWallet,

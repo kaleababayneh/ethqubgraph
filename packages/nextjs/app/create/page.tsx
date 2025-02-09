@@ -7,6 +7,8 @@ import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 import { useScaffoldReadContract } from '~~/hooks/scaffold-eth';
 import { useScaffoldWatchContractEvent } from '~~/hooks/scaffold-eth';
 import { useAccount } from 'wagmi';
+import { uploadToIPFS } from './config';
+import confetti from 'canvas-confetti';
 
 
 
@@ -26,8 +28,19 @@ const Create = () => {
   const [cycleDuration, setCycleDuration] = useState('');
   const [priceFeedAddress, setPriceFeedAddress] = useState(connectedAddress);
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const jsonData = file; // Replace with actual JSON data if needed
+      const fileName = file.name;
+      await uploadToIPFS({ jsonData, fileName });
+    }
+  }
+
+
+
   const handleSubmit = async (e: React.FormEvent) => {
-    let deployedAddress;
+    let deployedAddress: any;
     e.preventDefault();
     try {
       await writeYourContractAsync(
@@ -44,12 +57,17 @@ const Create = () => {
       },  
       {
         onBlockConfirmation: txnReceipt => {
+          confetti({
+            particleCount: 500,
+            spread: 180,
+            origin: { y: 0.6 },
+          });
+        
         deployedAddress = txnReceipt.logs[0].topics[1];
-        // only take last 20 digits
         deployedAddress = "0x" + deployedAddress?.slice(-40);
-        //console.log("📦 Transaction blockHash", txnReceipt.logs[0].topics);
-        //console.log("📦 Transaction blockHash", deployedAddress);
-        window.location.href = `/equbdetail/${deployedAddress}`;
+        setTimeout(() => {
+          window.location.href = `/equbdetail/${deployedAddress}`;
+        }, 1800);
       }
     }
     ).then((transaction) => {
@@ -81,7 +99,11 @@ const Create = () => {
         </div>
         <div className="custom-create-logo">
         </div>
+        {/* <div  className="custom-create-image">
+          <input type="file" onChange={handleImageUpload} />
+        </div> */}
         <form onSubmit={handleSubmit} className='custom-create-input'>
+         
           {/* <EachInput name="Creator Address" value={creator} onChange={(e) => setCreator(e.target.value)} /> */}
           <EachInput name="Ethqub's title" value={equbTitle} onChange={(e) => setEqubTitle(e.target.value)} />
           <EachInput name='Total Pool Size' value={poolAmount} onChange={(e) => setPoolAmount(e.target.value)} />
@@ -91,7 +113,7 @@ const Create = () => {
           <button type='submit' className='custom-create-button'>
             Create equb
           </button>
-        </form>
+        </form> 
       </div>
     </>
   );

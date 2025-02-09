@@ -3,7 +3,15 @@ import Image from 'next/image'
 import Tag from './Tag';
 
 
-const EqubCard = () => {
+const EqubCard = (
+    {
+        // equbTit,
+        // equbRating,
+        // equbType,
+        // equbAmount,
+        // equbStatus
+    }
+) => {
   return (
     <div className='equb-card'>
         <div className="equb-card-side">

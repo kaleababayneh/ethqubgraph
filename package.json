@@ -64,5 +64,8 @@
   "packageManager": "yarn@3.2.3",
   "engines": {
     "node": ">=20.18.1"
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.9.3"
   }
 }

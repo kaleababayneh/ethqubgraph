@@ -18,12 +18,29 @@ const EqubDetailEachGen: React.FC<EqubDetailEachGenProps> = ({ equbDetails }) =>
     return { data, isLoading, error, address };
   });
 
+
+  console.log(detailsData);
   return (
     <div>
        {detailsData.map((item, index) => (
-
-        // <Detail key={index} equbDetail={item} />
-        <div> {item.toString()} </div>
+          <div key={index}>
+            {item.isLoading ? (
+              <p>Loading...</p>
+            ) : item.error ? (
+              <p>Error: {item.error.message}</p>
+            ) : (
+              <div>
+                <p>Address: {item.address}</p>
+                <div>
+                  {item.data && Object.entries(item.data).map(([key, value]) => (
+                    <div key={key}>
+                      <strong>{key}:</strong> {typeof value === 'bigint' ? value.toString() : value}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
       ))} 
     </div>
   );
