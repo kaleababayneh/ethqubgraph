@@ -1,13 +1,13 @@
 "use client";
 import React from "react";
+import EqubCard from "~~/components/custom/EqubCard";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
 
-interface EqubDetailEachGenProps {
+interface EqubDetailEachProps {
   equbDetails: string[];
 }
 
-const EqubDetailEachGen: React.FC<EqubDetailEachGenProps> = ({ equbDetails }) => {
-
+const EqubDetailEach: React.FC<EqubDetailEachProps> = ({ equbDetails }) => {
   const detailsData = equbDetails.map((address: string) => {
     const { data, isLoading, error } = useScaffoldReadContract({
       contractName: "EthqubFactory",
@@ -18,32 +18,39 @@ const EqubDetailEachGen: React.FC<EqubDetailEachGenProps> = ({ equbDetails }) =>
     return { data, isLoading, error, address };
   });
 
-
-  console.log(detailsData);
   return (
-    <div>
-       {detailsData.map((item, index) => (
-          <div key={index}>
-            {item.isLoading ? (
-              <p>Loading...</p>
-            ) : item.error ? (
-              <p>Error: {item.error.message}</p>
-            ) : (
-              <div>
-                <p>Address: {item.address}</p>
-                <div>
-                  {item.data && Object.entries(item.data).map(([key, value]) => (
-                    <div key={key}>
-                      <strong>{key}:</strong> {typeof value === 'bigint' ? value.toString() : value}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+    <div className="equb-detail-wrapper">
+      {detailsData.map((item, index) => {
+       
+        
+        // Assuming the data tuple structure matches the following order:
+        // [equbTitle, poolAmount, startingTime, currentCycle, totalCycles, ...otherProps]
+        const [
+          equbTitle,
+          poolAmount,
+          startingTime,
+          currentCycle,
+          totalCycles,
+          numberOfMembers,
+          // Add other tuple elements as needed
+        ] = item.data || [];
+
+        return (
+          <div key={index} className="equb-detail-each">
+            <EqubCard
+              equbTitle={equbTitle?.toString()}
+              startingTime={new Date(Number(startingTime) * 1000).toLocaleDateString()}
+              poolAmount={Number(poolAmount)}
+              currentCycle={Number(currentCycle)}
+              totalCycles={Number(totalCycles)}
+              numberOfMembers={Number(numberOfMembers)}
+              // Add other props as needed based on your contract's return tuple structure
+            />
           </div>
-      ))} 
+        );
+      })}
     </div>
   );
 };
 
-export default EqubDetailEachGen;
+export default EqubDetailEach;

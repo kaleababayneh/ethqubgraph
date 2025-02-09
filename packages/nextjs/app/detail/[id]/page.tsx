@@ -53,6 +53,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     const totalCycles = data[8].toString();
     const cycleDuration = data[9].toString();
     const numberOfMembers = data[10].toString();
+    const ipfsHash = data[11].toString();
 
 
 
@@ -70,6 +71,11 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
          Equb's Detail
         </div>
         <div className="custom-detail-logo">
+        <img src={"https://"+ipfsHash + ".ipfs.dweb.link"} alt="Upload Image" style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              }} />
         </div>
         <div  className='custom-create-input'>
           {/* <EachInput name="Creator Address" value={creator} onChange={(e) => setCreator(e.target.value)} /> */}

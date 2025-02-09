@@ -4,6 +4,7 @@ import EqubCard from '~~/components/custom/EqubCard'
 import Header from '~~/components/custom/Header'
 import JoinTopHeader from '~~/components/custom/JoinTopHeader'
 import SearchIcon from '~~/components/custom/SearchIcon'
+import EqubDetail from '../equbdetail/page'
 
 const Join = () => {
   return (
@@ -34,12 +35,7 @@ const Join = () => {
                 All Pools
             </div>
             <div className='custom-join-main-body'>
-                <EqubCard />
-                <EqubCard />
-                <EqubCard />
-                <EqubCard />
-                <EqubCard />
-                <EqubCard />
+               <EqubDetail />
             </div>
         </div>
     </div>

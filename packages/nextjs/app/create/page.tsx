@@ -4,10 +4,8 @@ import Header from '~~/components/custom/Header';
 import JoinTopHeader from '~~/components/custom/JoinTopHeader';
 import EachInput from '~~/components/custom/EachInput';
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
-import { useScaffoldReadContract } from '~~/hooks/scaffold-eth';
-import { useScaffoldWatchContractEvent } from '~~/hooks/scaffold-eth';
-import { useEffect, useRef } from 'react';
 import { useAccount } from 'wagmi';
+import { useRef } from 'react';
 import confetti from 'canvas-confetti';
 
 
@@ -51,7 +49,11 @@ const Create = () => {
         body: data,
       });
       const ipfsUrl = await uploadRequest.json();
-      setUrl(ipfsUrl);
+    
+      const ipfsHash = ipfsUrl.split("/").pop();
+      console.log(ipfsHash);
+
+      setUrl(ipfsHash);
       setUploading(false);
     } catch (e) {
       console.log(e);
@@ -133,8 +135,8 @@ const Create = () => {
           Create Equb
         </div>
         <div className="custom-create-logo" onClick={() => fileInputRef.current?.click()}>
-        {previewUrl || url ? (
-            <img src={previewUrl || url} alt="Upload Image" style={{
+        {previewUrl  ? (
+            <img src={previewUrl} alt="Upload Image" style={{
               width: "100%",
               height: "100%",
               objectFit: "cover",
