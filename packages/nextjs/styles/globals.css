@@ -828,9 +828,9 @@ p {
   position: absolute;
   margin-top: 20px;
   height: 95%;
-  width: 120%;
+  width: 110%;
   top: 0px;
-  left: -10%;
+  left: -5%;
   padding-top: 20px;
   overflow: hidden !important;
 }
@@ -840,7 +840,7 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 600px;
+  width: 580px;
   margin: auto;
   padding: 0px 10px;
 }
@@ -863,13 +863,12 @@ p {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding: 0px 10px;
   color: #fff;
   font-family: var(--font-anek-bangla);
   font-weight: 400;
-  font-size: 20px;
+  font-size: 18px;
   letter-spacing: 0.16px;
-  padding: 50px 60px;
+  padding: 50px 40px;
   padding-bottom: 20px;
 }
 

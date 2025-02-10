@@ -156,7 +156,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
                 </div>
                 <div className="custom-detail-popup-body-sent-details">
                     <div className="custom-detail-popup-sent-details-each">
-                      <Dot/> 0x676fb2fd322596993f78b
+                      <Dot/> 0x676fb2f993f78b
                     </div>
                 </div>
                
@@ -169,10 +169,10 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
                   </div>
                   <div className="custom-detail-popup-body-sent-details">
                     <div className="custom-detail-popup-sent-details-each">
-                      <Dot/>  0x676fb2fd322596993f78b
+                      <Dot/>  0x676fb6993f78b
                     </div>
                     <div className="custom-detail-popup-sent-details-each">
-                      <Dot/>  0x763423133245567888867
+                      <Dot/>  0x763427888867
                     </div>
                   </div>
 
@@ -185,13 +185,34 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
                   </div>
                   <div className="custom-detail-popup-body-sent-details custom-detail-popup-body-failed-details">
                     <div className="custom-detail-popup-sent-details-each">
-                        <DotRed/> 0x676fb2fd322596993f78b
+                        <DotRed/> 0x676fb6993f78b
                       </div>
                       <div className="custom-detail-popup-sent-details-each">
-                        <DotRed/> 0x763423133245567888867
+                        <DotRed/> 0x763567888867
                       </div>
                   </div>
               </div>
+
+              <div className="custom-detail-popup-body-sent">
+                  <div className="custom-detail-popup-body-sent-title">
+                    Members
+                  </div>
+                  <div className="custom-detail-popup-body-sent-details">
+                    <div className="custom-detail-popup-sent-details-each">
+                      <Dot/>  0x676f993f7b8b
+                    </div>
+                    <div className="custom-detail-popup-sent-details-each">
+                      <Dot/>  0x763478888867
+                    </div>
+                    <div className="custom-detail-popup-sent-details-each">
+                      <Dot/>  0x763467888867
+                    </div>
+                    <div className="custom-detail-popup-sent-details-each">
+                      <Dot/>  0x763997888867
+                    </div>
+                  </div>
+
+              </div> 
 
             </div>
           </div> 
