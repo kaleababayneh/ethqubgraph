@@ -15,7 +15,8 @@ const EqubCard = (
         currentCycle = 0,  
         totalCycles = 10,   
         cycleDuration =1,  
-        numberOfMembers = 0,          
+        numberOfMembers = 0, 
+                
     }
 ) => {
   return (

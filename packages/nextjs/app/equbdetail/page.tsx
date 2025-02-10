@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
 import EqubDetailEachGen from '~~/app/equbdetaileach/page';
+import { ClockLoader } from 'react-spinners';
 
 const EqubDetail = () => {
     const { data: equbList } = useScaffoldReadContract({
@@ -19,7 +20,14 @@ const EqubDetail = () => {
             {isArray ? (
                 <EqubDetailEachGen equbDetails={equbList} /> 
             ) : (
-                <p>Loading...</p>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%',
+                }}>
+                <ClockLoader  size={100} color='rgb(232, 218, 255)'/>
+                </div>
             )}
         </div>
     );

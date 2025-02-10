@@ -21,10 +21,7 @@ const EqubDetailEach: React.FC<EqubDetailEachProps> = ({ equbDetails }) => {
   return (
     <div className="equb-detail-wrapper">
       {detailsData.map((item, index) => {
-       
-        
-        // Assuming the data tuple structure matches the following order:
-        // [equbTitle, poolAmount, startingTime, currentCycle, totalCycles, ...otherProps]
+
         const [
           equbTitle,
           poolAmount,
@@ -32,6 +29,7 @@ const EqubDetailEach: React.FC<EqubDetailEachProps> = ({ equbDetails }) => {
           currentCycle,
           totalCycles,
           numberOfMembers,
+
           // Add other tuple elements as needed
         ] = item.data || [];
 

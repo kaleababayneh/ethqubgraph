@@ -1,7 +1,7 @@
 "use client";
 import React from 'react'
 import Logo from './Logo'
-import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
+import { BlockieAvatar, FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 import { useRef, useState } from "react";
@@ -20,6 +20,7 @@ const liskSepolia =  defineChain({
 const Header = () => {
       const [isDrawerOpen, setIsDrawerOpen] = useState(false);
       const burgerMenuRef = useRef<HTMLDivElement>(null);
+
 
     const client = createThirdwebClient({
         clientId: "39e4f1ca58f49dac9fe5a1bdf1bda70b",
@@ -61,6 +62,11 @@ const Header = () => {
             }}
              /> */}
             <FaucetButton /> 
+            <div>
+              <a href="/profile">
+              <BlockieAvatar address="vitalik.eth" size={38} />
+              </a>
+            </div>
         </div>
     </div>
   )
