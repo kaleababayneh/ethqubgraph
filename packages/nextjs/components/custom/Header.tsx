@@ -47,8 +47,8 @@ const Header = () => {
         </div>
 
         <div className='custom-header-right'>
-             {/* <RainbowKitCustomConnectButton /> */}
-            <ConnectButton client={client} chains={[liskSepolia]} autoConnect= {true} connectButton={{
+             <RainbowKitCustomConnectButton />
+            {/* <ConnectButton client={client} chains={[liskSepolia]} autoConnect= {true} connectButton={{
                  label: "Connect Wallet",
                  className: "my-custom-class",
                  style: {
@@ -59,7 +59,7 @@ const Header = () => {
                     fontFamily: "var(--font-anek-bangla)",
                  },
             }}
-             />
+             /> */}
             <FaucetButton /> 
         </div>
     </div>

@@ -17,7 +17,7 @@ const EqubDetailEach: React.FC<EqubDetailEachProps> = ({ equbDetails }) => {
     });
     return { data, isLoading, error, address };
   });
-
+  console.log(detailsData);
   return (
     <div className="equb-detail-wrapper">
       {detailsData.map((item, index) => {
@@ -36,6 +36,7 @@ const EqubDetailEach: React.FC<EqubDetailEachProps> = ({ equbDetails }) => {
         ] = item.data || [];
 
         return (
+          <a href={`/equbdetail/${item.address}`}>
           <div key={index} className="equb-detail-each">
             <EqubCard
               equbTitle={equbTitle?.toString()}
@@ -47,6 +48,7 @@ const EqubDetailEach: React.FC<EqubDetailEachProps> = ({ equbDetails }) => {
               // Add other props as needed based on your contract's return tuple structure
             />
           </div>
+          </a>
         );
       })}
     </div>

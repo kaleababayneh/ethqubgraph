@@ -30,7 +30,7 @@ const DotRed = () => (
 
 const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
   const { data, isLoading, error, address } = equbDetail;
-  const [isPopupVisible, setIsPopupVisible] = useState(true);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
 
 
@@ -79,8 +79,10 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
   return (
     <>
       <div className='custom-equb-detail'>
-      <JoinTopHeader />
-      <Header />
+      <div  className="custom-sticky"> 
+        <JoinTopHeader />
+        <Header />
+      </div>
       <div className='custom-detail'>
         <div className='custom-detail-mainheader'>
           <div className='custom-detail-header'>
@@ -106,10 +108,10 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
             {/* <EachInput name="Creator Address" value={creator} onChange={(e) => setCreator(e.target.value)} /> */}
             {/* <EachInput name='Price Feed Address' value={priceFeedAddress} onChange={(e) => setPriceFeedAddress(e.target.value)} /> */}
             <EachPlaceHoder name="Ethqub's title" value={equbTitle} />
-            <EachPlaceHoder name='Total Pool Size' value={poolAmount}  />
-            <EachPlaceHoder name='Number of Pool Participants' value={totalCycles}  />
+            <EachPlaceHoder name='Total Pool Amount(ETH)' value={poolAmount}  />
+            <EachPlaceHoder name='Number of Participants' value={totalCycles}  />
+            <EachPlaceHoder name='Individual Contribution(ETH)' value={individualContribution}  />
             <EachPlaceHoder name='Payment Frequency' value={cycleDuration}  />
-            <EachPlaceHoder name='Individual Contribution' value={individualContribution}  />
             <EachPlaceHoder name='Current Cycle' value={currentCycle}  />
             <EachPlaceHoder name='Number of Members' value={numberOfMembers}  />
             <EachPlaceHoder name='Starting Time' value={startingTime}  />

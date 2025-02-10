@@ -13,8 +13,18 @@ contract EthqubFactory {
 
     event EthqubCreated(address indexed contractAddress, address indexed creator);
 
-    function createEthqub(address _creator, string memory _equbTitle, uint256 _poolAmount, uint256 _totalCycles, uint256 _cycleDuration,string memory _ipfsHash,address priceFeedAddress) public returns (address) {
-        Ethqub ethqub = new Ethqub(_creator, _equbTitle, _poolAmount, _totalCycles, _cycleDuration,_ipfsHash, priceFeedAddress);
+    function createEthqub(
+        address _creator, 
+        string memory _equbTitle, 
+        uint256 _poolAmount, 
+        uint256 _totalCycles, 
+        uint256 _cycleDuration,
+        string memory _ipfsHash, 
+        uint256 _startingTime, 
+        uint256 _creditScore, 
+        address priceFeedAddress
+        ) public returns (address) {
+        Ethqub ethqub = new Ethqub(_creator, _equbTitle, _poolAmount, _totalCycles, _cycleDuration,_ipfsHash, _startingTime, _creditScore, priceFeedAddress);
         ethqubArray.push(ethqub);
         ethqubMapping[address(ethqub)] = ethqub;
         emit EthqubCreated(address(ethqub), _creator);

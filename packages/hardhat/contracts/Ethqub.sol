@@ -18,14 +18,14 @@ contract Ethqub {
 
     string public equbTitle;
     uint256 public immutable creationTime = block.timestamp;
-    uint256 public startingTime = 0;
-    uint256 public cycleStartTime = 0;
+    uint256 public startingTime ;
+    uint256 public cycleStartTime;
     uint256 public lastTimeStamp;
     
     uint256 public poolAmount;
     uint256 public individualContribution;
 
-    uint256 public currentCycle = 0;
+    uint256 public currentCycle;
     uint256 public totalCycles;
     uint256 public cycleDuration;
 
@@ -38,6 +38,7 @@ contract Ethqub {
     uint256 public randomNumber;
     string public ipfsHash;
 
+    uint256 public creditScore;
     
     // events
     event MemberJoined(address indexed member, uint256 contribution);
@@ -59,7 +60,17 @@ contract Ethqub {
         _;
     }
 
-    constructor(address _creator, string memory _equbTitle, uint256 _poolAmount,  uint256 _totalCycles, uint256 _cycleDuration, string memory _ipfsHash, address /*priceFeedAddress*/) {
+    constructor(    
+                address _creator,
+                string memory _equbTitle, 
+                uint256 _poolAmount,  
+                uint256 _totalCycles, 
+                uint256 _cycleDuration, 
+                string memory _ipfsHash, 
+                uint256 _startingTime, 
+                uint256 /*_creditScore*/, 
+                address /*priceFeedAddress*/
+        ) {
         creator = _creator;
         luckyWinner = creator;
         equbTitle = _equbTitle;
@@ -67,6 +78,9 @@ contract Ethqub {
         individualContribution = _poolAmount / _totalCycles;
         totalCycles = _totalCycles;
         cycleDuration = _cycleDuration;
+        startingTime = _startingTime;
+        cycleStartTime = _startingTime;
+        //creditScore = _creditScore;
         currentCycle = 0;
         members.push(msg.sender);
         currentMembers.push(msg.sender);
@@ -173,7 +187,19 @@ contract Ethqub {
     }
 
     function equbDetails() public view returns (string memory, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, string memory) {
-        return (equbTitle, creationTime, startingTime, cycleStartTime, lastTimeStamp, poolAmount, individualContribution, currentCycle, totalCycles, cycleDuration, members.length, ipfsHash);
+        return (
+            equbTitle, 
+            creationTime, 
+            startingTime, 
+            cycleStartTime, 
+            lastTimeStamp, 
+            poolAmount, 
+            individualContribution, 
+            currentCycle, 
+            totalCycles, 
+            cycleDuration, 
+            members.length, 
+            ipfsHash);
     }
 
     /**

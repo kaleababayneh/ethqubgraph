@@ -9,8 +9,10 @@ import EqubDetail from '../equbdetail/page'
 const Join = () => {
   return (
     <>
-    <JoinTopHeader />
-    <Header />
+      <div  className="custom-sticky"> 
+        <JoinTopHeader />
+        <Header />
+      </div>
     <div className='custom-join'>
         <div className='custom-join-side'>
             <div className='custom-join-side-title'>

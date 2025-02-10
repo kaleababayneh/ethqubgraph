@@ -26,8 +26,10 @@ const Profile = () => {
 
   return (
     <div className='profile'>
-        <JoinTopHeader />
-        <Header />
+        <div  className="custom-sticky"> 
+          <JoinTopHeader />
+          <Header />
+        </div>
 
         <div className='profile-banner'>
           <div className='profile-banner-avator'>

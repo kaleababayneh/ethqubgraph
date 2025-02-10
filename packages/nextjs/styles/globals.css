@@ -9,13 +9,13 @@
 }
 
 html {
-  background-color: #141414;
+  background-color: #141414 !important;
 }
 
 body {
   min-height: 100vh;
-  width: 100% !important;
-  background-color: #141414;
+  width: 100%;
+  background-color: #141414 !important;
   overflow-x: hidden;
 }
 
@@ -45,7 +45,14 @@ p {
   width: 100% !important;
   overflow-x: visible;
 }
-
+.custom-sticky {
+  position: fixed;
+  width: 100%;
+  height: fit-content !important;
+  z-Index: 100;
+  top: 0;
+  background-color: rgb(20, 20, 20);
+}
 .home-top-header {
   min-width: 1470px !important;
   max-width: 1470px !important;
@@ -142,7 +149,7 @@ p {
   align-items: center;
   width: 100%;
   height: 100%;
-  margin-top: 215px;
+  margin-top: 225px;
 }
 
 .custom-homebody2-side {
@@ -303,6 +310,7 @@ p {
 
 .custom-join {
   display: flex;
+  padding-top: 100px !important;
 }
 
 .custom-join-side {
@@ -310,7 +318,7 @@ p {
   max-width: 300px;
   width: 300px;
   margin-left: 80px;
-  margin-top: 60px;
+  margin-top: 80px;
 }
 
 .custom-join-side-header-title {
@@ -459,9 +467,10 @@ p {
 
 .custom-create {
   width: 760px;
-  height:  600px;
+  height: 100%;
   margin: auto;
   margin-top: 60px;
+  padding-top: 100px !important;
 }
 
 
@@ -523,6 +532,7 @@ p {
   align-items: flex-end;
   margin-top: 30px;
   margin-right: 20px;
+  margin-bottom: 40px;
 }
 
 .custom-detail {
@@ -530,6 +540,7 @@ p {
   height: 100%;
   margin: auto;
   margin-top: 60px;
+  padding-top: 100px !important;
 }
 
 .custom-detail-mainheader {

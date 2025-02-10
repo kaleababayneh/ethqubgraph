@@ -7,10 +7,12 @@ import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 import { useAccount } from 'wagmi';
 import { useRef } from 'react';
 import confetti from 'canvas-confetti';
+import { useEffect } from 'react';
 
 
 
 const Create = () => {
+  const PRICE_FEED_ADDRESS = "0x9326BFA02ADD2366b30bacB125260Af641031331";
   const { address: connectedAddress } = useAccount();
 
   const [file, setFile] = useState<File>();
@@ -31,6 +33,10 @@ const Create = () => {
   const [poolAmount, setPoolAmount] = useState('');
   const [totalCycles, setTotalCycles] = useState('');
   const [cycleDuration, setCycleDuration] = useState('');
+  const [individualContribution, setIndividualContribution] = useState('');
+  const [startingTime, setStartingTime] = useState('');
+  const [minCreditScore, setMinCreditScore] = useState('');
+
 
   const [priceFeedAddress, setPriceFeedAddress] = useState(connectedAddress);
 
@@ -78,6 +84,8 @@ const Create = () => {
     let deployedAddress: any;
     e.preventDefault();
     try {
+      const startingTimeInSeconds = Math.floor(new Date(startingTime).getTime() / 1000);
+      console.log(startingTimeInSeconds);
       await writeYourContractAsync(
         {
         functionName: "createEthqub",
@@ -88,13 +96,15 @@ const Create = () => {
           BigInt(totalCycles),
           BigInt(cycleDuration),
           url,
-          connectedAddress
+          BigInt(startingTimeInSeconds),
+          BigInt(minCreditScore),
+          PRICE_FEED_ADDRESS
         ]
       },  
       {
         onBlockConfirmation: txnReceipt => {
           confetti({
-            particleCount: 500,
+            particleCount: 800,
             spread: 180,
             origin: { y: 0.6 },
           });
@@ -113,23 +123,37 @@ const Create = () => {
         setPoolAmount('');
         setTotalCycles('');
         setCycleDuration('');
+        setStartingTime('');
+        setMinCreditScore('');
+        
         
 
           });
-        // get the equb address from the transaction object
-        // go to http://localhost:3000/equbdetail/equbAddress
-   
-     
     } catch (error) {
       console.error(error);
     }
   };
 
+  useEffect(() => {
+    if (poolAmount && totalCycles && Number(totalCycles) > 0) {
+      const contribution = Number(poolAmount) / Number(totalCycles);
+      setIndividualContribution(contribution.toString());
+    } else {
+      setIndividualContribution('');
+    }
+
+    if (url) {
+      setUrl(url);;
+    }
+  }, [poolAmount, totalCycles, url]);
+
 
   return (
     <>
-      <JoinTopHeader />
-      <Header />
+      <div  className="custom-sticky"> 
+        <JoinTopHeader />
+        <Header />
+      </div>
       <div className='custom-create'>
         <div className="custom-create-title">
           Create Equb
@@ -162,11 +186,16 @@ const Create = () => {
         </div>
          <form onSubmit={handleSubmit} className='custom-create-input'>
           {/* <EachInput name="Creator Address" value={creator} onChange={(e) => setCreator(e.target.value)} />  */}
-          <EachInput name="Ethqub's title" value={equbTitle} onChange={(e) => setEqubTitle(e.target.value)} />
-          <EachInput name='Total Pool Size' value={poolAmount} onChange={(e) => setPoolAmount(e.target.value)} />
-          <EachInput name='Number of Pool Participants' value={totalCycles} onChange={(e) => setTotalCycles(e.target.value)} />
-          <EachInput name='Payment Frequency' value={cycleDuration} onChange={(e) => setCycleDuration(e.target.value)} />
-           {/* <EachInput name='Price Feed Address' value={priceFeedAddress} onChange={(e) => setPriceFeedAddress(e.target.value)} />  */}
+          {/* <EachInput name='Price Feed Address' value={priceFeedAddress} onChange={(e) => setPriceFeedAddress(e.target.value)} />  */}
+          <EachInput name="Equb's title" value={equbTitle} onChange={(e) => setEqubTitle(e.target.value)} readOnly={false} type='text'/>
+          <EachInput name='Total Pool Amount(ETH)' value={poolAmount} onChange={(e) => setPoolAmount(e.target.value)} readOnly={false}  type='text'/>
+          <EachInput name='Number of Participants' value={totalCycles} onChange={(e) => setTotalCycles(e.target.value)} readOnly={false}  type='text'/>
+          <EachInput name='Individual Contribution(ETH)'  value={individualContribution} onChange={() => {}} readOnly={true}  type='text'/>
+          <EachInput name='Start Date & Time' value={startingTime} onChange={(e) => setStartingTime(e.target.value)} readOnly={false}  type='datetime-local'/>
+          <EachInput name='Payment Frequency(Days)' value={cycleDuration} onChange={(e) => setCycleDuration(e.target.value)} readOnly={false}  type='text'/>
+          <EachInput name='Min Credit Score' value={minCreditScore || '0'} onChange={(e) => setMinCreditScore(e.target.value)} readOnly={true}  type='text'/>
+          <EachInput name='IPFS Hash' value={url} onChange={() => {}} readOnly={true}  type='text'/>
+
           <button type='submit' className='custom-create-button'>
             Create equb
           </button>
