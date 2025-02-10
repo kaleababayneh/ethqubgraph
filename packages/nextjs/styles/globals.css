@@ -530,9 +530,29 @@ p {
   margin-top: 60px;
 }
 
+.custom-detail-mainheader {
+  display: flex;
+  justify-content: space-between;
+}
+
 .custom-detail-title {
 
 }
+
+.custom-detail-button {
+  display: flex;
+  justify-content: end;
+  align-items: flex-end;
+  color: #cec8c8;
+  border: 1px solid #555;
+  height: fit-content !important;
+  padding: 5px 10px;
+  margin-top: 170px;
+  border: 1px solid #555;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
 
 .custom-detail-logo {
   width: 170px !important;
@@ -605,7 +625,7 @@ p {
 .profile-banner-avator {
   position: absolute;
   top: 80px;
-  left: 80px;
+  left: 90px;
   width: 130px;
   height: 130px;
   border-radius: 50%;
@@ -680,26 +700,16 @@ p {
 }
 
 
-.profile-content-main-active-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 600px !important;
-  height: 100%;
-  overflow: scroll;
-  border: 1px solid red;
-}
-
-
+.profile-content-main-active-content,
 .profile-content-main-history-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 600px !important;
+  width: 800px;
   height: 100%;
   overflow: scroll;
-  border: 1px solid red;
-
+  padding: 0px 40px;
+  position: relative;
 }
 
 /***************************/
@@ -748,12 +758,32 @@ p {
 
 .equb-image-card{
   margin: 20px;
-  margin-right: 40px;
+  margin-right: 5px;
 }
 
 .equb-card-image-side{
-  width: 150px;
-  height: 150px;
+  width: 175px;
+  height: 175px;
   background-color: #333; 
 }
 
+.profile-content-main-active-content-equb,
+.profile-content-main-history-content-equb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 600px !important;
+  height: 100%;
+  overflow: scroll;
+}
+
+.profile-content-main-history-cover {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 600px;
+  height: 100%;
+  position: absolute;
+  background-color: rgba(20, 20, 20, 0.6);
+  left: 100px;
+}

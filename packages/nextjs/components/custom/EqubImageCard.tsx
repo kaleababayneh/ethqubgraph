@@ -11,7 +11,7 @@ const EqubImageCard = (
   return (
     <div className='equb-image-card'>
         <div className="equb-card-image-side">
-            <Image src='/altin.png' alt='equb-image-card-image' className="equb-image-card-image" width={150} height={150} />
+            <Image src='/altin.png' alt='equb-image-card-image' className="equb-image-card-image" width={175} height={15} />
         </div>
     </div>
   )

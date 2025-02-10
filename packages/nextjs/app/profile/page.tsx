@@ -7,6 +7,8 @@ import { Address } from '~~/components/scaffold-eth';
 import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { useEffect } from 'react';
 import EqubImageCard from '~~/components/custom/EqubImageCard';
+import Angle from '~~/components/custom/Angle';
+import AngleL from '~~/components/custom/AngleL';
  
 
 
@@ -52,16 +54,18 @@ const Profile = () => {
           <div className='profile-content-main'>
             <div className='profile-content-main-active'>
                 <div className="profile-content-main-active-title">
-                    Active Equbs
+                    Active Equbs  
                 </div>
 
                 <div className="profile-content-main-active-content">
-
-                  <EqubImageCard />
-                  <EqubImageCard />
-                  <EqubImageCard />
-                  <EqubImageCard />
-
+                  <Angle />
+                    <div className="profile-content-main-active-content-equb">
+                      <EqubImageCard />
+                      <EqubImageCard />
+                      <EqubImageCard />
+                      <EqubImageCard />
+                    </div>
+                  <AngleL />
                 </div>
             </div>
             <div className='profile-content-main-history'>
@@ -70,13 +74,22 @@ const Profile = () => {
                 </div>
 
                 <div className="profile-content-main-history-content">
-                <EqubImageCard />
-                  <EqubImageCard />
-                  <EqubImageCard />
-                  <EqubImageCard />
+                  <Angle />
+                  <div className="profile-content-main-history-content-equb">
+                      <EqubImageCard />
+                      <EqubImageCard />
+                      <EqubImageCard />
+                      <EqubImageCard />
+                    </div>
+                  <AngleL />
+
+                  <div className='profile-content-main-history-cover'>
+              
+                  </div>
                 </div>
 
             </div>
+       
           </div>
         </div>
     </div>

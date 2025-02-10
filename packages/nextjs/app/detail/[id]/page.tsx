@@ -67,16 +67,24 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
       <JoinTopHeader />
       <Header />
       <div className='custom-detail'>
-        <div className="custom-detail-title">
-         Equb's Detail
+        <div className='custom-detail-mainheader'>
+          <div className='custom-detail-header'>
+            <div className="custom-detail-title">
+            Equb's Detail
+            </div>
+            <div className="custom-detail-logo">
+            <img src={"https://"+ipfsHash + ".ipfs.dweb.link"} alt="Upload Image" style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  }} />
+            </div>
+          </div>
+          <div className='custom-detail-button'>
+            Check Details
+          </div>
         </div>
-        <div className="custom-detail-logo">
-        <img src={"https://"+ipfsHash + ".ipfs.dweb.link"} alt="Upload Image" style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              }} />
-        </div>
+
         <div  className='custom-create-input'>
           {/* <EachInput name="Creator Address" value={creator} onChange={(e) => setCreator(e.target.value)} /> */}
           {/* <EachInput name='Price Feed Address' value={priceFeedAddress} onChange={(e) => setPriceFeedAddress(e.target.value)} /> */}
