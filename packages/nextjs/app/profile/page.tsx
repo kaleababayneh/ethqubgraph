@@ -84,7 +84,6 @@ const Profile = () => {
                   <AngleL />
 
                   <div className='profile-content-main-history-cover'>
-              
                   </div>
                 </div>
 

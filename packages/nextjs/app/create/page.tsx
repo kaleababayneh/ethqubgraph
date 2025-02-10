@@ -152,7 +152,11 @@ const Create = () => {
           onChange={handleChange}
         />
         <div className="custom-create-image">
-          <button type="button" disabled={uploading} onClick={uploadFile}>
+          <button type="button" disabled={uploading} onClick={uploadFile} style={{ 
+            margin: "5px 35px",
+            fontFamily: "var(--font-anek-bangla)",
+            fontSize: "18px",
+           }}>
             {uploading ? "Uploading..." : "IPFS Upload"}
           </button>
         </div>

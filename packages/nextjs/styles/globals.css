@@ -464,6 +464,8 @@ p {
   margin-top: 60px;
 }
 
+
+
 .custom-create-logo {
   display: flex;
   align-items: center;
@@ -601,6 +603,7 @@ p {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  height: 100%;
 }
 
 .profile {
@@ -786,4 +789,110 @@ p {
   position: absolute;
   background-color: rgba(20, 20, 20, 0.6);
   left: 100px;
+}
+
+.custom-detail-wrapper {
+  position: relative;
+}
+
+
+.custom-detail-popup-header {
+  display: flex;
+  justify-content: space-between;
+  width: 480px !important;
+  color: rgba(236, 236, 236, 1);
+  font-family: var(--font-anek-bangla);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 30px;
+  letter-spacing: 0%;
+  text-align: center;
+  overflow-x: scroll;
+}
+
+.custom-detail-popup-header-each {
+  min-width: 120px;
+  max-width: 120px;
+  width: 120px;
+  margin: 0px;
+  border: 0x;
+  font-family: var(--font-anek-bangla);
+  font-weight: 300;
+  font-size: 18px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.custom-detail-popup {
+  background-color: rgba(29, 29, 29, 1);
+  position: absolute;
+  margin-top: 20px;
+  height: 95%;
+  width: 120%;
+  top: 0px;
+  left: -10%;
+  padding-top: 20px;
+  overflow: hidden !important;
+}
+
+
+.custom-detail-popup-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 600px;
+  margin: auto;
+  padding: 0px 10px;
+}
+
+.custom-detail-popup-body {
+  width: 100%;
+  margin-top: 10px;
+  height: fit-content;
+  overflow: hidden;
+}
+
+.custom-equb-detail {
+  width: 100%;
+  min-height: 100vh;
+  height: fit-content;
+  background-color: #141414;
+}
+
+.custom-detail-popup-body {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0px 10px;
+  color: #fff;
+  font-family: var(--font-anek-bangla);
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: 0.16px;
+  padding: 50px 60px;
+  padding-bottom: 20px;
+}
+
+.custom-detail-popup-body-sent-details {
+  margin-top: 20px;
+  color: rgba(236, 236, 236, 1);
+  font-family: var(--font-anek-bangla);
+  font-weight: 300;
+  font-size: 17px;
+  text-align: center;
+}
+
+.custom-detail-popup-sent-details-each {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 5px;
+  padding-left: 12px;
+}
+
+
+.custom-detail-popup-body-failed-title,
+.custom-detail-popup-body-failed-details {
+  color: red;
 }

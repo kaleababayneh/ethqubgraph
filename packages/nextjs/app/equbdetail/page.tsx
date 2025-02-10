@@ -12,14 +12,16 @@ const EqubDetail = () => {
 
     const isArray = Array.isArray(equbList);
 
+    console.log(equbList);
+
     return (
-        <>
+        <div className='custom-equb-detail'>
             {isArray ? (
                 <EqubDetailEachGen equbDetails={equbList} /> 
             ) : (
                 <p>Loading...</p>
             )}
-        </>
+        </div>
     );
 };
 

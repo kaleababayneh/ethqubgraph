@@ -36,8 +36,8 @@ const EqubDetailPage = () => {
     address: contractaddress
   }
 
-  return (
-    <div>
+  return ( 
+    <div className='custom-equb-detail'> 
         <Detail key={0} equbDetail={equbDetailInfo} /> 
     </div>
   );

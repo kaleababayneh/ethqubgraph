@@ -24,7 +24,7 @@ const EqubDetailEach: React.FC<EqubDetailEachProps> = ({ equbDetails }) => {
 
 
   return (
-    <div>
+    <div   className='custom-equb-detail'>
       {detailsData.map((item, index) => (
         <Detail key={index} equbDetail={item} />
       ))}
