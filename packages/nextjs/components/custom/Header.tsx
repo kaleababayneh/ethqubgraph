@@ -6,10 +6,25 @@ import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaff
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 import { useRef, useState } from "react";
 import { useCallback } from "react";
+import { ConnectButton } from "thirdweb/react";
+import { createThirdwebClient } from "thirdweb"
+import { defineChain } from "thirdweb/chains";
+ 
+ 
+const liskSepolia =  defineChain({
+        id: 4202,
+        rpc: "https://rpc.sepolia-api.lisk.com"
+});
+
 
 const Header = () => {
       const [isDrawerOpen, setIsDrawerOpen] = useState(false);
       const burgerMenuRef = useRef<HTMLDivElement>(null);
+
+    const client = createThirdwebClient({
+        clientId: "39e4f1ca58f49dac9fe5a1bdf1bda70b",
+      });
+
       useOutsideClick(
         burgerMenuRef,
         useCallback(() => setIsDrawerOpen(false), []),
@@ -32,8 +47,20 @@ const Header = () => {
         </div>
 
         <div className='custom-header-right'>
-             <RainbowKitCustomConnectButton />
-             <FaucetButton /> 
+             {/* <RainbowKitCustomConnectButton /> */}
+            <ConnectButton client={client} chains={[liskSepolia]} autoConnect= {true} connectButton={{
+                 label: "Connect Wallet",
+                 className: "my-custom-class",
+                 style: {
+                    backgroundColor: "rgb(20, 20, 20)",
+                    color: "rgb(236, 236, 236)",
+                    fontSize: "19px",
+                    fontWeight: "500",
+                    fontFamily: "var(--font-anek-bangla)",
+                 },
+            }}
+             />
+            <FaucetButton /> 
         </div>
     </div>
   )

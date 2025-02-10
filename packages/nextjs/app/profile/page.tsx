@@ -9,14 +9,20 @@ import { useEffect } from 'react';
 import EqubImageCard from '~~/components/custom/EqubImageCard';
 import Angle from '~~/components/custom/Angle';
 import AngleL from '~~/components/custom/AngleL';
- 
+import { useActiveAccount, useWalletBalance } from "thirdweb/react";
+
+interface Account {
+  address : string;
+}
 
 
 const Profile = () => {
-  const { address: connectedAddress } = useAccount();
+  const activeAccount = useActiveAccount();
+  const accountAddress = activeAccount?.address;
+
   useEffect(() => {
-    console.log('connectedAddress', connectedAddress);
-  }, [connectedAddress]);
+      console.log('accountAddress', accountAddress);
+    }, [accountAddress]);
 
   return (
     <div className='profile'>
@@ -25,14 +31,14 @@ const Profile = () => {
 
         <div className='profile-banner'>
           <div className='profile-banner-avator'>
-          {connectedAddress && <BlockieAvatar address={connectedAddress} size={130}/>}
+          {accountAddress && <BlockieAvatar address={accountAddress} size={130}/>}
           </div>
         </div>
 
         <div className='profile-content'>
          <div className='profile-content-sidebar'>
             <div className='profile-content-sidebar-address'>
-            {connectedAddress?.slice(0, 6)}... {connectedAddress?.slice(-6)}
+            {accountAddress?.slice(0, 6)}... {accountAddress?.slice(-6)}
             </div>
 
             <div className='profile-content-sidebar-credit'>
