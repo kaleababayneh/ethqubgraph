@@ -17,12 +17,16 @@ interface Account {
 
 
 const Profile = () => {
-  const activeAccount = useActiveAccount();
-  const accountAddress = activeAccount?.address;
+  let activeAccount = useActiveAccount();
+
+  let { address: connectedAddress } = useAccount();
+  let accountAddress = activeAccount?.address;
+
+  if (!connectedAddress) connectedAddress = accountAddress;
 
   useEffect(() => {
-      console.log('accountAddress', accountAddress);
-    }, [accountAddress]);
+      console.log('accountAddress', connectedAddress);
+    }, [connectedAddress]);
 
   return (
     <div className='profile'>
@@ -33,14 +37,14 @@ const Profile = () => {
 
         <div className='profile-banner'>
           <div className='profile-banner-avator'>
-          {accountAddress && <BlockieAvatar address={accountAddress} size={130}/>}
+          {connectedAddress && <BlockieAvatar address={connectedAddress} size={130}/>}
           </div>
         </div>
 
         <div className='profile-content'>
          <div className='profile-content-sidebar'>
             <div className='profile-content-sidebar-address'>
-            {accountAddress?.slice(0, 6)}... {accountAddress?.slice(-6)}
+            {connectedAddress?.slice(0, 6)}... {connectedAddress?.slice(-6)}
             </div>
 
             <div className='profile-content-sidebar-credit'>

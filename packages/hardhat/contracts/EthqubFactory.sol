@@ -43,7 +43,8 @@ contract EthqubFactory {
         uint256, 
         uint256, 
         uint256,
-        string memory
+        string memory,
+        address
     ) {
         require(address(ethqubMapping[contractAddress]) != address(0), "Contract does not exist");
         

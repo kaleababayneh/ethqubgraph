@@ -2,13 +2,13 @@
 import React from 'react'
 import Logo from './Logo'
 import { BlockieAvatar, FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
-
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 import { useRef, useState } from "react";
 import { useCallback } from "react";
-import { ConnectButton } from "thirdweb/react";
 import { createThirdwebClient } from "thirdweb"
 import { defineChain } from "thirdweb/chains";
+import { useAccount } from "wagmi";
+import { useActiveAccount } from "thirdweb/react";
  
  
 const liskSepolia =  defineChain({
@@ -20,6 +20,14 @@ const liskSepolia =  defineChain({
 const Header = () => {
       const [isDrawerOpen, setIsDrawerOpen] = useState(false);
       const burgerMenuRef = useRef<HTMLDivElement>(null);
+
+      let activeAccount = useActiveAccount();
+      
+        let { address: connectedAddress } = useAccount();
+        let accountAddress = activeAccount?.address;
+      
+        if (!connectedAddress) connectedAddress = accountAddress;
+      
 
 
     const client = createThirdwebClient({
@@ -62,9 +70,9 @@ const Header = () => {
             }}
              /> */}
             <FaucetButton /> 
-            <div>
+            <div className='custom-header-avatar'>
               <a href="/profile">
-              <BlockieAvatar address="vitalik.eth" size={38} />
+              <BlockieAvatar address={connectedAddress || ''} size={30} />
               </a>
             </div>
         </div>

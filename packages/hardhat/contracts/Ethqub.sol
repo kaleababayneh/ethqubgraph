@@ -186,7 +186,7 @@ contract Ethqub {
         emit WinnerPicked(luckyWinner);
     }
 
-    function equbDetails() public view returns (string memory, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, string memory) {
+    function equbDetails() public view returns (string memory, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, string memory, address) {
         return (
             equbTitle, 
             creationTime, 
@@ -199,7 +199,9 @@ contract Ethqub {
             totalCycles, 
             cycleDuration, 
             members.length, 
-            ipfsHash);
+            ipfsHash,
+            creator
+        );
     }
 
     /**

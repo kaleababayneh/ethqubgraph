@@ -1,9 +1,9 @@
 "use client";
 import React from 'react';
-import { useRouter } from 'next/navigation';
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
 import { useParams } from "next/navigation";
 import Detail from '~~/app/detail/[id]/page';
+import { SyncLoader } from 'react-spinners';
 
 interface EqubDetailInfo {
   data: any;
@@ -25,7 +25,7 @@ const EqubDetailPage = () => {
   });
 
   if (!data) {
-    return <p>Loading...</p>;
+    <SyncLoader size={20} margin={20} color='rgb(232, 218, 255)'/>
   }
 
 

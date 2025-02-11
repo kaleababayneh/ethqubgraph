@@ -5,6 +5,7 @@ import JoinTopHeader from '~~/components/custom/JoinTopHeader';
 import EachPlaceHoder from '~~/components/custom/EachPlaceHolder';
 import Angle from '~~/components/custom/Angle';
 import AngleL from '~~/components/custom/AngleL';
+import { SyncLoader } from 'react-spinners';
 
 
 interface EqubDetailEachEveryProps {
@@ -32,13 +33,15 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
   const { data, isLoading, error, address } = equbDetail;
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
+  const CYCLE_TO_SECONDS = 24 * 3600;
 
+  const [priceFeedAddress, setPriceFeedAddress] = useState("");
 
 
   if (isLoading)
     return (
       <p>
-        Loading details for <strong>{address}</strong>...
+         <SyncLoader size={20} margin={20} color='rgb(232, 218, 255)'/>
       </p>
     );
 
@@ -52,7 +55,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
   if (!data)
     return (
       <p>
-        No details available for <strong>{address}</strong>
+         <SyncLoader size={20} margin={20} color='rgb(232, 218, 255)'/>
       </p>
     );
 
@@ -68,11 +71,20 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     const cycleDuration = data[9].toString();
     const numberOfMembers = data[10].toString();
     const ipfsHash = data[11].toString();
+    const creator = data[12].toString();
 
 
+    const formatDateTimeLocal = (dateString: any) => {
+      const date = new Date(Number(dateString) * 1000);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
+    };
+    
 
-    const [creator, setCreator] = useState("");
-    const [priceFeedAddress, setPriceFeedAddress] = useState("");
 
 
 
@@ -97,6 +109,11 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
                   }} />
             </div>
           </div>
+          
+          <div className='custom-detail-center'>
+
+          </div>
+
           <div className='custom-detail-button' onClick={() => setIsPopupVisible(!isPopupVisible)}>
               {isPopupVisible ? "Hide Details" : "Show Detail"} 
           </div>
@@ -105,19 +122,19 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
         <div className='custom-detail-wrapper'>
        
           <div  className='custom-create-input'>
-            {/* <EachInput name="Creator Address" value={creator} onChange={(e) => setCreator(e.target.value)} /> */}
             {/* <EachInput name='Price Feed Address' value={priceFeedAddress} onChange={(e) => setPriceFeedAddress(e.target.value)} /> */}
             <EachPlaceHoder name="Ethqub's title" value={equbTitle} />
+            <EachPlaceHoder name='Creator Address' value={creator}  />
             <EachPlaceHoder name='Total Pool Amount(ETH)' value={poolAmount}  />
             <EachPlaceHoder name='Number of Participants' value={totalCycles}  />
             <EachPlaceHoder name='Individual Contribution(ETH)' value={individualContribution}  />
             <EachPlaceHoder name='Payment Frequency' value={cycleDuration}  />
             <EachPlaceHoder name='Current Cycle' value={currentCycle}  />
             <EachPlaceHoder name='Number of Members' value={numberOfMembers}  />
-            <EachPlaceHoder name='Starting Time' value={startingTime}  />
-            <EachPlaceHoder name='Cycle Start Time' value={cycleStartTime}  />
-            <EachPlaceHoder name='Last Time Stamp' value={lastTimeStamp}  />
-            <EachPlaceHoder name='Creation Time' value={creationTime}  />
+            <EachPlaceHoder name='Starting Time' value={formatDateTimeLocal(startingTime)} type='datetime-local'  />
+            <EachPlaceHoder name='Cycle Start Time' value={formatDateTimeLocal(cycleStartTime)} type='datetime-local'  />
+            <EachPlaceHoder name='Last Withdrawal Time' value={currentCycle == 0 ? "Has not started yet": formatDateTimeLocal(Number(startingTime) + cycleDuration * currentCycle * CYCLE_TO_SECONDS)}  />
+            <EachPlaceHoder name='Creation Time' value={formatDateTimeLocal(creationTime)} type='datetime-local'  />
           </div>
       
 

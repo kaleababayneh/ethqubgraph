@@ -8,12 +8,19 @@ import { useAccount } from 'wagmi';
 import { useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { useEffect } from 'react';
+import { useActiveAccount } from 'thirdweb/react';
 
 
 
 const Create = () => {
   const PRICE_FEED_ADDRESS = "0x9326BFA02ADD2366b30bacB125260Af641031331";
-  const { address: connectedAddress } = useAccount();
+
+  let activeAccount = useActiveAccount();
+  
+  let { address: connectedAddress } = useAccount();
+  let accountAddress = activeAccount?.address;
+  
+  if (!connectedAddress) connectedAddress = accountAddress;
 
   const [file, setFile] = useState<File>();
   const [url, setUrl] = useState("");
@@ -147,6 +154,8 @@ const Create = () => {
     }
   }, [poolAmount, totalCycles, url]);
 
+
+ 
 
   return (
     <>

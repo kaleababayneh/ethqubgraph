@@ -1,8 +1,8 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
 import EqubDetailEachGen from '~~/app/equbdetaileach/page';
-import { ClockLoader } from 'react-spinners';
+import { SyncLoader } from 'react-spinners';
 
 const EqubDetail = () => {
     const { data: equbList } = useScaffoldReadContract({
@@ -26,7 +26,7 @@ const EqubDetail = () => {
                     alignItems: 'center',
                     height: '100%',
                 }}>
-                <ClockLoader  size={100} color='rgb(232, 218, 255)'/>
+                <SyncLoader size={20} margin={20} color='rgb(232, 218, 255)'/>
                 </div>
             )}
         </div>

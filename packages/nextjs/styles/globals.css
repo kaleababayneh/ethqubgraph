@@ -91,12 +91,14 @@ p {
 }
 
 .custom-header-right {
-  width: 350px;
+  width: 420px;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
 }
 
+.custom-header-avatar {
+  margin-left: 30px;
+}
 .custom-homebody {
   display: flex;
   align-items: center;
@@ -552,6 +554,11 @@ p {
 
 }
 
+.custom-detail-center {
+  width: 300px;
+  border: 1px solid red;
+}
+
 .custom-detail-button {
   display: flex;
   justify-content: end;
@@ -564,6 +571,7 @@ p {
   border: 1px solid #555;
   border-radius: 100px;
   cursor: pointer;
+  transform: scale(0.95);
 }
 
 
