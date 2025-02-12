@@ -68,7 +68,7 @@ const WalletProfilePast: React.FC<EqubDetailEachProps> = ({ equbDetails }) => {
                 return (
                     <a href={`/equbdetail/${item.address}`}>
                         <div key={index}>
-                            <EqubImageCard ipfsHash={ipfsHash} />
+                            <EqubImageCard ipfsHash={ipfsHash || ''} />
                         </div>
                     </a>
                 );

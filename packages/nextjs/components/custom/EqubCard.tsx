@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
 import Tag from './Tag';
 
 const TOKEN_DECIMAL = 1e18;

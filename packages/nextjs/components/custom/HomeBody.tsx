@@ -26,7 +26,7 @@ const HomeBody = () => {
     <div className='custom-homebody2'>
 
         <div className='custom-homebody2-side'>
-           <Image src='/ethqub.png' alt='Equb' width='515' height='720' />
+           <img src='/ethqub.png' alt='Equb' width='515' height='720' />
         </div>
 
         <div className='custom-homebody2-main'>

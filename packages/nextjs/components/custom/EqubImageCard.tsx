@@ -1,18 +1,26 @@
 import React from 'react'
 import Image from 'next/image'
-import Tag from './Tag';
+import Tag from './Tag'
 
+interface EqubImageCardProps {
+  ipfsHash: string;
+}
 
-const EqubImageCard = (
-    {
-        ipfsHash = 'Eqube',
-    }
-) => {
+const EqubImageCard: React.FC<EqubImageCardProps> = ({ ipfsHash }) => {
+  const imageUrl = `https://${ipfsHash}.ipfs.dweb.link`
   return (
-    <div className='equb-image-card'>
-        <div className="equb-card-image-side">
-        <img src={"https://"+ipfsHash + ".ipfs.dweb.link"} alt='equb-image-card-image' className="equb-image-card-image" width={175} height={175} />
-        </div>
+    <div className="equb-image-card">
+      <div className="equb-card-image-side">
+        <img 
+          src={imageUrl} 
+          alt="Equb Image Card" 
+          width={175} 
+          height={175} 
+          className="equb-image-card-image" 
+        />
+      </div>
+      {/* Optionally render a Tag component */}
+      {/* <Tag text="Some Tag" /> */}
     </div>
   )
 }
