@@ -44,7 +44,9 @@ contract EthqubFactory {
         uint256, 
         uint256,
         string memory,
-        address
+        address,
+        address[] memory,
+        address[] memory
     ) {
         require(address(ethqubMapping[contractAddress]) != address(0), "Contract does not exist");
         
@@ -56,14 +58,24 @@ contract EthqubFactory {
         return ethqubArray;
     }
 
-    function getContractByMember(address member) public view returns (address) {
-        // for (uint i = 0; i < ethqubArray.length; i++) {
-        //     if (ethqubArray[i].isMember(member)) {
-        //         return address(ethqubArray[i]);
-        //     }
-        // }
-        return address(0);
-    }
+
+    // function getContractsByMember(address member) public view returns (address[] memory) {
+        
+    //     Ethqub[] memory ethqubArrays = getDeployedContracts();
+    //     console.log("ethqubArrays length: %d", ethqubArrays.length);
+    //     address[] memory memberContracts;
+    //     // uint256 count = 0;
+
+    //     // for (uint256 j = 0; j < ethqubArrays.length; j++) {
+    //     //     return memberContracts[j] = (ethqubArrays[j]);
+    //     //     // if (ethqubArrays[j].isMember(member)) {
+    //     //     //     memberContracts[count] = address(ethqubArrays[j]);
+    //     //     //     count++;
+    //     //     // }
+    //     // }
+
+    //     return ethqubArrays;
+    // }
 
     
 

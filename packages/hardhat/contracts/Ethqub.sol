@@ -82,7 +82,7 @@ contract Ethqub {
         cycleStartTime = _startingTime;
         //creditScore = _creditScore;
         currentCycle = 0;
-        members.push(msg.sender);
+        members.push(_creator);
         currentMembers.push(msg.sender);
         numberOfCyclesDuePaid[msg.sender] += 1;
         ipfsHash = _ipfsHash;
@@ -101,7 +101,7 @@ contract Ethqub {
         require(msg.value == individualContribution, "Incorrect contribution amount");
 
         // send the individual contribution to the contract
-        
+
 
         members.push(msg.sender);
         currentMembers.push(msg.sender);
@@ -185,7 +185,7 @@ contract Ethqub {
         emit WinnerPicked(luckyWinner);
     }
 
-    function equbDetails() public view returns (string memory, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, string memory, address) {
+    function equbDetails() public view returns (string memory, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, string memory, address, address[] memory, address[] memory) {
         return (
             equbTitle, 
             creationTime, 
@@ -199,8 +199,21 @@ contract Ethqub {
             cycleDuration, 
             members.length, 
             ipfsHash,
-            creator
+            creator,
+            currentMembers,
+            members
         );
+    }
+
+    function isMember(address userAddress) public view returns (bool) {
+
+
+        for (uint i = 0; i < members.length; i++) {
+            if (members[i] == userAddress) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

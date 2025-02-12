@@ -20,6 +20,7 @@ const EqubDetailEach: React.FC<EqubDetailEachProps> = ({ equbDetails }) => {
   console.log(detailsData);
   return (
     <div className="equb-detail-wrapper">
+
       {detailsData.map((item, index) => {
 
         const [
@@ -56,6 +57,7 @@ const EqubDetailEach: React.FC<EqubDetailEachProps> = ({ equbDetails }) => {
           </a>
         );
       })}
+      
     </div>
   );
 };

@@ -44,7 +44,7 @@ const EqubCard = (
             <div className="equb-card-content-desc">
                 {/* <Tag text ={`${currentCycle}`+"/"+`${totalCycles}`}  backcolor ='#D0E2FF' textcolor='#0043CE'/> */}
                 <Tag text= {`Every ${cycleDuration} days`} backcolor ='#A7F0BA' textcolor='#0E6027'/>
-                <Tag text={(Number(poolAmount)/TOKEN_DECIMAL).toFixed(1) +" ETH"} backcolor ='#9EF0F0' textcolor='#005D5D'/>
+                <Tag text={(Number(poolAmount)/TOKEN_DECIMAL).toFixed() +" ETH"} backcolor ='#9EF0F0' textcolor='#005D5D'/>
                 <Tag text=
                 {`Active - ${formatDateTimeLocal(startingTime)}`} backcolor ='#E8DAFF' textcolor='#6929C4'/>
             </div>

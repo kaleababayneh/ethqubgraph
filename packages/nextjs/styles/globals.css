@@ -810,6 +810,16 @@ p {
 .equb-image-card{
   margin: 20px;
   margin-right: 5px;
+  width: 175px;
+  height: 175px;
+  overflow: hidden;
+}
+
+.equb-image-card-image {
+  width: 175px;
+  height: 175px;
+  object-fit: cover;
+  background-color: #333;
 }
 
 .equb-card-image-side{
@@ -822,7 +832,6 @@ p {
 .profile-content-main-history-content-equb {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 600px !important;
   height: 100%;
   overflow: scroll;

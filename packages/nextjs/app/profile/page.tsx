@@ -10,25 +10,48 @@ import EqubImageCard from '~~/components/custom/EqubImageCard';
 import Angle from '~~/components/custom/Angle';
 import AngleL from '~~/components/custom/AngleL';
 import { useActiveAccount, useWalletBalance } from "thirdweb/react";
+import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
+import WalletProfileActive from '~~/components/custom/walletProfileActive';
+import WalletProfilePast from '~~/components/custom/walletProfilePast';
 
-interface Account {
-  address : string;
+
+interface EqubDetailEachProps {
+  equbDetails: string[];
 }
 
 
 const Profile = () => {
+
+  
   let activeAccount = useActiveAccount();
   //let { address: connectedAddress } = useAccount();
-
   let connectedAddress = activeAccount?.address;
 
 
+
   useEffect(() => {
-      console.log('accountAddress', connectedAddress);
-      console.log('conntectedAddress', connectedAddress);
-    }, [connectedAddress]);
+  }, [connectedAddress]);
+
+
+  
+  console.log(connectedAddress);
+
+
+   const { data: equbList } = useScaffoldReadContract({
+          contractName: "EthqubFactory",
+          functionName: "getDeployedContracts",
+          watch: true,
+    });
+
+
+
+    const isArray = Array.isArray(equbList);
+
+
 
   return (
+
+
     <div className='profile'>
         <div  className="custom-sticky"> 
           <JoinTopHeader />
@@ -71,12 +94,24 @@ const Profile = () => {
 
                 <div className="profile-content-main-active-content">
                   <Angle />
-                    <div className="profile-content-main-active-content-equb">
-                      <EqubImageCard />
-                      <EqubImageCard />
-                      <EqubImageCard />
-                      <EqubImageCard />
-                    </div>
+
+                  <div className="profile-content-main-active-content-equb">
+                    {isArray ? (
+                        <WalletProfileActive equbDetails={equbList} /> 
+                    ) : (
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            height: '100%',
+                        }}>
+                        
+                        </div>
+                    )}
+                  </div>
+
+                
+
                   <AngleL />
                 </div>
             </div>
@@ -87,12 +122,22 @@ const Profile = () => {
 
                 <div className="profile-content-main-history-content">
                   <Angle />
-                  <div className="profile-content-main-history-content-equb">
-                      <EqubImageCard />
-                      <EqubImageCard />
-                      <EqubImageCard />
-                      <EqubImageCard />
-                    </div>
+
+                  <div className="profile-content-main-active-content-equb">
+                    {isArray ? (
+                        <WalletProfilePast equbDetails={equbList} /> 
+                    ) : (
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            height: '100%',
+                        }}>
+                        
+                        </div>
+                    )}
+                  </div>
+
                   <AngleL />
 
                   <div className='profile-content-main-history-cover'>

@@ -18,11 +18,8 @@ const Create = () => {
   const PRICE_FEED_ADDRESS = "0x9326BFA02ADD2366b30bacB125260Af641031331";
 
   let activeAccount = useActiveAccount();
-  
-  let { address: connectedAddress } = useAccount();
-  let accountAddress = activeAccount?.address;
-  
-  if (!connectedAddress) connectedAddress = accountAddress;
+  //let { address: connectedAddress } = useAccount();
+  let connectedAddress = activeAccount?.address;
 
   const [file, setFile] = useState<File>();
   const [url, setUrl] = useState("");
