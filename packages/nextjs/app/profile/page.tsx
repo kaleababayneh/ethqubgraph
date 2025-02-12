@@ -18,14 +18,14 @@ interface Account {
 
 const Profile = () => {
   let activeAccount = useActiveAccount();
+  //let { address: connectedAddress } = useAccount();
 
-  let { address: connectedAddress } = useAccount();
-  let accountAddress = activeAccount?.address;
+  let connectedAddress = activeAccount?.address;
 
-  if (!connectedAddress) connectedAddress = accountAddress;
 
   useEffect(() => {
       console.log('accountAddress', connectedAddress);
+      console.log('conntectedAddress', connectedAddress);
     }, [connectedAddress]);
 
   return (

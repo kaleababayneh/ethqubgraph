@@ -3805,6 +3805,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@leenguyen/react-flip-clock-countdown@npm:^1.6.1":
+  version: 1.6.1
+  resolution: "@leenguyen/react-flip-clock-countdown@npm:1.6.1"
+  dependencies:
+    clsx: ^1.1.1
+  peerDependencies:
+    react: ">= 16.13.0"
+  checksum: 595a025f18f8a5652f5759a7bbd092a1b76419a36ed6093fed560e1fda38df48d339b0badbf50e1bb3f024e0ac6d55b9df549a97069a3fee25eb25be11a4ebfc
+  languageName: node
+  linkType: hard
+
 "@leichtgewicht/ip-codec@npm:^2.0.1":
   version: 2.0.5
   resolution: "@leichtgewicht/ip-codec@npm:2.0.5"
@@ -6819,6 +6830,7 @@ __metadata:
   dependencies:
     "@graphprotocol/client-cli": 3.0.7
     "@heroicons/react": ~2.1.5
+    "@leenguyen/react-flip-clock-countdown": ^1.6.1
     "@rainbow-me/rainbowkit": 2.1.6
     "@tanstack/react-query": ~5.59.15
     "@thirdweb-dev/react": ^4.9.4
@@ -6856,6 +6868,7 @@ __metadata:
     react-loading: ^2.0.3
     react-spinners: ^0.15.0
     tailwindcss: ~3.4.11
+    thirdweb: ^5.88.1
     type-fest: ~4.26.1
     typescript: <5.6.0
     usehooks-ts: ~3.1.0
@@ -11614,7 +11627,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:^1.2.1":
+"clsx@npm:^1.1.1, clsx@npm:^1.2.1":
   version: 1.2.1
   resolution: "clsx@npm:1.2.1"
   checksum: 30befca8019b2eb7dbad38cff6266cf543091dae2825c856a62a8ccf2c3ab9c2907c4d12b288b73101196767f66812365400a227581484a05f968b0307cfaf12

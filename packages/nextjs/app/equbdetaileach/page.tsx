@@ -23,14 +23,20 @@ const EqubDetailEach: React.FC<EqubDetailEachProps> = ({ equbDetails }) => {
       {detailsData.map((item, index) => {
 
         const [
-          equbTitle,
-          poolAmount,
-          startingTime,
-          currentCycle,
-          totalCycles,
-          numberOfMembers,
+          equbTitle
+          ,// creationTime, 
+          ,startingTime
+          ,// cycleStartTime, 
+          ,// lastTimeStamp, 
+          , poolAmount
+          ,// individualContribution, 
+          , currentCycle
+          , totalCycles 
+          ,// cycleDuration, 
+          , numberOfMembers
+          , ipfsHash
+          ,// creator
 
-          // Add other tuple elements as needed
         ] = item.data || [];
 
         return (
@@ -38,11 +44,12 @@ const EqubDetailEach: React.FC<EqubDetailEachProps> = ({ equbDetails }) => {
           <div key={index} className="equb-detail-each">
             <EqubCard
               equbTitle={equbTitle?.toString()}
-              startingTime={new Date(Number(startingTime) * 1000).toLocaleDateString()}
+              startingTime={Number(startingTime)}
               poolAmount={Number(poolAmount)}
               currentCycle={Number(currentCycle)}
               totalCycles={Number(totalCycles)}
               numberOfMembers={Number(numberOfMembers)}
+              ipfsHash={ipfsHash}
               // Add other props as needed based on your contract's return tuple structure
             />
           </div>

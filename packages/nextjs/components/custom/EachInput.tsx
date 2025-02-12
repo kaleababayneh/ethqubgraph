@@ -6,7 +6,13 @@ const EachInput = ({ name, value, onChange, readOnly, type }: { name: string, va
       <div className='each-input-title'>
         {name}
       </div>
-      <input type={type} className='each-input-input' value={value} onChange={onChange} disabled={readOnly}/>
+      <input 
+        type={type} 
+        className={`each-input-input ${!readOnly ? 'each-input-input-border' : ''}`} 
+        value={value} 
+        onChange={onChange} 
+        disabled={readOnly}
+      />
     </div>
   );
 };

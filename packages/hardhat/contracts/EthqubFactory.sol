@@ -56,4 +56,20 @@ contract EthqubFactory {
         return ethqubArray;
     }
 
+    function getContractByMember(address member) public view returns (address) {
+        // for (uint i = 0; i < ethqubArray.length; i++) {
+        //     if (ethqubArray[i].isMember(member)) {
+        //         return address(ethqubArray[i]);
+        //     }
+        // }
+        return address(0);
+    }
+
+    
+
+    function joinEthqub(address contractAddress) public payable {
+        require(address(ethqubMapping[contractAddress]) != address(0), "Contract does not exist");
+        Ethqub ethqubInstance = Ethqub(payable(contractAddress)); 
+        ethqubInstance.joinEqub();
+    }
 }

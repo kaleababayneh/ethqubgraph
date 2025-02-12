@@ -11,6 +11,8 @@ import { useEffect } from 'react';
 import { useActiveAccount } from 'thirdweb/react';
 
 
+const TOKEN_DECIMAL = 1e18;
+
 
 const Create = () => {
   const PRICE_FEED_ADDRESS = "0x9326BFA02ADD2366b30bacB125260Af641031331";
@@ -99,7 +101,7 @@ const Create = () => {
         args: [
           connectedAddress,
           equbTitle,
-          BigInt(poolAmount),
+          BigInt(poolAmount) * BigInt(TOKEN_DECIMAL),
           BigInt(totalCycles),
           BigInt(cycleDuration),
           url,
@@ -144,7 +146,7 @@ const Create = () => {
   useEffect(() => {
     if (poolAmount && totalCycles && Number(totalCycles) > 0) {
       const contribution = Number(poolAmount) / Number(totalCycles);
-      setIndividualContribution(contribution.toString());
+      setIndividualContribution(contribution.toFixed(1));
     } else {
       setIndividualContribution('');
     }

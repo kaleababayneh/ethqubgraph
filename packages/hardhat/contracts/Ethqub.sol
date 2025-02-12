@@ -100,15 +100,14 @@ contract Ethqub {
         require(numberOfCyclesDuePaid[msg.sender] == 0, "Already a member");
         require(msg.value == individualContribution, "Incorrect contribution amount");
 
+        // send the individual contribution to the contract
+        
+
         members.push(msg.sender);
         currentMembers.push(msg.sender);
         numberOfCyclesDuePaid[msg.sender] += 1;
         
-        // emit: keyword used to trigger an event
-        // if all members join set the starting time
-        if (members.length == totalCycles) {
-            startingTime = block.timestamp;
-        }
+        
         emit MemberJoined(msg.sender, individualContribution);
     }
 

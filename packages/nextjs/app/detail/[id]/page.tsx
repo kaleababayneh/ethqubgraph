@@ -6,6 +6,12 @@ import EachPlaceHoder from '~~/components/custom/EachPlaceHolder';
 import Angle from '~~/components/custom/Angle';
 import AngleL from '~~/components/custom/AngleL';
 import { SyncLoader } from 'react-spinners';
+import CountDown from '~~/components/custom/CountDown';
+import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth/useScaffoldWriteContract";
+import { parseEther } from 'viem';
+import { Token } from 'graphql';
+
+const TOKEN_DECIMAL = 1e18;
 
 
 interface EqubDetailEachEveryProps {
@@ -26,7 +32,7 @@ const DotRed = () => (
 );
 
 
-  
+
 
 
 const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
@@ -34,6 +40,12 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
   const CYCLE_TO_SECONDS = 24 * 3600;
+
+  const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract({ 
+    contractName: "EthqubFactory" 
+  });
+
+
 
   const [priceFeedAddress, setPriceFeedAddress] = useState("");
 
@@ -83,8 +95,22 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
       const minutes = String(date.getMinutes()).padStart(2, '0');
       return `${year}-${month}-${day}T${hours}:${minutes}`;
     };
+
+    const handleJoin = async (individualContribution: string) => {
+       try {
+           await writeYourContractAsync({
+             functionName: "joinEthqub",
+             args : [address],
+             value: BigInt(individualContribution),
+           });
+         } catch (e) {
+          console.error("Error setting greeting:", e);
+         }
+    };      
+    
     
 
+  console.log(data);
 
 
 
@@ -97,6 +123,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
       </div>
       <div className='custom-detail'>
         <div className='custom-detail-mainheader'>
+
           <div className='custom-detail-header'>
             <div className="custom-detail-title">
             Equb's Detail
@@ -111,7 +138,15 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
           </div>
           
           <div className='custom-detail-center'>
-
+                <div className='custom-detail-center-title'>
+                    {currentCycle == 0 ? "Starting in..." : "Next round starts in"}
+                </div>
+                <CountDown startsIn={cycleStartTime} />
+                <div className='custom-detail-center-join'>
+                  <button onClick={() => handleJoin(individualContribution)}>
+                    Join Equb
+                  </button>
+                </div>
           </div>
 
           <div className='custom-detail-button' onClick={() => setIsPopupVisible(!isPopupVisible)}>
@@ -125,9 +160,9 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
             {/* <EachInput name='Price Feed Address' value={priceFeedAddress} onChange={(e) => setPriceFeedAddress(e.target.value)} /> */}
             <EachPlaceHoder name="Ethqub's title" value={equbTitle} />
             <EachPlaceHoder name='Creator Address' value={creator}  />
-            <EachPlaceHoder name='Total Pool Amount(ETH)' value={poolAmount}  />
+            <EachPlaceHoder name='Total Pool Amount(ETH)' value={(poolAmount/TOKEN_DECIMAL).toFixed(1)}  />
             <EachPlaceHoder name='Number of Participants' value={totalCycles}  />
-            <EachPlaceHoder name='Individual Contribution(ETH)' value={individualContribution}  />
+            <EachPlaceHoder name='Individual Contribution(ETH)' value={(individualContribution/TOKEN_DECIMAL).toFixed(1)}  />
             <EachPlaceHoder name='Payment Frequency' value={cycleDuration}  />
             <EachPlaceHoder name='Current Cycle' value={currentCycle}  />
             <EachPlaceHoder name='Number of Members' value={numberOfMembers}  />

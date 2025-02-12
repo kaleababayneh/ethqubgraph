@@ -8,7 +8,7 @@ import { useCallback } from "react";
 import { createThirdwebClient } from "thirdweb"
 import { defineChain } from "thirdweb/chains";
 import { useAccount } from "wagmi";
-import { useActiveAccount } from "thirdweb/react";
+import { useActiveAccount, ConnectButton } from "thirdweb/react";
  
  
 const liskSepolia =  defineChain({
@@ -21,12 +21,11 @@ const Header = () => {
       const [isDrawerOpen, setIsDrawerOpen] = useState(false);
       const burgerMenuRef = useRef<HTMLDivElement>(null);
 
+      
       let activeAccount = useActiveAccount();
-      
-        let { address: connectedAddress } = useAccount();
-        let accountAddress = activeAccount?.address;
-      
-        if (!connectedAddress) connectedAddress = accountAddress;
+      //let { address: connectedAddress } = useAccount();
+    
+      let connectedAddress = activeAccount?.address;
       
 
 
@@ -56,8 +55,8 @@ const Header = () => {
         </div>
 
         <div className='custom-header-right'>
-             <RainbowKitCustomConnectButton />
-            {/* <ConnectButton client={client} chains={[liskSepolia]} autoConnect= {true} connectButton={{
+             {/* <RainbowKitCustomConnectButton /> */}
+            <ConnectButton client={client} chains={[liskSepolia]} autoConnect= {true} connectButton={{
                  label: "Connect Wallet",
                  className: "my-custom-class",
                  style: {
@@ -68,11 +67,11 @@ const Header = () => {
                     fontFamily: "var(--font-anek-bangla)",
                  },
             }}
-             /> */}
+             />
             <FaucetButton /> 
             <div className='custom-header-avatar'>
               <a href="/profile">
-              <BlockieAvatar address={connectedAddress || ''} size={30} />
+              <BlockieAvatar address={connectedAddress || ''} size={35} />
               </a>
             </div>
         </div>
