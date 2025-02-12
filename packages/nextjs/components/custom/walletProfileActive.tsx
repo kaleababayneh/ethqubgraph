@@ -2,6 +2,7 @@ import React from 'react'
 import EqubImageCard from '~~/components/custom/EqubImageCard';
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
 import { useActiveAccount } from "thirdweb/react";
+import { SyncLoader } from 'react-spinners';
 
 interface EqubDetailEachProps {
     equbDetails: string[];
@@ -33,12 +34,17 @@ const WalletProfileActive: React.FC<EqubDetailEachProps> = ({ equbDetails }) => 
         args: [address],
         watch: true,
     });
+
+
+    
     return { data, isLoading, error, address };
     });
 
+  
   return (
     <>
     {detailsData.map((item, index) => {
+
 
             const thisItem = (item.data ? item.data[14] : 'Data is undefined');
             console.log(`${connectedAddress}`);

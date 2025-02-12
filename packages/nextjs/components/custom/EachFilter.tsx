@@ -1,6 +1,7 @@
+"use client";
 import React from 'react'
 
-const EachFilter = ({ name }: { name: string }) => {
+const EachFilter = ({ name, value, onChange }: { name: string, value : string,  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void }) => {
    return (
     <div className='each-filter'>
         <div className='each-filter-title'>
