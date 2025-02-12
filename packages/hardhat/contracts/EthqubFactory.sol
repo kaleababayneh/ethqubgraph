@@ -46,7 +46,9 @@ contract EthqubFactory {
         string memory,
         address,
         address[] memory,
-        address[] memory
+        address[] memory,
+        address[] memory,
+        uint256[] memory
     ) {
         require(address(ethqubMapping[contractAddress]) != address(0), "Contract does not exist");
         
@@ -76,8 +78,6 @@ contract EthqubFactory {
 
     //     return ethqubArrays;
     // }
-
-    
 
     function joinEthqub(address contractAddress) public payable {
         require(address(ethqubMapping[contractAddress]) != address(0), "Contract does not exist");

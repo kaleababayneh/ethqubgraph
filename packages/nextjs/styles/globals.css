@@ -846,6 +846,7 @@ p {
   position: absolute;
   background-color: rgba(20, 20, 20, 0.6);
   left: 100px;
+  pointer-events: none;
 }
 
 .custom-detail-wrapper {

@@ -81,6 +81,8 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     const numberOfMembers = data[10].toString();
     const ipfsHash = data[11].toString();
     const creator = data[12].toString();
+    const currentMember = data[13].toString();
+    const members = data[14].toString();
 
 
     const formatDateTimeLocal = (dateString: any) => {
@@ -229,18 +231,11 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
                     Members
                   </div>
                   <div className="custom-detail-popup-body-sent-details">
-                    <div className="custom-detail-popup-sent-details-each">
-                      <Dot/>  0x676f993f7b8b
-                    </div>
-                    <div className="custom-detail-popup-sent-details-each">
-                      <Dot/>  0x763478888867
-                    </div>
-                    <div className="custom-detail-popup-sent-details-each">
-                      <Dot/>  0x763467888867
-                    </div>
-                    <div className="custom-detail-popup-sent-details-each">
-                      <Dot/>  0x763997888867
-                    </div>
+                    {members.split(',').map((member: string, index: number) => (
+                      <div key={index} className="custom-detail-popup-sent-details-each">
+                      <Dot /> {member?.slice(0, 6)}... {member?.slice(-6)}
+                      </div>
+                    ))}
                   </div>
 
               </div> 

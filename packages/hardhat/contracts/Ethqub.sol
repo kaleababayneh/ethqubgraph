@@ -30,9 +30,10 @@ contract Ethqub {
     uint256 public cycleDuration;
 
     address[] public members;
+    address[] public luckyWinners;
     address[] public currentMembers; 
 
-    mapping(address => uint256) public numberOfCyclesDuePaid;
+    uint256[] public numberOfCyclesDuePaid;
 
     address public luckyWinner;  
     uint256 public randomNumber;
@@ -46,6 +47,12 @@ contract Ethqub {
     event MemberPaid(address indexed member, uint256 amount);
     event WinnerPicked(address indexed winner);
     event EqubEnded(address indexed winner);
+
+
+    struct PaidDue {
+        address member;
+        uint256 amount;
+    }
     
     uint256 public ethPrice;
     AggregatorV3Interface internal priceFeed; 
@@ -72,7 +79,6 @@ contract Ethqub {
                 address /*priceFeedAddress*/
         ) {
         creator = _creator;
-        luckyWinner = creator;
         equbTitle = _equbTitle;
         poolAmount = _poolAmount;
         individualContribution = _poolAmount / _totalCycles;
@@ -84,43 +90,55 @@ contract Ethqub {
         currentCycle = 0;
         members.push(_creator);
         currentMembers.push(msg.sender);
-        numberOfCyclesDuePaid[msg.sender] += 1;
+        numberOfCyclesDuePaid[0] += 1;
         ipfsHash = _ipfsHash;
     }
 
+    function getMemberIndex(address member) public view returns (uint256) {
+        for (uint i = 0; i < members.length; i++) {
+            if (members[i] == member) {
+                return i;
+            }
+        }
+        return 10e18;
+    }
 
     function getBalance(address _account) public view returns (uint256) {
         return _account.balance;
     }
+
+
    
     function joinEqub() public payable {
 
         require(members.length < totalCycles, "Equb is full");
         require(getBalance(msg.sender) >= individualContribution, "Insufficient balance");
-        require(numberOfCyclesDuePaid[msg.sender] == 0, "Already a member");
+        require(numberOfCyclesDuePaid[getMemberIndex(msg.sender)] == 10e18, "Already a member");
         require(msg.value == individualContribution, "Incorrect contribution amount");
 
         // send the individual contribution to the contract
 
-
         members.push(msg.sender);
         currentMembers.push(msg.sender);
-        numberOfCyclesDuePaid[msg.sender] += 1;
-        
-        
+        numberOfCyclesDuePaid[getMemberIndex(msg.sender)] += 1;
         emit MemberJoined(msg.sender, individualContribution);
     }
 
     function payEqubDue () public payable {
-        require(numberOfCyclesDuePaid[msg.sender] != 0, "Not a member");
-        require(numberOfCyclesDuePaid[msg.sender] <= currentCycle, "Already paid for this cycle");
+
+        require(numberOfCyclesDuePaid[getMemberIndex(msg.sender)] != 0, "Not a member");
+        require(numberOfCyclesDuePaid[getMemberIndex(msg.sender)] <= currentCycle, "Already paid for this cycle");
         require(currentCycle < totalCycles, "Equb has ended");
         require(msg.value == individualContribution, "Incorrect contribution amount");
 
        
 
         // Increase the number of cycles due paid for the payer
-        numberOfCyclesDuePaid[msg.sender] += 1;
+        numberOfCyclesDuePaid[getMemberIndex(msg.sender)] += 1;
+
+        // add one to the number of cycles due paid for the payer
+        // send the individual contribution to the contract
+
 
         // emit: keyword used to trigger an event
         emit MemberPaid(msg.sender, individualContribution);
@@ -155,6 +173,7 @@ contract Ethqub {
         }
 
         address winner = luckyWinner;
+        luckyWinners.push(winner);
         luckyWinner = address(0);
 
         (bool success, ) = winner.call{ value: balance }("");
@@ -185,7 +204,7 @@ contract Ethqub {
         emit WinnerPicked(luckyWinner);
     }
 
-    function equbDetails() public view returns (string memory, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, string memory, address, address[] memory, address[] memory) {
+    function equbDetails() public view returns (string memory, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, string memory, address, address[] memory, address[] memory, address[] memory, uint256[] memory) {
         return (
             equbTitle, 
             creationTime, 
@@ -201,7 +220,9 @@ contract Ethqub {
             ipfsHash,
             creator,
             currentMembers,
-            members
+            members,
+            luckyWinners,
+            numberOfCyclesDuePaid
         );
     }
 
