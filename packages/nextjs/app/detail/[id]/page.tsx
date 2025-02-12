@@ -32,9 +32,6 @@ const DotRed = () => (
 );
 
 
-
-
-
 const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
   const { data, isLoading, error, address } = equbDetail;
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -107,12 +104,6 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
           console.error("Error setting greeting:", e);
          }
     };      
-    
-    
-
-  console.log(data);
-
-
 
   return (
     <>
@@ -179,25 +170,11 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
             <div className='custom-detail-popup-top'>
               <Angle />
               <div className='custom-detail-popup-header'>
-                    <div className='custom-detail-popup-header-each'>
-                      Cycle 1
-                    </div>
-
-                    <div className='custom-detail-popup-header-each'>
-                      Cycle 2
-                    </div>
-
-                    <div className='custom-detail-popup-header-each'>
-                      Cycle 3
-                    </div>
-
-                    <div className='custom-detail-popup-header-each'>
-                      Cycle 4
-                    </div>
-
-                    <div className='custom-detail-popup-header-each'>
-                      Cycle 5
-                    </div>
+                    {Array.from({ length: Number(totalCycles) }, (_, index) => (
+                      <div key={index} className='custom-detail-popup-header-each'>
+                        Cycle {index + 1}
+                      </div>
+                    ))}
               </div>
 
               <AngleL />

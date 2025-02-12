@@ -53,15 +53,15 @@ const EqubDetail: React.FC<EqubDetailProps> = ({ equbDetails, filters }) => {
         if (data && passesFilters([...data], filters)) {
             const [
                 equbTitle
-                ,// creationTime, 
+                ,// creationTime
                 ,startingTime
-                ,// cycleStartTime, 
-                ,// lastTimeStamp, 
+                ,// cycleStartTime
+                ,// lastTimeStamp
                 , poolAmount
-                ,// individualContribution, 
+                ,// individualContribution
                 , currentCycle
                 , totalCycles 
-                ,// cycleDuration, 
+                , cycleDuration
                 , numberOfMembers
                 , ipfsHash
                 ,// creator
@@ -77,6 +77,7 @@ const EqubDetail: React.FC<EqubDetailProps> = ({ equbDetails, filters }) => {
                 totalCycles={Number(totalCycles)}
                 numberOfMembers={Number(numberOfMembers)}
                 ipfsHash={ipfsHash}
+                cycleDuration={Number(cycleDuration)}
                 // Add other props as needed based on your contract's return tuple structure
                 />
             </a>

@@ -6,7 +6,6 @@ import Header from '~~/components/custom/Header'
 import JoinTopHeader from '~~/components/custom/JoinTopHeader'
 import SearchIcon from '~~/components/custom/SearchIcon'
 import EqubDetail from '../equbdetail/page'
-import { useEffect } from 'react'
 
 interface EqubDetailEachProps {
   equbDetails: string[];
@@ -32,16 +31,7 @@ const JoinWrap: React.FC<EqubDetailEachProps> = ({ equbDetails })  => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission and apply filters
-    console.log(filters);
-  };
 
-  useEffect(() => {
-    console.log(equbDetails);
-  }
-  , [equbDetails]);
   return (
     <>
       <div  className="custom-sticky"> 
@@ -53,14 +43,13 @@ const JoinWrap: React.FC<EqubDetailEachProps> = ({ equbDetails })  => {
           <div className='custom-join-side-title'>
             Filters
           </div>
-          <form className="custom-join-side-filters" onSubmit={handleSubmit}>
+          <form className="custom-join-side-filters">
             <EachFilter name="equbTitle" value={filters.equbTitle} onChange={handleChange} />
             <EachFilter name="poolAmount" value={filters.poolAmount} onChange={handleChange} />
             <EachFilter name="numberOfParticipants" value={filters.numberOfParticipants} onChange={handleChange} />
             <EachFilter name="contributionPerRound" value={filters.contributionPerRound} onChange={handleChange} />
             <EachFilter name="poolDuration" value={filters.poolDuration} onChange={handleChange} />
             <EachFilter name="minCreditScore" value={filters.minCreditScore} onChange={handleChange} />
-            <button type="submit" className="custom-join-side-filter-button">Apply Filters</button>
           </form>
         </div>
         <div className='custom-join-main'>
