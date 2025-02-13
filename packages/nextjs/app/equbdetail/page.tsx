@@ -17,14 +17,15 @@ interface EqubDetailProps {
   };
 }
 
+const TOKEN_DECIMAL = 1e18;
+
+
 const passesFilters = (data: any[], filters: EqubDetailProps["filters"]) => {
-    console.log(data);
-  // Assume data[0] is equbTitle, data[5] is poolAmount, data[10] is numberOfParticipants, and data[9] is poolDuration.
-  // Adjust these index mappings as per your contract details.
+  //console.log(data);
   if (filters.equbTitle && !data[0].toLowerCase().includes(filters.equbTitle.toLowerCase())) return false;
-  if (filters.poolAmount && (data[5] + "") !== filters.poolAmount) return false;
-  if (filters.numberOfParticipants && (data[10] + "") !== filters.numberOfParticipants) return false;
-  // For contributionPerRound and minCreditScore adjust accordingly if these exist in data.
+  if (filters.poolAmount && (Number(data[5])/TOKEN_DECIMAL + "") !== filters.poolAmount) return false;
+  if (filters.numberOfParticipants && (data[8] + "") !== filters.numberOfParticipants) return false;
+  if (filters.contributionPerRound && (Number(data[6])/TOKEN_DECIMAL + "") !== filters.contributionPerRound) return false;
   if (filters.poolDuration && (data[9] + "") !== filters.poolDuration) return false;
   return true;
 };
@@ -78,7 +79,6 @@ const EqubDetail: React.FC<EqubDetailProps> = ({ equbDetails, filters }) => {
                 numberOfMembers={Number(numberOfMembers)}
                 ipfsHash={ipfsHash}
                 cycleDuration={Number(cycleDuration)}
-                // Add other props as needed based on your contract's return tuple structure
                 />
             </a>
           );

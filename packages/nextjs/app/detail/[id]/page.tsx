@@ -195,9 +195,9 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
             {/* <EachInput name='Price Feed Address' value={priceFeedAddress} onChange={(e) => setPriceFeedAddress(e.target.value)} /> */}
             <EachPlaceHoder name="Ethqub's title" value={equbTitle} />
             <EachPlaceHoder name='Creator Address' value={creator}  />
-            <EachPlaceHoder name='Total Pool Amount(ETH)' value={(poolAmount/TOKEN_DECIMAL).toFixed(2)}  />
+            <EachPlaceHoder name='Total Pool Amount(ETH)' value={(poolAmount/TOKEN_DECIMAL).toFixed(3)}  />
             <EachPlaceHoder name='Number of Participants' value={totalCycles}  />
-            <EachPlaceHoder name='Individual Contribution(ETH)' value={(individualContribution/TOKEN_DECIMAL).toFixed(2)}  />
+            <EachPlaceHoder name='Individual Contribution(ETH)' value={(individualContribution/TOKEN_DECIMAL).toFixed(3)}  />
             <EachPlaceHoder name='Payment Frequency' value={cycleDuration}  />
             <EachPlaceHoder name='Current Cycle' value={currentCycle}  />
             <EachPlaceHoder name='Number of Members' value={numberOfMembers}  />
