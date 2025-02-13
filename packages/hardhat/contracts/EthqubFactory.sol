@@ -60,28 +60,9 @@ contract EthqubFactory {
         return ethqubArray;
     }
 
-
-    // function getContractsByMember(address member) public view returns (address[] memory) {
-        
-    //     Ethqub[] memory ethqubArrays = getDeployedContracts();
-    //     console.log("ethqubArrays length: %d", ethqubArrays.length);
-    //     address[] memory memberContracts;
-    //     // uint256 count = 0;
-
-    //     // for (uint256 j = 0; j < ethqubArrays.length; j++) {
-    //     //     return memberContracts[j] = (ethqubArrays[j]);
-    //     //     // if (ethqubArrays[j].isMember(member)) {
-    //     //     //     memberContracts[count] = address(ethqubArrays[j]);
-    //     //     //     count++;
-    //     //     // }
-    //     // }
-
-    //     return ethqubArrays;
-    // }
-
-    function joinEthqub(address contractAddress) public payable {
+    function joinEthqub(address contractAddress, address _joiner) public payable {
         require(address(ethqubMapping[contractAddress]) != address(0), "Contract does not exist");
         Ethqub ethqubInstance = Ethqub(payable(contractAddress)); 
-        ethqubInstance.joinEqub();
+        ethqubInstance.joinEqub(_joiner);
     }
 }

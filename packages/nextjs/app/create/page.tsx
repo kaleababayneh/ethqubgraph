@@ -143,7 +143,7 @@ const Create = () => {
   useEffect(() => {
     if (poolAmount && totalCycles && Number(totalCycles) > 0) {
       const contribution = Number(poolAmount) / Number(totalCycles);
-      setIndividualContribution(contribution.toFixed(1));
+      setIndividualContribution(contribution.toFixed(2));
     } else {
       setIndividualContribution('');
     }

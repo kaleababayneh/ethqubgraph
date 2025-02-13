@@ -89,8 +89,8 @@ contract Ethqub {
         //creditScore = _creditScore;
         currentCycle = 0;
         members.push(_creator);
-        currentMembers.push(msg.sender);
-        numberOfCyclesDuePaid[0] += 1;
+        currentMembers.push(_creator);
+        numberOfCyclesDuePaid.push(1);
         ipfsHash = _ipfsHash;
     }
 
@@ -109,19 +109,19 @@ contract Ethqub {
 
 
    
-    function joinEqub() public payable {
+    function joinEqub(address _joiner) public payable {
 
         require(members.length < totalCycles, "Equb is full");
-        require(getBalance(msg.sender) >= individualContribution, "Insufficient balance");
-        require(numberOfCyclesDuePaid[getMemberIndex(msg.sender)] == 10e18, "Already a member");
-        require(msg.value == individualContribution, "Incorrect contribution amount");
+        require(getBalance(_joiner) >= individualContribution, "Insufficient balance");
+        require(getMemberIndex(_joiner) == 10e18, "Already a member");
+        // require(msg.value == individualContribution, "Incorrect contribution amount");
 
         // send the individual contribution to the contract
 
-        members.push(msg.sender);
-        currentMembers.push(msg.sender);
-        numberOfCyclesDuePaid[getMemberIndex(msg.sender)] += 1;
-        emit MemberJoined(msg.sender, individualContribution);
+        members.push(_joiner);
+        currentMembers.push(_joiner);
+        numberOfCyclesDuePaid.push(1);
+        emit MemberJoined(_joiner, individualContribution);
     }
 
     function payEqubDue () public payable {

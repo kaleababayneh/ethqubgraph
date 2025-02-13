@@ -8,8 +8,9 @@ import AngleL from '~~/components/custom/AngleL';
 import { SyncLoader } from 'react-spinners';
 import CountDown from '~~/components/custom/CountDown';
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth/useScaffoldWriteContract";
-import { parseEther } from 'viem';
-import { Token } from 'graphql';
+import { useActiveAccount } from "thirdweb/react";
+import confetti from 'canvas-confetti';
+
 
 const TOKEN_DECIMAL = 1e18;
 
@@ -33,10 +34,17 @@ const DotRed = () => (
 
 
 const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
+
+  let activeAccount = useActiveAccount();
+    //let { address: connectedAddress } = useAccount();
+  let connectedAddress = activeAccount?.address;
+
   const { data, isLoading, error, address } = equbDetail;
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
   const CYCLE_TO_SECONDS = 24 * 3600;
+
+  
 
   const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract({ 
     contractName: "EthqubFactory" 
@@ -83,6 +91,8 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     const creator = data[12].toString();
     const currentMember = data[13].toString();
     const members = data[14].toString();
+    const luckyWinners = data[15].toString();
+    const numberOfCyclesDuePaid = data[16].toString();
 
 
     const formatDateTimeLocal = (dateString: any) => {
@@ -96,16 +106,41 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     };
 
     const handleJoin = async (individualContribution: string) => {
+      var colors = ['#ddcb46', '#ffffff'];
+
        try {
            await writeYourContractAsync({
              functionName: "joinEthqub",
-             args : [address],
+             args : [equbDetail.address, connectedAddress],
              value: BigInt(individualContribution),
-           });
+           },
+           {
+             onBlockConfirmation: txnReceipt => {
+                confetti({
+                  particleCount: 600,
+                  angle: 60,
+                  spread: 55,
+                  origin: { x: 0 },
+                  colors: colors
+                });
+                confetti({
+                  particleCount: 600,
+                  angle: 120,
+                  spread: 55,
+                  origin: { x: 1 },
+                  colors: colors
+                });
+                }
+            }
+          );
          } catch (e) {
           console.error("Error setting greeting:", e);
          }
-    };      
+    };
+
+    console.log("Equb Title", data);
+    
+    console.log("Individual Contribution", individualContribution);
 
   return (
     <>
@@ -135,15 +170,21 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
                     {currentCycle == 0 ? "Starting in..." : "Next round starts in"}
                 </div>
                 <CountDown startsIn={cycleStartTime} />
-                <div className='custom-detail-center-join'>
-                  <button onClick={() => handleJoin(individualContribution)}>
-                    Join Equb
+
+          </div>
+          <div>
+
+            <div className='custom-detail-center-join'>
+                  <button onClick={() => handleJoin(individualContribution)} className="custom-detail-center-join-button relative inline-flex items-center justify-center p-0.5 overflow-hidden  font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                      <span className="relative px-4 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
+                      Join Equb
+                      </span>
                   </button>
                 </div>
-          </div>
 
-          <div className='custom-detail-button' onClick={() => setIsPopupVisible(!isPopupVisible)}>
-              {isPopupVisible ? "Hide Details" : "Show Detail"} 
+            <div className='custom-detail-button' onClick={() => setIsPopupVisible(!isPopupVisible)}>
+                {isPopupVisible ? "Hide Details" : "Show Detail"} 
+            </div>
           </div>
         </div>
 
@@ -153,9 +194,9 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
             {/* <EachInput name='Price Feed Address' value={priceFeedAddress} onChange={(e) => setPriceFeedAddress(e.target.value)} /> */}
             <EachPlaceHoder name="Ethqub's title" value={equbTitle} />
             <EachPlaceHoder name='Creator Address' value={creator}  />
-            <EachPlaceHoder name='Total Pool Amount(ETH)' value={(poolAmount/TOKEN_DECIMAL).toFixed(1)}  />
+            <EachPlaceHoder name='Total Pool Amount(ETH)' value={(poolAmount/TOKEN_DECIMAL).toFixed(2)}  />
             <EachPlaceHoder name='Number of Participants' value={totalCycles}  />
-            <EachPlaceHoder name='Individual Contribution(ETH)' value={(individualContribution/TOKEN_DECIMAL).toFixed(1)}  />
+            <EachPlaceHoder name='Individual Contribution(ETH)' value={(individualContribution/TOKEN_DECIMAL).toFixed(2)}  />
             <EachPlaceHoder name='Payment Frequency' value={cycleDuration}  />
             <EachPlaceHoder name='Current Cycle' value={currentCycle}  />
             <EachPlaceHoder name='Number of Members' value={numberOfMembers}  />
@@ -185,12 +226,14 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
               <div className="custom-detail-popup-body-sent">
 
                 <div className="custom-detail-popup-body-sent-title">
-                  Last Recieved 
+                  Last Received 
                 </div>
                 <div className="custom-detail-popup-body-sent-details">
-                    <div className="custom-detail-popup-sent-details-each">
-                      <Dot/> 0x676fb2f993f78b
+                  {luckyWinners.split(',').slice(-1).map((winner: string, index: number) => (
+                    <div key={index} className="custom-detail-popup-sent-details-each">
+                      {winner && <Dot/>} {winner?.slice(0, 6)} {winner && "..."}  {winner?.slice(-6)}
                     </div>
+                  ))}
                 </div>
                
               </div>
@@ -201,30 +244,32 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
                     Sent 
                   </div>
                   <div className="custom-detail-popup-body-sent-details">
-                    <div className="custom-detail-popup-sent-details-each">
-                      <Dot/>  0x676fb6993f78b
+                      {members.split(',').map((member: string, index: number) => (
+                    numberOfCyclesDuePaid.split(',')[index] >= currentCycle + 1 && (
+                    <div key={index} className="custom-detail-popup-sent-details-each">
+                      <Dot/> {member?.slice(0, 6)} ... {member?.slice(-6)}
                     </div>
-                    <div className="custom-detail-popup-sent-details-each">
-                      <Dot/>  0x763427888867
-                    </div>
+                    )
+                  ))}
                   </div>
 
               </div>
 
-              <div className="custom-detail-popup-body-sent">
+                <div className="custom-detail-popup-body-sent custom-detail-popup-body-sent-failed">
                 
                  <div className="custom-detail-popup-body-sent-title custom-detail-popup-body-failed-title">
-                    Failed to Send 
+                  Failed to Send 
                   </div>
                   <div className="custom-detail-popup-body-sent-details custom-detail-popup-body-failed-details">
-                    <div className="custom-detail-popup-sent-details-each">
-                        <DotRed/> 0x676fb6993f78b
-                      </div>
-                      <div className="custom-detail-popup-sent-details-each">
-                        <DotRed/> 0x763567888867
-                      </div>
+                  {members.split(',').map((member: string, index: number) => (
+                    numberOfCyclesDuePaid.split(',')[index] < currentCycle + 1 && (
+                    <div key={index} className="custom-detail-popup-sent-details-each">
+                      <DotRed/> {member?.slice(0, 6)}... {member?.slice(-6)}
+                    </div>
+                    )
+                  ))}
                   </div>
-              </div>
+                </div>
 
               <div className="custom-detail-popup-body-sent">
                   <div className="custom-detail-popup-body-sent-title">
