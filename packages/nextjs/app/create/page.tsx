@@ -95,7 +95,8 @@ const Create = () => {
             BigInt(startingTimeInSeconds),
             BigInt(minCreditScore),
             PRICE_FEED_ADDRESS
-          ]
+          ],
+          value: poolAmount && totalCycles ? (BigInt(poolAmount) * BigInt(TOKEN_DECIMAL)) / BigInt(totalCycles) : BigInt(0),
         },
         {
           onBlockConfirmation: txnReceipt => {

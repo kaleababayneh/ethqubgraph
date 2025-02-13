@@ -5,7 +5,6 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Ethqub.sol";
 
-
 contract EthqubFactory {
 
     Ethqub[] public ethqubArray;
@@ -23,8 +22,8 @@ contract EthqubFactory {
         uint256 _startingTime, 
         uint256 _creditScore, 
         address priceFeedAddress
-        ) public returns (address) {
-        Ethqub ethqub = new Ethqub(_creator, _equbTitle, _poolAmount, _totalCycles, _cycleDuration,_ipfsHash, _startingTime, _creditScore, priceFeedAddress);
+    ) public payable returns (address) {
+        Ethqub ethqub = new Ethqub{value: msg.value}(_creator, _equbTitle, _poolAmount, _totalCycles, _cycleDuration, _ipfsHash, _startingTime, _creditScore, priceFeedAddress);
         ethqubArray.push(ethqub);
         ethqubMapping[address(ethqub)] = ethqub;
         emit EthqubCreated(address(ethqub), _creator);
@@ -56,13 +55,13 @@ contract EthqubFactory {
         return ethqubInstance.equbDetails();
     }
     
-    function getDeployedContracts() public view returns (Ethqub[] memory)  {
+    function getDeployedContracts() public view returns (Ethqub[] memory) {
         return ethqubArray;
     }
 
     function joinEthqub(address contractAddress, address _joiner) public payable {
         require(address(ethqubMapping[contractAddress]) != address(0), "Contract does not exist");
         Ethqub ethqubInstance = Ethqub(payable(contractAddress)); 
-        ethqubInstance.joinEqub(_joiner);
+        ethqubInstance.joinEqub{value: msg.value}(_joiner);
     }
 }

@@ -5,17 +5,15 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./PriceConverter.sol";
 
-// I am building a community pool saving
 contract Ethqub {
+
     using PriceConverter for uint256;
-    // constant
     address public constant ETH_USD_ADDRESS =  0x694AA1769357215DE4FAC081bf1f309aDC325306;
-
     uint256 private constant TOKEN_DECIMALS = 10**18;
+    uint256 public ethPrice;
+    AggregatorV3Interface internal priceFeed; 
 
-    // state variables
     address public immutable creator;
-
     string public equbTitle;
     uint256 public immutable creationTime = block.timestamp;
     uint256 public startingTime ;
@@ -30,6 +28,7 @@ contract Ethqub {
     uint256 public cycleDuration;
 
     address[] public members;
+
     address[] public luckyWinners;
     address[] public currentMembers; 
 
@@ -49,13 +48,6 @@ contract Ethqub {
     event EqubEnded(address indexed winner);
 
 
-    struct PaidDue {
-        address member;
-        uint256 amount;
-    }
-    
-    uint256 public ethPrice;
-    AggregatorV3Interface internal priceFeed; 
 
     modifier isLuckyWinner() {
         require(msg.sender == luckyWinner, "Not the lucky winner");
@@ -77,7 +69,7 @@ contract Ethqub {
                 uint256 _startingTime, 
                 uint256 /*_creditScore*/, 
                 address /*priceFeedAddress*/
-        ) {
+        ) payable {
         creator = _creator;
         equbTitle = _equbTitle;
         poolAmount = _poolAmount;
@@ -88,10 +80,11 @@ contract Ethqub {
         cycleStartTime = _startingTime;
         //creditScore = _creditScore;
         currentCycle = 0;
+        ipfsHash = _ipfsHash;
+
         members.push(_creator);
         currentMembers.push(_creator);
         numberOfCyclesDuePaid.push(1);
-        ipfsHash = _ipfsHash;
     }
 
     function getMemberIndex(address member) public view returns (uint256) {
@@ -107,20 +100,17 @@ contract Ethqub {
         return _account.balance;
     }
 
-
    
     function joinEqub(address _joiner) public payable {
 
         require(members.length < totalCycles, "Equb is full");
         require(getBalance(_joiner) >= individualContribution, "Insufficient balance");
         require(getMemberIndex(_joiner) == 10e18, "Already a member");
-        // require(msg.value == individualContribution, "Incorrect contribution amount");
-
-        // send the individual contribution to the contract
 
         members.push(_joiner);
         currentMembers.push(_joiner);
         numberOfCyclesDuePaid.push(1);
+
         emit MemberJoined(_joiner, individualContribution);
     }
 
@@ -130,8 +120,6 @@ contract Ethqub {
         require(numberOfCyclesDuePaid[getMemberIndex(msg.sender)] <= currentCycle, "Already paid for this cycle");
         require(currentCycle < totalCycles, "Equb has ended");
         require(msg.value == individualContribution, "Incorrect contribution amount");
-
-       
 
         // Increase the number of cycles due paid for the payer
         numberOfCyclesDuePaid[getMemberIndex(msg.sender)] += 1;
@@ -144,10 +132,6 @@ contract Ethqub {
         emit MemberPaid(msg.sender, individualContribution);
     }
 
-    function seePrice() public  returns (uint256) {
-        ethPrice = PriceConverter.getPrice(priceFeed);
-        return ethPrice;
-    }
 
     function getRandomNumber() public returns (uint256) {
         // currentCycle++
@@ -227,14 +211,17 @@ contract Ethqub {
     }
 
     function isMember(address userAddress) public view returns (bool) {
-
-
         for (uint i = 0; i < members.length; i++) {
             if (members[i] == userAddress) {
                 return true;
             }
         }
         return false;
+    }
+
+    function seePrice() public  returns (uint256) {
+        ethPrice = PriceConverter.getPrice(priceFeed);
+        return ethPrice;
     }
 
     /**

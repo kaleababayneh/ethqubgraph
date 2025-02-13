@@ -4,6 +4,9 @@ import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadCo
 import { useActiveAccount } from "thirdweb/react";
 import { SyncLoader } from 'react-spinners';
 
+
+// startin time + currentcYLCE * CYCLE DURATION 
+
 interface EqubDetailEachProps {
     equbDetails: string[];
 }

@@ -35,6 +35,7 @@ const DotRed = () => (
 
 const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
 
+  console.log("Equb Detail", equbDetail);
   let activeAccount = useActiveAccount();
     //let { address: connectedAddress } = useAccount();
   let connectedAddress = activeAccount?.address;
@@ -138,9 +139,9 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
          }
     };
 
-    console.log("Equb Title", data);
+    // console.log("Equb Title", data);
     
-    console.log("Individual Contribution", individualContribution);
+    // console.log("Individual Contribution", individualContribution);
 
   return (
     <>
