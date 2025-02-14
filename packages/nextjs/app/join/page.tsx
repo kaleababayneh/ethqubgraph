@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
-import JoinWrap from '../joinwrap/page';
+import JoinWrap from '~~/components/custom/joinwrap/page';
 
 
 

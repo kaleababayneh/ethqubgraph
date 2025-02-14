@@ -67,6 +67,7 @@
   },
   "dependencies": {
     "canvas-confetti": "^1.9.3",
-    "thirdweb": "^5.88.1"
+    "thirdweb": "^5.88.1",
+    "vercel": "^41.1.3"
   }
 }

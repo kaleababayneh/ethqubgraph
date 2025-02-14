@@ -5,7 +5,7 @@ import EqubCard from '~~/components/custom/EqubCard'
 import Header from '~~/components/custom/Header'
 import JoinTopHeader from '~~/components/custom/JoinTopHeader'
 import SearchIcon from '~~/components/custom/SearchIcon'
-import EqubDetail from '../equbdetail/page'
+import EqubDetail from '~~/app/equbdetail/page'
 
 interface EqubDetailEachProps {
   equbDetails: string[];

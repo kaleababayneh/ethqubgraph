@@ -2,7 +2,7 @@
 import React from 'react';
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
 import { useParams } from "next/navigation";
-import Detail from '~~/app/detail/[id]/page';
+import Detail from '~~/components/custom/detail/[id]/page';
 import { SyncLoader } from 'react-spinners';
 
 interface EqubDetailInfo {
