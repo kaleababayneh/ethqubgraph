@@ -5,8 +5,7 @@ import "hardhat/console.sol";
 import "./PriceConverter.sol";
 
 contract Ethqub {
-    // temporary
-    uint CYCLE_TO_SECONDS = 120; //24 * 3600;
+    uint CYCLE_TO_SECONDS = 60 * 60 * 24; 
 
     using PriceConverter for uint256;
     address public constant ETH_USD_ADDRESS =  0x694AA1769357215DE4FAC081bf1f309aDC325306;
@@ -80,9 +79,9 @@ contract Ethqub {
         cycleDuration = _cycleDuration;
         startingTime = _startingTime;
         cycleStartTime = _startingTime;
-        //creditScore = _creditScore;
         currentCycle = 0;
         ipfsHash = _ipfsHash;
+        //creditScore = _creditScore;
 
         members.push(_creator);
         currentMembers.push(_creator);
@@ -146,7 +145,6 @@ contract Ethqub {
         if (balance > withdrawableAmount) {
             balance = withdrawableAmount;
         }
-
 
         address winner = pickLuckyWinner();
         luckyWinners.push(winner);

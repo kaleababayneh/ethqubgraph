@@ -2,10 +2,6 @@ import React from 'react'
 import EqubImageCard from '~~/components/custom/EqubImageCard';
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
 import { useActiveAccount } from "thirdweb/react";
-import { SyncLoader } from 'react-spinners';
-
-
-// startin time + currentcYLCE * CYCLE DURATION 
 
 interface EqubDetailEachProps {
     equbDetails: string[];

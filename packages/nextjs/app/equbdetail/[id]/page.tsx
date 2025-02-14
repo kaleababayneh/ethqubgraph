@@ -15,7 +15,7 @@ interface EqubDetailInfo {
 const EqubDetailPage = () => {
 
   const params = useParams();
-  const contractaddress = params?.id; // Ensuring params exist
+  const contractaddress = params?.id; 
 
   const { data, isLoading, error } = useScaffoldReadContract({
     contractName: "EthqubFactory",

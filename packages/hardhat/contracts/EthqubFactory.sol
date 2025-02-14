@@ -7,7 +7,7 @@ import "./Ethqub.sol";
 contract EthqubFactory {
 
     Ethqub[] public ethqubArray;
-    mapping(address => Ethqub) public ethqubMapping; // Store address to contract mapping
+    mapping(address => Ethqub) public ethqubMapping;
 
     event EthqubCreated(address indexed contractAddress, address indexed creator);
 

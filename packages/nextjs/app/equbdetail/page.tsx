@@ -4,7 +4,6 @@ import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadCo
 import EqubCard from '~~/components/custom/EqubCard';
 import { SyncLoader } from 'react-spinners';
 
-// New props definition to accept filters
 interface EqubDetailProps {
   equbDetails: string[];
   filters: {

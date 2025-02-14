@@ -18,36 +18,9 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  const vrfCoordinatorV2 = "0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B";
-  const entranceFee = ethers.parseEther("0.01");
-  const gasLane = "0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae";
-  const BASE_FEE = ethers.parseEther("0.25");
-  const GAS_PRICE_LINK = 1e9;
-  const subscriptionId = "14079749900429409589629844893152945182043081709445166555923161887859658288304";
-  const callbackGasLimit = 500000;
-  const interval = "30";
-  
-  // equb constructor arguments: address _creator,
-  const equbTitle = "Equb Community Pool";
-  const poolAmount = ethers.parseEther("0.1");
-  const totalCycles = 2;
-  const cycleDuration = 1 * 60;
-  const priceFeedAddress = "0x694AA1769357215DE4FAC081bf1f309aDC325306";
-  const mydeploy = "0x7db6AA7896C8b4C7D92D1649289e7984e14FF0eB";
-
   await deploy("EthqubFactory", {
     from: deployer,
-    // Contract constructor arguments
-    args: [
-      /*
-      mydeploy,
-      equbTitle,
-      poolAmount,
-      totalCycles,
-      cycleDuration,
-      priceFeedAddress
-      */
-    ],
+    args: [],
     log: true, 
   });
 

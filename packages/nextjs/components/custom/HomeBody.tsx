@@ -80,4 +80,4 @@ const HomeBody = () => {
   )
 }
 
-export default HomeBody
+export default HomeBody;
