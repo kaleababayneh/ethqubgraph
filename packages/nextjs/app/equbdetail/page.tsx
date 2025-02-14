@@ -30,7 +30,7 @@ const passesFilters = (data: any[], filters: EqubDetailProps["filters"]) => {
 };
 
 const EqubDetail: React.FC<EqubDetailProps> = ({ equbDetails, filters }) => {
-    console.log(equbDetails);
+
   return (
     <>
       {equbDetails?.map((address: string, index: number) => {

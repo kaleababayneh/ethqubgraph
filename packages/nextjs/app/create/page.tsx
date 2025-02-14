@@ -52,11 +52,9 @@ const Create = () => {
       });
       const ipfsUrl = await uploadRequest.json();
       const ipfsHash = ipfsUrl.split("/").pop();
-      console.log(ipfsHash);
       setUrl(ipfsHash);
       setUploading(false);
     } catch (e) {
-      console.log(e);
       setUploading(false);
       alert("Trouble uploading file");
     }

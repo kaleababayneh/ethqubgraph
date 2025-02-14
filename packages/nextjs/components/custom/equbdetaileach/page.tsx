@@ -17,7 +17,7 @@ const EqubDetailEach: React.FC<EqubDetailEachProps> = ({ equbDetails }) => {
     });
     return { data, isLoading, error, address };
   });
-  console.log(detailsData);
+
   return (
     <div className="equb-detail-wrapper">
 

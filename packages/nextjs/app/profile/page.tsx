@@ -33,10 +33,6 @@ const Profile = () => {
   }, [connectedAddress]);
 
 
-  
-  console.log(connectedAddress);
-
-
    const { data: equbList } = useScaffoldReadContract({
           contractName: "EthqubFactory",
           functionName: "getDeployedContracts",

@@ -46,9 +46,7 @@ const WalletProfileActive: React.FC<EqubDetailEachProps> = ({ equbDetails }) => 
 
 
             const thisItem = (item.data ? item.data[14] : 'Data is undefined');
-            console.log(`${connectedAddress}`);
-            console.log(thisItem);
-            console.log(thisItem.includes(`${connectedAddress}`))
+  
 
             const [
             equbTitle

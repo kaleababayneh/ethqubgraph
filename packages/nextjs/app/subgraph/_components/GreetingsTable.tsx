@@ -16,7 +16,6 @@ const GreetingsTable = () => {
       try {
         const { data: result } = await execute(GetGreetingsDocument, {});
         setGreetingsData(result);
-        console.log(result);
       } catch (err) {
         setError(err);
       } finally {
