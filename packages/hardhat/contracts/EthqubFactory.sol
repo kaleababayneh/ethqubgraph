@@ -2,7 +2,6 @@
 pragma solidity >=0.8.0 <0.9.0;
 
 import "hardhat/console.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Ethqub.sol";
 
 contract EthqubFactory {
@@ -64,4 +63,19 @@ contract EthqubFactory {
         Ethqub ethqubInstance = Ethqub(payable(contractAddress)); 
         ethqubInstance.joinEqub{value: msg.value}(_joiner);
     }
+
+    function withdrawEthqub(address contractAddress) public payable {
+        require(address(ethqubMapping[contractAddress]) != address(0), "Contract does not exist");
+        Ethqub ethqubInstance = Ethqub(payable(contractAddress)); 
+        ethqubInstance.withdrawEqub();
+    }
+
+    function getCycle(address contractAddress) public  returns (uint256) {
+        require(address(ethqubMapping[contractAddress]) != address(0), "Contract does not exist");
+        Ethqub ethqubInstance = Ethqub(payable(contractAddress)); 
+        return ethqubInstance.getCycle();
+    }
+
+
+
 }

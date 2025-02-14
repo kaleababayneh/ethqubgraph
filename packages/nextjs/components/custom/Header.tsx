@@ -16,6 +16,10 @@ const liskSepolia =  defineChain({
         rpc: "https://rpc.sepolia-api.lisk.com"
 });
 
+const sepolia =  defineChain({
+  id: 11155111,
+  rpc: "https://eth-sepolia.api.onfinality.io/public"
+});
 
 const Header = () => {
       const [isDrawerOpen, setIsDrawerOpen] = useState(false);

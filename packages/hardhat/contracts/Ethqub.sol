@@ -2,14 +2,16 @@
 pragma solidity >=0.8.0 <0.9.0;
 
 import "hardhat/console.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 import "./PriceConverter.sol";
 
 contract Ethqub {
+    // temporary
+    uint CYCLE_TO_SECONDS = 120; //24 * 3600;
 
     using PriceConverter for uint256;
     address public constant ETH_USD_ADDRESS =  0x694AA1769357215DE4FAC081bf1f309aDC325306;
     uint256 private constant TOKEN_DECIMALS = 10**18;
+
     uint256 public ethPrice;
     AggregatorV3Interface internal priceFeed; 
 
@@ -49,8 +51,8 @@ contract Ethqub {
 
 
 
-    modifier isLuckyWinner() {
-        require(msg.sender == luckyWinner, "Not the lucky winner");
+    modifier isLuckyWinner(address _luckyWinner) {
+        require(_luckyWinner == luckyWinner, "Not the lucky winner");
         _;
     }
 
@@ -102,7 +104,6 @@ contract Ethqub {
 
    
     function joinEqub(address _joiner) public payable {
-
         require(members.length < totalCycles, "Equb is full");
         require(getBalance(_joiner) >= individualContribution, "Insufficient balance");
         require(getMemberIndex(_joiner) == 10e18, "Already a member");
@@ -114,67 +115,60 @@ contract Ethqub {
         emit MemberJoined(_joiner, individualContribution);
     }
 
-    function payEqubDue () public payable {
+    function payEqubDue (address _payer) public payable {
 
-        require(numberOfCyclesDuePaid[getMemberIndex(msg.sender)] != 0, "Not a member");
-        require(numberOfCyclesDuePaid[getMemberIndex(msg.sender)] <= currentCycle, "Already paid for this cycle");
+        require(getMemberIndex(_payer) < totalCycles, "Not a member");
+        require(numberOfCyclesDuePaid[getMemberIndex(_payer)] <= currentCycle, "Already paid for this cycle");
         require(currentCycle < totalCycles, "Equb has ended");
-        require(msg.value == individualContribution, "Incorrect contribution amount");
 
-        // Increase the number of cycles due paid for the payer
-        numberOfCyclesDuePaid[getMemberIndex(msg.sender)] += 1;
-
-        // add one to the number of cycles due paid for the payer
-        // send the individual contribution to the contract
-
-
-        // emit: keyword used to trigger an event
-        emit MemberPaid(msg.sender, individualContribution);
+        numberOfCyclesDuePaid[getMemberIndex(_payer)] += 1;
+        emit MemberPaid(_payer, individualContribution);
     }
 
 
-    function getRandomNumber() public returns (uint256) {
-        // currentCycle++
-        randomNumber = uint256(keccak256(abi.encodePacked(
+    function getRandomNumber() public view returns (uint256) {
+        require(block.timestamp >= startingTime + currentCycle * cycleDuration * CYCLE_TO_SECONDS, "Cycle not ended yet");
+        return  uint256(keccak256(abi.encodePacked(
             blockhash(block.number - 1),
             block.timestamp,
             msg.sender,
             currentCycle,
             gasleft()
-        )));
-
-        return randomNumber  % currentMembers.length;
+        )))  % currentMembers.length;
     }
 
-    function withdrawEqub() public isLuckyWinner() {
-        require(startingTime != 0, "Equb not started yet");
-        require(block.timestamp >=   cycleDuration, "Cycle not ended yet");
-        uint256 balance = address(this).balance;
+
+    function withdrawEqub() public {
+       require(block.timestamp >= startingTime + currentCycle * cycleDuration * CYCLE_TO_SECONDS, "Cycle not ended yet");
+       uint256 balance = address(this).balance;
        uint256 withdrawableAmount = individualContribution * members.length;
 
         if (balance > withdrawableAmount) {
             balance = withdrawableAmount;
         }
 
-        address winner = luckyWinner;
+
+        address winner = pickLuckyWinner();
         luckyWinners.push(winner);
         luckyWinner = address(0);
 
-        (bool success, ) = winner.call{ value: balance }("");
+        (bool success, ) = payable(winner).call{value: balance, gas: 30000}("");
         require(success, "Failed to send Ether");
 
         emit MemberWithdrawn(winner, balance);
+        currentCycle++;
+        cycleStartTime = startingTime + currentCycle * cycleDuration * CYCLE_TO_SECONDS;
 
-        // Emit event if Equb ends
         if (currentCycle == totalCycles) {
             emit EqubEnded(winner);
         }
     }
 
 
-    function pickLuckyWinner() public onlyOwner(){
-       require(block.timestamp >= lastTimeStamp + cycleDuration, "Cycle not ended yet");
+    function pickLuckyWinner() public  returns (address) {
+       require(block.timestamp >= startingTime + currentCycle * cycleDuration * CYCLE_TO_SECONDS, "Cycle not ended yet");
        uint256 indexOfWinner = getRandomNumber();
+
        luckyWinner = currentMembers[indexOfWinner];
        lastTimeStamp = block.timestamp;
 
@@ -186,6 +180,7 @@ contract Ethqub {
         currentCycle++;
 
         emit WinnerPicked(luckyWinner);
+        return luckyWinner;
     }
 
     function equbDetails() public view returns (string memory, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, string memory, address, address[] memory, address[] memory, address[] memory, uint256[] memory) {
@@ -217,6 +212,11 @@ contract Ethqub {
             }
         }
         return false;
+    }
+
+    function getCycle() public view returns (uint256) {
+        require(block.timestamp >= startingTime + currentCycle * cycleDuration, "Cycle not ended yet");
+        return currentCycle;
     }
 
     function seePrice() public  returns (uint256) {

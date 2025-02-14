@@ -8,6 +8,9 @@ import HomeBody from "~~/components/custom/HomeBody";
 
 const Home: NextPage = () => {
 
+
+  
+
   return (
    <div className="container">
       <div  className="custom-sticky"> 

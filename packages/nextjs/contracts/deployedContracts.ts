@@ -7,7 +7,579 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   4202: {
     EthqubFactory: {
-      address: "0xaFce9744349fD1bA34C350caA64f6A01dBccD8c7",
+      address: "0xb588eC3f517FC524168F069C3b413433e3Be2890",
+      abi: [
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "contractAddress",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "creator",
+              type: "address",
+            },
+          ],
+          name: "EthqubCreated",
+          type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_creator",
+              type: "address",
+            },
+            {
+              internalType: "string",
+              name: "_equbTitle",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "_poolAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_totalCycles",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_cycleDuration",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "_ipfsHash",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "_startingTime",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_creditScore",
+              type: "uint256",
+            },
+            {
+              internalType: "address",
+              name: "priceFeedAddress",
+              type: "address",
+            },
+          ],
+          name: "createEthqub",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "ethqubArray",
+          outputs: [
+            {
+              internalType: "contract Ethqub",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "ethqubMapping",
+          outputs: [
+            {
+              internalType: "contract Ethqub",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "contractAddress",
+              type: "address",
+            },
+          ],
+          name: "getCycle",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getDeployedContracts",
+          outputs: [
+            {
+              internalType: "contract Ethqub[]",
+              name: "",
+              type: "address[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "contractAddress",
+              type: "address",
+            },
+          ],
+          name: "getEthqubDetails",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+            {
+              internalType: "address[]",
+              name: "",
+              type: "address[]",
+            },
+            {
+              internalType: "address[]",
+              name: "",
+              type: "address[]",
+            },
+            {
+              internalType: "address[]",
+              name: "",
+              type: "address[]",
+            },
+            {
+              internalType: "uint256[]",
+              name: "",
+              type: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "contractAddress",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "_joiner",
+              type: "address",
+            },
+          ],
+          name: "joinEthqub",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "contractAddress",
+              type: "address",
+            },
+          ],
+          name: "withdrawEthqub",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {},
+    },
+  },
+  31337: {
+    EthqubFactory: {
+      address: "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+      abi: [
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "contractAddress",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "creator",
+              type: "address",
+            },
+          ],
+          name: "EthqubCreated",
+          type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_creator",
+              type: "address",
+            },
+            {
+              internalType: "string",
+              name: "_equbTitle",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "_poolAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_totalCycles",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_cycleDuration",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "_ipfsHash",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "_startingTime",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_creditScore",
+              type: "uint256",
+            },
+            {
+              internalType: "address",
+              name: "priceFeedAddress",
+              type: "address",
+            },
+          ],
+          name: "createEthqub",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "ethqubArray",
+          outputs: [
+            {
+              internalType: "contract Ethqub",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "ethqubMapping",
+          outputs: [
+            {
+              internalType: "contract Ethqub",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "contractAddress",
+              type: "address",
+            },
+          ],
+          name: "getCycle",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getDeployedContracts",
+          outputs: [
+            {
+              internalType: "contract Ethqub[]",
+              name: "",
+              type: "address[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "contractAddress",
+              type: "address",
+            },
+          ],
+          name: "getEthqubDetails",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+            {
+              internalType: "address[]",
+              name: "",
+              type: "address[]",
+            },
+            {
+              internalType: "address[]",
+              name: "",
+              type: "address[]",
+            },
+            {
+              internalType: "address[]",
+              name: "",
+              type: "address[]",
+            },
+            {
+              internalType: "uint256[]",
+              name: "",
+              type: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "contractAddress",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "_joiner",
+              type: "address",
+            },
+          ],
+          name: "joinEthqub",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "contractAddress",
+              type: "address",
+            },
+          ],
+          name: "withdrawEthqub",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {},
+    },
+  },
+  11155111: {
+    EthqubFactory: {
+      address: "0x98088e421a7aC113d0805bA81BdC31f129c83Fcc",
       abi: [
         {
           anonymous: false,
@@ -255,128 +827,6 @@ const deployedContracts = {
           stateMutability: "payable",
           type: "function",
         },
-      ],
-      inheritedFunctions: {},
-    },
-  },
-  11155111: {
-    EthqubFactory: {
-      address: "0x2ae4E54CFBC0Ef24BF6E2Dff2ffF710e99034572",
-      abi: [
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: true,
-              internalType: "address",
-              name: "contractAddress",
-              type: "address",
-            },
-            {
-              indexed: true,
-              internalType: "address",
-              name: "creator",
-              type: "address",
-            },
-          ],
-          name: "EthqubCreated",
-          type: "event",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "_creator",
-              type: "address",
-            },
-            {
-              internalType: "string",
-              name: "_equbTitle",
-              type: "string",
-            },
-            {
-              internalType: "uint256",
-              name: "_poolAmount",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "_totalCycles",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "_cycleDuration",
-              type: "uint256",
-            },
-            {
-              internalType: "address",
-              name: "priceFeedAddress",
-              type: "address",
-            },
-          ],
-          name: "createEthqub",
-          outputs: [
-            {
-              internalType: "address",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          name: "ethqubArray",
-          outputs: [
-            {
-              internalType: "contract Ethqub",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "",
-              type: "address",
-            },
-          ],
-          name: "ethqubMapping",
-          outputs: [
-            {
-              internalType: "contract Ethqub",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "getDeployedContracts",
-          outputs: [
-            {
-              internalType: "contract Ethqub[]",
-              name: "",
-              type: "address[]",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
         {
           inputs: [
             {
@@ -385,65 +835,9 @@ const deployedContracts = {
               type: "address",
             },
           ],
-          name: "getEthqubDetails",
-          outputs: [
-            {
-              internalType: "string",
-              name: "",
-              type: "string",
-            },
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          stateMutability: "view",
+          name: "withdrawEthqub",
+          outputs: [],
+          stateMutability: "payable",
           type: "function",
         },
       ],

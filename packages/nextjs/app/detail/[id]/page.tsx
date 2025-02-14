@@ -10,6 +10,7 @@ import CountDown from '~~/components/custom/CountDown';
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth/useScaffoldWriteContract";
 import { useActiveAccount } from "thirdweb/react";
 import confetti from 'canvas-confetti';
+import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
 
 
 const TOKEN_DECIMAL = 1e18;
@@ -39,22 +40,19 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
   let activeAccount = useActiveAccount();
     //let { address: connectedAddress } = useAccount();
   let connectedAddress = activeAccount?.address;
+  const [priceFeedAddress, setPriceFeedAddress] = useState("");
 
   const { data, isLoading, error, address } = equbDetail;
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
-  const CYCLE_TO_SECONDS = 24 * 3600;
+  const CYCLE_TO_SECONDS = 120; //24 * 3600;
+
 
   
 
   const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract({ 
     contractName: "EthqubFactory" 
   });
-
-
-
-  const [priceFeedAddress, setPriceFeedAddress] = useState("");
-
 
   if (isLoading)
     return (
@@ -94,6 +92,9 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     const members = data[14].toString();
     const luckyWinners = data[15].toString();
     const numberOfCyclesDuePaid = data[16].toString();
+
+
+
 
 
     const formatDateTimeLocal = (dateString: any) => {
@@ -139,9 +140,34 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
          }
     };
 
-    // console.log("Equb Title", data);
-    
-    // console.log("Individual Contribution", individualContribution);
+    const handleWithdraw = async () => {
+
+      try {
+          await writeYourContractAsync({
+            functionName: "withdrawEthqub",
+            args : [equbDetail.address],
+          },
+        );
+      } catch (e) {
+        console.error("Error setting greeting:", e);
+      }
+    };
+
+  //const { data1 , isLoading1, error1 } = useScaffoldReadContract({
+  //   contractName: "EthqubFactory",
+  //   functionName: "getCycle",
+  //   args: [equbDetail.address],
+  //   watch: true,
+  // });
+
+  // console.log("Cycle Data", data1, isLoading1, error1);
+
+  const handleGetCycle = async () => {
+      await writeYourContractAsync({
+            functionName: "getCycle",
+            args: [address],
+        });
+  }
 
   return (
     <>
@@ -172,6 +198,17 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
                 </div>
                 <CountDown startsIn={cycleStartTime} />
 
+
+                {true && (
+                  <div className='custom-detail-center-reveal custom-detail-center-join'>
+                    <button onClick={handleWithdraw} className="custom-detail-center-join-button relative inline-flex items-center justify-center p-0.5 overflow-hidden font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400">
+                      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
+                        Reveal Winner
+                      </span>
+                    </button>
+                  </div>
+                )}
+
           </div>
           <div>
 
@@ -181,7 +218,10 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
                       Join Equb
                       </span>
                   </button>
-                </div>
+            </div>
+
+
+
 
             <div className='custom-detail-button' onClick={() => setIsPopupVisible(!isPopupVisible)}>
                 {isPopupVisible ? "Hide Details" : "Show Detail"} 
@@ -195,7 +235,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
             {/* <EachInput name='Price Feed Address' value={priceFeedAddress} onChange={(e) => setPriceFeedAddress(e.target.value)} /> */}
             <EachPlaceHoder name="Ethqub's title" value={equbTitle} />
             <EachPlaceHoder name='Creator Address' value={creator}  />
-            <EachPlaceHoder name='Total Pool Amount(ETH)' value={(poolAmount/TOKEN_DECIMAL).toFixed(3)}  />
+            <EachPlaceHoder name='Total Equb Amount(ETH)' value={(poolAmount/TOKEN_DECIMAL).toFixed(3)}  />
             <EachPlaceHoder name='Number of Participants' value={totalCycles}  />
             <EachPlaceHoder name='Individual Contribution(ETH)' value={(individualContribution/TOKEN_DECIMAL).toFixed(3)}  />
             <EachPlaceHoder name='Payment Frequency' value={cycleDuration}  />

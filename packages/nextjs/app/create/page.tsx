@@ -88,7 +88,7 @@ const Create = () => {
           args: [
             connectedAddress,
             equbTitle,
-            BigInt(poolAmount) * BigInt(TOKEN_DECIMAL),
+            BigInt(Number(poolAmount) * TOKEN_DECIMAL),
             BigInt(totalCycles),
             BigInt(cycleDuration),
             url,
@@ -96,7 +96,7 @@ const Create = () => {
             BigInt(minCreditScore),
             PRICE_FEED_ADDRESS
           ],
-          value: poolAmount && totalCycles ? (BigInt(poolAmount) * BigInt(TOKEN_DECIMAL)) / BigInt(totalCycles) : BigInt(0),
+          value: poolAmount && totalCycles ? BigInt(Number(poolAmount) * TOKEN_DECIMAL) / BigInt(totalCycles) : BigInt(0),
         },
         {
           onBlockConfirmation: txnReceipt => {
@@ -163,7 +163,7 @@ const Create = () => {
         />
         <form onSubmit={handleSubmit} className='custom-create-input'>
           <EachInput name="Equb's title" value={equbTitle} onChange={(e) => setEqubTitle(e.target.value)} readOnly={false} type='text' />
-          <EachInput name='Total Pool Amount(ETH)' value={poolAmount} onChange={(e) => setPoolAmount(e.target.value)} readOnly={false} type='text' />
+          <EachInput name='Total Equb amount(ETH)' value={poolAmount} onChange={(e) => setPoolAmount(e.target.value)} readOnly={false} type='text' />
           <EachInput name='Number of Participants' value={totalCycles} onChange={(e) => setTotalCycles(e.target.value)} readOnly={false} type='text' />
           <EachInput name='Individual Contribution(ETH)'  value={individualContribution} onChange={() => {}} readOnly={true} type='text' />
           <EachInput name='Start Date & Time' value={startingTime} onChange={(e) => setStartingTime(e.target.value)} readOnly={false} type='datetime-local' />
