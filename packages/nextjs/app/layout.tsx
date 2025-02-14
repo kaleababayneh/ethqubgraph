@@ -26,7 +26,7 @@ export const metadata = getMetadata({ title: " ETHqub", description: "Community 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <html suppressHydrationWarning>
-      <body className={`${ClimateCrisis.variable} ${AnekBangla.variable}`}>
+      <body className={`${ClimateCrisis.variable} ${AnekBangla.variable} dark`}>
       <ThirdwebProvider>
           <ThemeProvider enableSystem>
             <ScaffoldEthAppWithProviders>{children}</ScaffoldEthAppWithProviders>
