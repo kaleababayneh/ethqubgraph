@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 
 
-const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : `http://localhost:${process.env.PORT || 3000}`;
 const titleTemplate = "%s Ethqub App";
 
 export const getMetadata = ({
@@ -15,10 +12,10 @@ export const getMetadata = ({
   description: string;
   imageRelativePath?: string;
 }): Metadata => {
-  const imageUrl = `${baseUrl}${imageRelativePath}`;
+
+  const imageUrl = `/Users/kaleab/Documents/ETHiopia/ethqubgraph/packages/nextjs/public/thumbnail.jpg`;
 
   return {
-    metadataBase: new URL(baseUrl),
     title: {
       default: title,
       template: titleTemplate,
