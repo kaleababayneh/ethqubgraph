@@ -73,11 +73,12 @@ const Header = () => {
             }}
              />
             <FaucetButton /> 
-            <div className='custom-header-avatar'>
+
+             {connectedAddress &&  <div className='custom-header-avatar'>
               <a href="/profile">
               <BlockieAvatar address={connectedAddress || ''} size={35} />
               </a>
-            </div>
+            </div>}
         </div>
     </div>
   )

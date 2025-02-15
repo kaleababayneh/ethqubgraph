@@ -28,8 +28,9 @@ const Profile = () => {
   let connectedAddress = activeAccount?.address;
 
 
-
   useEffect(() => {
+      console.log(connectedAddress);
+
   }, [connectedAddress]);
 
 
@@ -66,8 +67,7 @@ const Profile = () => {
             {connectedAddress?.slice(0, 6)}... {connectedAddress?.slice(-6)}
             </div>
 
-            <div className='profile-content-sidebar-credit'>
-
+            {/* <div className='profile-content-sidebar-credit'>
               <div className='profile-content-sidebar-credit-title'>
                 Credit Score
               </div>
@@ -78,10 +78,10 @@ const Profile = () => {
                   70
                 </div>
               </div>
+            </div> */}
 
-            </div>
-          
           </div>
+
           <div className='profile-content-main'>
             <div className='profile-content-main-active'>
                 <div className="profile-content-main-active-title">
