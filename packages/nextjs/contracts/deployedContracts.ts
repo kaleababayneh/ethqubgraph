@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   4202: {
     EthqubFactory: {
-      address: "0xBA92fa16Bf0416c8bC8325fdA31D2119c2EB3B99",
+      address: "0x418D97d0bA1BF82B79e51C0C1c36FB7105E821DE",
       abi: [
         {
           anonymous: false,
