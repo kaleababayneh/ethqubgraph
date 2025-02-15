@@ -3,8 +3,6 @@ import React from 'react'
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
 import JoinWrap from '~~/components/custom/joinwrap/page';
 
-
-
 const Join = () => {
 
     const { data: equbList } = useScaffoldReadContract({
@@ -14,12 +12,7 @@ const Join = () => {
     });
 
     const isArray = Array.isArray(equbList);
-
-    // reverse the equbList array please
-
-
     const reversedEqubList = isArray ? equbList.slice().reverse() : [];
-
 
   return (
     <>
