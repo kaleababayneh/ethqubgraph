@@ -71,7 +71,7 @@ contract EthqubFactory {
     }
 
     function getCycle(address contractAddress) public  returns (uint256) {
-        require(address(ethqubMapping[contractAddress]) != address(0), "Contract does not exist");
+        require(address(ethqubMapping[contractAddress]) != address(0), "Contract does not exist on this network");
         Ethqub ethqubInstance = Ethqub(payable(contractAddress)); 
         return ethqubInstance.getCycle();
     }
