@@ -21,7 +21,7 @@ const liskSepolia =  defineChain({
 
 const sepolia =  defineChain({
   id: 11155111,
-  rpc: "https://sepolia.infura.io"
+  rpc: "https://gateway.tenderly.co/public/sepolia"
 });
 
 const Header = () => {
@@ -63,7 +63,7 @@ const Header = () => {
 
         <div className='custom-header-right'>
              {/* <RainbowKitCustomConnectButton /> */}
-            <ConnectButton client={client} chains={[liskSepolia, sepolia]} autoConnect= {true} connectButton={{
+            <ConnectButton client={client} chains={[liskSepolia]} autoConnect= {true} connectButton={{
                  label: "Connect Wallet",
                  className: "my-custom-class",
                  style: {
