@@ -175,7 +175,6 @@ contract Ethqub {
         }
     
         currentMembers.pop();
-        currentCycle++;
 
         emit WinnerPicked(luckyWinner);
         return luckyWinner;

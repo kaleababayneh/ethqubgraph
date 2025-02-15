@@ -54,7 +54,6 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     const cycleTime = cycleDuration ;
     const cycleTimeMs =   currentCycle *  cycleTime * CYCLE_TO_SECONDS * 1000;
     const cycleEndTime = new Date(startingTime.getTime() + cycleTimeMs);
-    console.log("xxx",cycleEndTime);
     return now > cycleEndTime;
   }
 
@@ -168,7 +167,9 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
             args: [address],
         });
   }
+  console.log(cycleStartTime);
 
+  console.log(equbDetail);
   return (
     <>
       <div className='custom-equb-detail'>
