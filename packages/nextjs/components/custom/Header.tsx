@@ -16,9 +16,12 @@ const liskSepolia =  defineChain({
         rpc: "https://rpc.sepolia-api.lisk.com"
 });
 
+
+
+
 const sepolia =  defineChain({
   id: 11155111,
-  rpc: "https://eth-sepolia.api.onfinality.io/public"
+  rpc: "https://sepolia.infura.io"
 });
 
 const Header = () => {
@@ -60,7 +63,7 @@ const Header = () => {
 
         <div className='custom-header-right'>
              {/* <RainbowKitCustomConnectButton /> */}
-            <ConnectButton client={client} chains={[liskSepolia]} autoConnect= {true} connectButton={{
+            <ConnectButton client={client} chains={[liskSepolia, sepolia]} autoConnect= {true} connectButton={{
                  label: "Connect Wallet",
                  className: "my-custom-class",
                  style: {
