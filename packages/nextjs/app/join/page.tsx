@@ -15,10 +15,16 @@ const Join = () => {
 
     const isArray = Array.isArray(equbList);
 
+    // reverse the equbList array please
+
+
+    const reversedEqubList = isArray ? equbList.slice().reverse() : [];
+
+
   return (
     <>
         {isArray ? (
-                <JoinWrap equbDetails={equbList} /> 
+                <JoinWrap equbDetails={reversedEqubList} /> 
             ) : (
                 <div style={{
                     display: 'flex',
