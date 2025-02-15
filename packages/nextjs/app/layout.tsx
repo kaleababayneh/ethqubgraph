@@ -21,7 +21,7 @@ const AnekBangla = Anek_Bangla({
   subsets: ["latin"],
 });
 
-export const metadata = getMetadata({ title: " ETHqub", description: "Community Saving",  });
+export const metadata = getMetadata({ title: " ETHqub", description: " ETHqub: Community Saving & Lending",  });
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   return (
