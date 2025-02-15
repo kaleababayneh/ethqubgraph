@@ -13,7 +13,7 @@ export const getMetadata = ({
   imageRelativePath?: string;
 }): Metadata => {
 
-  const imageUrl = `/Users/kaleab/Documents/ETHiopia/ethqubgraph/packages/nextjs/public/thumbnail.jpg`;
+  const imageUrl = `https://ethqub.vercel.app${imageRelativePath}`;
 
   return {
     title: {
