@@ -166,7 +166,7 @@ const Create = () => {
           <EachInput name='Individual Contribution(ETH)'  value={individualContribution} onChange={() => {}} readOnly={true} type='text' />
           <EachInput name='Start Date & Time' value={startingTime} onChange={(e) => setStartingTime(e.target.value)} readOnly={false} type='datetime-local' />
           <EachInput name='Payment Frequency(Days)' value={cycleDuration} onChange={(e) => setCycleDuration(e.target.value)} readOnly={false} type='text' />
-          <EachInput name='Min Credit Score' value={minCreditScore || '0'} onChange={(e) => setMinCreditScore(e.target.value)} readOnly={true} type='text' />
+          {/* <EachInput name='Min Credit Score' value={minCreditScore || '0'} onChange={(e) => setMinCreditScore(e.target.value)} readOnly={true} type='text' /> */}
           <EachInput name='IPFS Hash' value={url} onChange={() => {}} readOnly={true} type='text' />
           <button type='submit' className='custom-create-button'>
             Create equb
