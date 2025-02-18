@@ -15,10 +15,6 @@ import WalletProfileActive from '~~/components/custom/walletProfileActive';
 import WalletProfilePast from '~~/components/custom/walletProfilePast';
 
 
-interface EqubDetailEachProps {
-  equbDetails: string[];
-}
-
 
 const Profile = () => {
 
