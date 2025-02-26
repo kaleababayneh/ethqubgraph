@@ -6,18 +6,21 @@ import JoinTopHeader from '~~/components/custom/JoinTopHeader';
 import { Address } from '~~/components/scaffold-eth';
 import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { useEffect } from 'react';
-import EqubImageCard from '~~/components/custom/EqubImageCard';
 import Angle from '~~/components/custom/Angle';
 import AngleL from '~~/components/custom/AngleL';
 import { useActiveAccount, useWalletBalance } from "thirdweb/react";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 import WalletProfileActive from '~~/components/custom/walletProfileActive';
 import WalletProfilePast from '~~/components/custom/walletProfilePast';
+import { useState } from 'react';
+
+
 
 
 
 const Profile = () => {
 
+  const [trustRelations, setTrustRelations] = useState([]);
   
   let activeAccount = useActiveAccount();
   //let { address: connectedAddress } = useAccount();
@@ -46,6 +49,8 @@ const Profile = () => {
 
 
     <div className='profile'>
+
+
         <div  className="custom-sticky"> 
           <JoinTopHeader />
           <Header />

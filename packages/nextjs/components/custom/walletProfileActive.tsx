@@ -21,7 +21,7 @@ const WalletProfileActive: React.FC<EqubDetailEachProps> = ({ equbDetails }) => 
         const cycleTime = cycleDuration * totalCycles;
         const cycleTimeMs = cycleTime * 24 * 60 * 60 * 1000;
         const cycleEndTime = new Date(startingTime.getTime() + cycleTimeMs);
-        console.log(cycleEndTime);
+        // console.log(cycleEndTime);
         return now > cycleEndTime;
     }
 
@@ -68,7 +68,7 @@ const WalletProfileActive: React.FC<EqubDetailEachProps> = ({ equbDetails }) => 
             ] = item.data || [];
             if (thisItem.includes(`${connectedAddress}`) && !expiredEqub(startingTime, cycleDuration, totalCycles)) {
                 return (
-                    <a href={`/equbdetail/${item.address}`}>
+                    <a  key={item.address} href={`/equbdetail/${item.address}`}>
                         <div key={index}>
                             <EqubImageCard ipfsHash={ipfsHash || ''} />
                         </div>

@@ -16,8 +16,10 @@ const liskSepolia =  defineChain({
         rpc: "https://rpc.sepolia-api.lisk.com"
 });
 
-
-
+const gnosisChain =  defineChain({
+    id : 100,
+   rpc: "https://gnosis.drpc.org"
+});
 
 const sepolia =  defineChain({
   id: 11155111,
@@ -30,9 +32,9 @@ const Header = () => {
 
       
       let activeAccount = useActiveAccount();
-      //let { address: connectedAddress } = useAccount();
+      let { address: connectedAddress } = useAccount();
     
-      let connectedAddress = activeAccount?.address;
+      //let connectedAddress = activeAccount?.address;
       
 
 
@@ -62,8 +64,8 @@ const Header = () => {
         </div>
 
         <div className='custom-header-right'>
-             {/* <RainbowKitCustomConnectButton /> */}
-            <ConnectButton client={client} chains={[liskSepolia]} autoConnect= {true} connectButton={{
+             <RainbowKitCustomConnectButton />
+            {/* <ConnectButton client={client} chains={[gnosisChain]} autoConnect= {true} connectButton={{
                  label: "Connect Wallet",
                  className: "my-custom-class",
                  style: {
@@ -74,7 +76,7 @@ const Header = () => {
                     fontFamily: "var(--font-anek-bangla)",
                  },
             }}
-             />
+             /> */}
             <FaucetButton /> 
 
              {connectedAddress &&  <div className='custom-header-avatar'>
