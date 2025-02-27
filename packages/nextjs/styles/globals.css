@@ -731,7 +731,8 @@ p {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  width: 150px;
+  /*width: 150px;*/
+  width: fit-content;
 }
 
 .profile-content-sidebar-credit-title {
@@ -967,4 +968,22 @@ p {
 .custom-detail-popup-body-failed-title,
 .custom-detail-popup-body-failed-details {
   color: red;
+}
+
+
+.mint-button {
+  background-color: #4CAF50; /* Green background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 5px 30px; /* Some padding */
+  text-align: center; /* Centered text */
+  font-size: 16px; /* Increase font size */
+  margin: 4px 2px; /* Some margin */
+  margin-top: 20px;
+  cursor: pointer; /* Pointer/hand icon */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.mint-button:hover {
+  background-color: #45a049; /* Darker green on hover */
 }

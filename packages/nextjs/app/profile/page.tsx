@@ -31,40 +31,39 @@ export const circlesConfig: CirclesConfig = {
 };
 
 
- 
-
-const WalletAddress = "0x7a30d670ebEb9620E35bC6034AeE69c4Fa5BC50B";
-const Address2 =  "0xb2c687872791f1f39e2b9e52508a7b6963ff1d7b";
-
-
-
 const ProfileP = () => {
 
   const [trustRelations, setTrustRelations] = useState([]);
-  
+  const [totalBalance, setTotalBalance] = useState(0);
+  const [tokenBalances, setTokenBalances] = useState([]);
+  const [maxTransferable, setMaxTransferable] = useState(0);
+  const [avatar, setAvatar] = useState(null);
+  const [avatarInfo, setAvatarInfo] = useState(null);
+  const [mintableToken, setMintableToken] = useState(0);
+  const [mintTransaction, setMintTransaction] = useState(null);
+  const [trustReceipt, setTrustReceipt] = useState(null);
+
   let activeAccount = useActiveAccount();
   let { address: connectedAddress } = useAccount();
+  connectedAddress = connectedAddress || "";
   //let connectedAddress = activeAccount?.address;
-
-
-  
 
 
   useEffect(() => {
     const fetchAvatar = async () => {
+
       const adapter = new BrowserProviderContractRunner();
       await adapter.init();
-
       const sdk = new Sdk(adapter, circlesConfig);
+      let avatar = await sdk.getAvatar(connectedAddress);
 
-      let avatar = await sdk.getAvatar(WalletAddress);
+      const mintableToken = await avatar.getMintableAmount();
+      setMintableToken(mintableToken);
 
+      const balanceToken = await avatar.getTotalBalance();
+      setTotalBalance(balanceToken);
 
-      const inviteeAddress = "0xfc2a63e79f57655aed2ca6a4e15ddc6a3644b566";
-
-      //const mintableToken = await avatar.getMintableAmount();
-      //console.log(await avatar.getProfile());
-      //const mintTransaction = await avatar.personalMint();
+      // const mintTransaction = await avatar.personalMint();
       //const trustReceipt = await avatar.trust(inviteeAddress);
       
      avatar.getTrustRelations().then((trustRelations) => {
@@ -74,39 +73,36 @@ const ProfileP = () => {
       // });
      });
 
-
-     const totalBalance = await avatar.getTotalBalance();
-     console.log(`Total Circles balance: ${totalBalance}`);
-
-
-     const tokenBalances = await avatar.getBalances();
-     console.log('Token balances:', tokenBalances);
-      // tokenBalances.forEach((balance) => {
-      //   console.log(`Token: ${balance}`);
-      // });
-
-      const maxTransferable = await avatar.getMaxTransferableAmount(inviteeAddress)
+      //const maxTransferable = await avatar.getMaxTransferableAmount(inviteeAddress)
       console.log(`Maximum transferable amount: ${maxTransferable}`);
-      //console.log(trustReceipt);
-      //console.log('Transaction successful, receipt:', mintTransaction);
 
 
-      const standardMintPolicy = "0x5Ea08c967C69255d82a4d26e36823a720E7D0317";
-      const mintPolicy = standardMintPolicy
-      const groupProfile: GroupProfile = {
-          name: 'Kal',
-          symbol: 'Kal',
-          description: 'Kale'
-      };
-      console.log('Creating new group avatar...', groupProfile);
-      const GroupAvatar = await sdk.registerGroupV2(mintPolicy, groupProfile);
-
-      // Log the newly created group avatar details
-      console.log('New Group Avatar:', GroupAvatar);
+      console.log('Creating new group avatar...', sdk);
     };
     fetchAvatar();
-  }, []);
+  }, [connectedAddress]);
 
+
+  const handleMint = async () => {
+    try {
+      const adapter = new BrowserProviderContractRunner();
+      await adapter.init();
+      const sdk = new Sdk(adapter, circlesConfig);
+      let avatar = await sdk.getAvatar(connectedAddress);
+      const mintTransaction = await avatar.personalMint();
+
+      const mintableToken = await avatar.getMintableAmount();
+      setMintableToken(mintableToken);
+
+      const balanceToken = await avatar.getTotalBalance();
+      setTotalBalance(balanceToken);
+
+      console.log('Mint transaction:', mintTransaction);
+      
+    } catch (error) {
+      console.error('Error minting tokens:', error);
+    }
+  };
 
 
 
@@ -116,11 +112,7 @@ const ProfileP = () => {
           watch: true,
     });
 
-
-
-    const isArray = Array.isArray(equbList);
-
-
+  const isArray = Array.isArray(equbList);
 
   return (
 
@@ -141,22 +133,30 @@ const ProfileP = () => {
 
         <div className='profile-content'>
           <div className='profile-content-sidebar'>
-          {/* <div className='profile-content-sidebar-address'>
+           <div className='profile-content-sidebar-address'>
             {connectedAddress?.slice(0, 6)}... {connectedAddress?.slice(-6)}
-            </div> */}
+            </div> 
 
-            {/* <div className='profile-content-sidebar-credit'>
-              <div className='profile-content-sidebar-credit-title'>
+             <div className='profile-content-sidebar-credit'>
+
+              {/* show mintable token amount   */} 
+              <h1>
+              Total Balance : {totalBalance.toFixed(2)} CRC
+              </h1>
+             <h1>
+              Mintable Token : {mintableToken} CRC
+              </h1>
+              <button onClick={handleMint} className="mint-button">Mint</button>
+
+              {/* <div className='profile-content-sidebar-credit-title'>
                 Credit Score
               </div>
-
-
               <div className='profile-content-sidebar-credit-score'>
                 <div className='profile-content-sidebar-credit-score-value'>
                   70
                 </div>
-              </div>
-            </div> */}
+              </div> */}
+            </div> 
 
           </div>
 
