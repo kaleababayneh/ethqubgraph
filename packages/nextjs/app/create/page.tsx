@@ -12,6 +12,10 @@ import { BrowserProviderContractRunner } from "@circles-sdk/adapter-ethers";
 
 import Toastify from 'toastify-js';
 import "toastify-js/src/toastify.css";
+import { useSwitchActiveWalletChain } from "thirdweb/react";
+import { gnosis, sepolia } from 'thirdweb/chains';
+import { useActiveWalletChain } from "thirdweb/react";
+
 
 export const circlesConfig: CirclesConfig = {
   circlesRpcUrl: "https://static.94.138.251.148.clients.your-server.de/rpc/",
@@ -25,8 +29,25 @@ export const circlesConfig: CirclesConfig = {
 
 const TOKEN_DECIMAL = 1e18;
 
+function TostifyFunction(errorMsg: string) {
+  Toastify({
+    text: errorMsg,
+    duration: 2000,
+    destination: "https://github.com/apvarun/toastify-js",
+    newWindow: true,
+    close: true,
+    gravity: "top", // `top` or `bottom`
+    position: "center", // `left`, `center` or `right`
+    stopOnFocus: true, // Prevents dismissing of toast on hover
+    style: {
+      background: "orange",
+    },
+    onClick: function(){} // Callback after click
+  }).showToast();
+}
 const Create = () => {
   const PRICE_FEED_ADDRESS = "0x9326BFA02ADD2366b30bacB125260Af641031331";
+    const switchChain = useSwitchActiveWalletChain();
 
   let activeAccount = useActiveAccount();
   let connectedAddress = activeAccount?.address as `0x${string}` || "0x0000000000000000000000000000000000000000";
@@ -93,25 +114,26 @@ const Create = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (Number(minCreditScore) >= Number(totalBalance)) {
-      Toastify({
-        text: "Min CRC Score should be less than total balance",
-        duration: 2000,
-        destination: "https://github.com/apvarun/toastify-js",
-        newWindow: true,
-        close: true,
-        gravity: "top", // `top` or `bottom`
-        position: "center", // `left`, `center` or `right`
-        stopOnFocus: true, // Prevents dismissing of toast on hover
-        style: {
-          background: "linear-gradient(to right, #00b09b, #96c93d)",
-        },
-        onClick: function(){} // Callback after click
-      }).showToast();
+
+    switchChain(sepolia).then(async () => {
+   
+    if (!equbTitle || !poolAmount || !totalCycles || !cycleDuration || !startingTime || !minCreditScore) {
+      TostifyFunction("Please fill all the fields");
       return;
     }
-  
 
+    if (Number(minCreditScore) > Number(totalBalance)) {
+      TostifyFunction("Min CRC Score should be less than total balance");
+      return;
+    }
+
+    if (Number(new Date(startingTime)) < Number(new Date())) {
+      TostifyFunction("Starting time should be greater than current time");
+      return;
+    }
+
+  
+   
     let deployedAddress: any;
     try {
       const startingTimeInSeconds = Math.floor(new Date(startingTime).getTime() / 1000);
@@ -130,6 +152,7 @@ const Create = () => {
             BigInt(minCreditScore),
             PRICE_FEED_ADDRESS
           ],
+          chainId: 11155111,
           value: poolAmount && totalCycles ? BigInt(Number(poolAmount) * TOKEN_DECIMAL) / BigInt(totalCycles) : BigInt(0),
         },
         {
@@ -146,46 +169,45 @@ const Create = () => {
             }, 1800);
           }
         }
-      ).then(() => {
-        setEqubTitle('');
-        setPoolAmount('');
-        setTotalCycles('');
-        setCycleDuration('');
-        setStartingTime('');
-        setMinCreditScore('');
-      });
+      );
     } catch (error) {
       console.error(error);
     }
+  });
   };
 
   useEffect( () => {
     const fetchAvatar = async () => {
-    if (poolAmount && totalCycles && Number(totalCycles) > 0) {
-
-
       const adapter = new BrowserProviderContractRunner();
       await adapter.init();
       const sdk = new Sdk(adapter, circlesConfig);
       let avatar = await sdk.getAvatar(connectedAddress);
 
     
-
       const balanceToken = await avatar.getTotalBalance();
       setTotalBalance(balanceToken);
 
+     
+      if (Number(minCreditScore) > Number(totalBalance) && minCreditScore != "0" )  {
+        TostifyFunction("Min CRC Score should be less than total balance");
+      }
+      
+      console.log("Starting Time", startingTime);
+      console.log("Current Time", new Date().getTime());
 
+      if (Number(new Date(startingTime)) < Number(new Date())) {
+        TostifyFunction("Starting time should be greater than current time");
+      }
 
-      const contribution = Number(poolAmount) / Number(totalCycles);
-      setIndividualContribution(contribution.toFixed(3));
-
-
+      if (poolAmount && totalCycles && Number(totalCycles) > 0) {
+        const contribution = Number(poolAmount) / Number(totalCycles);
+        setIndividualContribution(contribution.toFixed(3));
     } else {
       setIndividualContribution('');
     }
   }
   fetchAvatar();
-  }, [poolAmount, totalCycles]);
+  }, [poolAmount, totalCycles, minCreditScore, startingTime]);
 
   return (
     <>

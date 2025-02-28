@@ -71,8 +71,6 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     const [listOfMutualTrust, setListOfMutualTrust] = useState<string[]>([]);
     const [listAnyTrust, setListAnyTrust] = useState<string[]>([]);
 
-
-
     const [isTrusted, setIsTrusted] = useState(false);
     const [isCollateralized, setIsCollateralized] = useState(true);
     const [isStaked, setIsStaked] = useState(true);
@@ -173,6 +171,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     };
 
     const handleJoin = async (individualContribution: string) => {
+      await switchChain(sepolia);
       var colors = ['#ddcb46', '#ffffff'];
 
        try {
@@ -206,7 +205,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     };
 
     const handleWithdraw = async () => {
-
+      await switchChain(gnosis);
         try {
             await writeYourContractAsync({
               functionName: "withdrawEthqub",
@@ -219,6 +218,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     };
 
     const findOutgoingTrust = async (address: string) => {
+      await switchChain(gnosis);
 
       const array: string[] = [];
       const adapter = new BrowserProviderContractRunner();
@@ -383,7 +383,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
             </div> */}
 
 
-            { (isEligible && isCollateralized) && (
+            { (isMember || isEligible && isCollateralized) && (
             <div className='custom-detail-center-join'>
               {isMember ? (
                 <button

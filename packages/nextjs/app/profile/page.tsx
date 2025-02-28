@@ -12,6 +12,9 @@ import WalletProfileActive from '~~/components/custom/walletProfileActive';
 import WalletProfilePast from '~~/components/custom/walletProfilePast';
 import { CirclesConfig, Sdk } from '@circles-sdk/sdk';
 import { BrowserProviderContractRunner } from "@circles-sdk/adapter-ethers";
+import { useSwitchActiveWalletChain } from "thirdweb/react";
+import { gnosis, sepolia } from 'thirdweb/chains';
+
 
 const Dot = () => (
   <span className="inline-block w-1.5 h-1.5 bg-white rounded-full mr-2"></span>
@@ -58,11 +61,14 @@ const ProfileP = () => {
   let activeAccount = useActiveAccount();
   //let { address: connectedAddress } = useAccount();
   let connectedAddress = activeAccount?.address as `0x${string}` || "0x0000000000000000000000000000000000000000";
+  const switchChain = useSwitchActiveWalletChain();
+  
 
   useEffect(() => {
     const fetchAvatar = async () => {
       if (!connectedAddress) return;
-
+      await switchChain(gnosis);
+      
       const adapter = new BrowserProviderContractRunner();
       await adapter.init();
       const sdk = new Sdk(adapter, circlesConfig);
@@ -94,6 +100,7 @@ const ProfileP = () => {
   }, [connectedAddress, totalBalance, mintableToken, isMinting, isTrusting]);
 
   const handleMint = async () => {
+    await switchChain(gnosis);
     try {
       const adapter = new BrowserProviderContractRunner();
       await adapter.init();
@@ -115,6 +122,7 @@ const ProfileP = () => {
   };
 
   const handleTrust = async () => {
+    await switchChain(gnosis);
     try {
       const adapter = new BrowserProviderContractRunner();
       await adapter.init();

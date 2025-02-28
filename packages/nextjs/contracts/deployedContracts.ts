@@ -579,7 +579,7 @@ const deployedContracts = {
   },
   11155111: {
     EthqubFactory: {
-      address: "0x4931d9d84D2C81001AFB0E354deb9328b9e3c0f7",
+      address: "0x99a5B52F6a1da3fdA2fc82869379a81bB104D838",
       abi: [
         {
           anonymous: false,
@@ -713,7 +713,7 @@ const deployedContracts = {
               type: "uint256",
             },
           ],
-          stateMutability: "nonpayable",
+          stateMutability: "view",
           type: "function",
         },
         {
