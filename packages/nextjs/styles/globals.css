@@ -1074,3 +1074,7 @@ p {
   align-items: center;
   justify-content: center;
 }
+
+.custom-detail-center-join-button-je {
+  margin-top: 40px !important;
+}

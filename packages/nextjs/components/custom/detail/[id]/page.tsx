@@ -55,6 +55,7 @@ const DotRed = () => (
 
 const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
 
+
     let activeAccount = useActiveAccount();
       //let { address: connectedAddress } = useAccount();
     let connectedAddress = activeAccount?.address as `0x${string}` || "0x0000000000000000000000000000000000000000";
@@ -73,8 +74,8 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
 
 
     const [isTrusted, setIsTrusted] = useState(false);
-    const [isCollateralized, setIsCollateralized] = useState(false);
-    const [isStaked, setIsStaked] = useState(false);
+    const [isCollateralized, setIsCollateralized] = useState(true);
+    const [isStaked, setIsStaked] = useState(true);
 
     const [isEligible, setIsEligible] = useState(false);
     const { data, isLoading, error, address } = equbDetail;
@@ -98,6 +99,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     });
 
 
+
     const equbTitle = data ? data[0].toString() : "" ;
     const creationTime = data ?  data[1].toString() : "";
     const startingTime = data ?  data[2].toString() : "";
@@ -115,6 +117,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     const members = data ?  data[14].toString() : "";
     const luckyWinners = data ?  data[15].toString() : "";
     const numberOfCyclesDuePaid = data ?  data[16].toString() : "";
+    const creditScore = data ?  data[17].toString() : "";
 
     const membersArray = members.split(',').map((member: string) => member.trim().toLowerCase());
     const isMember = connectedAddress ? membersArray.includes(connectedAddress.toLowerCase()) : false;
@@ -156,7 +159,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
           });
         };
         fetchAvatar();
-    }, [connectedAddress, setTotalBalance, setMintableToken,isEligible]);
+    }, [connectedAddress, setTotalBalance, setMintableToken, isEligible]);
 
   
     const formatDateTimeLocal = (dateString: any) => {
@@ -243,9 +246,13 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
 
       console.log("Collateralizing...");
       console.log("Amount to transfer: ", amountToTransfer);
-      setIsCollateralized(false);
+
+      const maxTransferable = await avatar.getMaxTransferableAmount(receipentAddress)
+      console.log(`Maximum transferable amount: ${maxTransferable}`);
+      
+      // setIsCollateralized(false);
       const transferReceipt = await avatar.transfer(receipentAddress, amountToTransfer);
-      setIsCollateralized(true);
+      // setIsCollateralized(true);
       console.log("Transfer receipt: ", transferReceipt)
     };
 
@@ -334,7 +341,8 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
                   <span className="relative px-4 py-2.5 transition-all ease-in duration-75rounded-md" style={{
                       color: "#aaa",
                   }}>
-                    Already Eligible
+                  <div>Trusted by Members</div>
+                  <div>Have enough CRC</div>
                   </span>
                 </button>
                 ) : (
@@ -350,7 +358,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
               )}
             </div>
 
-
+{/* 
             <div className='custom-detail-center-join'>
               {isMember ? (
                 <button
@@ -372,7 +380,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
                   </span>
                 </button>
               )}
-            </div>
+            </div> */}
 
 
             { (isEligible && isCollateralized) && (
@@ -391,7 +399,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
               ) : (
                 <button
                   onClick={() => handleJoin(individualContribution)}
-                  className="custom-detail-center-join-button relative inline-flex items-center justify-center p-0.5 overflow-hidden font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white  "
+                  className="custom-detail-center-join-button custom-detail-center-join-button-je relative inline-flex items-center justify-center p-0.5 overflow-hidden font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white  "
                 >
                   <span className="relative px-4 py-2.5 transition-all ease-in duration-75 dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
                     Join Equb
@@ -419,6 +427,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
             <EachPlaceHoder name='Payment Frequency(Days)' value={cycleDuration}  />
             <EachPlaceHoder name='Current Cycle' value={currentCycle}  />
             <EachPlaceHoder name='Number of Members' value={numberOfMembers}  />
+            <EachPlaceHoder name='Min CRC Score' value= {`${creditScore} CRC`}/>
             <EachPlaceHoder name='Starting Time' value={formatDateTimeLocal(startingTime)} type='datetime-local'  />
             <EachPlaceHoder name='Cycle Start Time' value={formatDateTimeLocal(cycleStartTime)} type='datetime-local'  />
             <EachPlaceHoder name='Last Withdrawal Time' value={currentCycle == 0 ? "Has not started yet": formatDateTimeLocal(Number(startingTime) + cycleDuration * currentCycle * CYCLE_TO_SECONDS)}  />
