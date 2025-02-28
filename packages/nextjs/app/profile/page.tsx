@@ -14,6 +14,14 @@ import WalletProfilePast from '~~/components/custom/walletProfilePast';
 import { CirclesConfig, Sdk } from '@circles-sdk/sdk';
 import {BrowserProviderContractRunner} from "@circles-sdk/adapter-ethers"
 
+const Dot = () => (
+  <span className="inline-block w-1.5 h-1.5 bg-white rounded-full mr-2"></span>
+);
+
+const DotRed = () => (
+  <span className="inline-block w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
+);
+
 export const circlesConfig: CirclesConfig = {
   circlesRpcUrl: "https://static.94.138.251.148.clients.your-server.de/rpc/",
   v1HubAddress: "0x29b9a7fbb8995b2423a71cc17cf9810798f6c543",
@@ -29,6 +37,11 @@ const ProfileP = () => {
 
   const [totalBalance, setTotalBalance] = useState(0);
   const [mintableToken, setMintableToken] = useState(0);
+
+  const [listOfOutgoingTrust, setListOfOutgoingTrust] = useState<string[]>([]);
+  const [listOfIncomingTrust, setListOfIncomingTrust] = useState<string[]>([]);
+  const [listOfMutualTrust, setListOfMutualTrust] = useState<string[]>([]);
+  const [listAnyTrust, setListAnyTrust] = useState<string[]>([]);
 
   let activeAccount = useActiveAccount();
   //let { address: connectedAddress } = useAccount();
@@ -52,12 +65,27 @@ const ProfileP = () => {
       setTotalBalance(balanceToken);
  
       //const trustReceipt = await avatar.trust(inviteeAddress);
-    //  avatar.getTrustRelations().then((trustRelations) => {
-    //   console.log('Trust relations:', trustRelations);
-      // trustRelations.forEach((relation) => { 
-      //     console.log(`${relation.objectAvatar}`);
-      // });
-     //});
+
+        avatar.getTrustRelations().then((trustRelations) => {
+        console.log('Trust relations:', trustRelations);
+        trustRelations.forEach((trusted) => { 
+          if (trusted.relation === 'trustedBy') {
+
+            setListOfIncomingTrust((prev) => [...prev, trusted.objectAvatar]);
+            setListAnyTrust((prev) => [...prev, trusted.objectAvatar]);
+          }
+          else if (trusted.relation === 'trusts') {
+            setListOfOutgoingTrust((prev) => [...prev, trusted.objectAvatar]);
+            setListAnyTrust((prev) => [...prev, trusted.objectAvatar]);
+          }
+          else if (trusted.relation === 'mutuallyTrusts') {
+            setListOfMutualTrust((prev) => [...prev, trusted.objectAvatar]);
+            setListAnyTrust((prev) => [...prev, trusted.objectAvatar]);
+          }
+        }
+      );
+      });
+
 
     };
     fetchAvatar();
@@ -87,16 +115,18 @@ const ProfileP = () => {
   };
 
 
-   const { data: equbList } = useScaffoldReadContract({
-          contractName: "EthqubFactory",
-          functionName: "getDeployedContracts",
-          chainId: 11155111,
-          watch: true,
-    });
+  //  const { data: equbList } = useScaffoldReadContract({
+  //         contractName: "EthqubFactory",
+  //         functionName: "getDeployedContracts",
+  //         chainId: 11155111,
+  //         watch: true,
+  //   });
+  const  equbList  = [
+    {}
+  ];
 
 
-
-    const isArray = Array.isArray(equbList);
+  const isArray = Array.isArray(equbList);
 
 
 
@@ -154,16 +184,38 @@ const ProfileP = () => {
 
           <div className='profile-content-main'>
             <div className="profile-content-main-cover">
-              <div className="profile-content-main-cover-title outgoing-trust">
-                Outgoing Trust
-              </div>
+              <div className="profile-content-main-cover-title">
+                  <h1 className="outgoing-trust trust-title"> Outgoing Trust </h1>
+                  <ul>
+                    {listOfOutgoingTrust.map((address, index) => (
+                       <div key={index}>
+                        <Dot/> {address?.slice(0, 6)}... {address?.slice(-6)}
+                      </div>
+                    ))}
+                  </ul>
 
-              <div className="profile-content-main-cover-title incoming-trust">
-                Incoming Trust
               </div>
 
               <div className="profile-content-main-cover-title">
-                Mutual Trust
+                  <h1 className="incoming-trust trust-title"> Incoming Trust </h1>
+                  <ul>
+                    {listOfIncomingTrust.map((address, index) => (
+                        <div key={index}>
+                          <Dot/> {address?.slice(0, 6)}... {address?.slice(-6)}
+                      </div>
+                    ))}
+                  </ul>
+              </div>
+
+              <div className="profile-content-main-cover-title">
+                  <h1 className="mutual-trust trust-title">  Mutual Trust </h1>
+                  
+                    {listOfMutualTrust.map((address, index) => (
+                       <div key={index}>
+                        <Dot/> {address?.slice(0, 6)}... {address?.slice(-6)}
+                      </div>
+                    ))}
+                  
               </div>
 
               

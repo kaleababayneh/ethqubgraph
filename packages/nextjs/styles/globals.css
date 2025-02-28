@@ -549,7 +549,7 @@ p {
 }
 
 .custom-detail {
-  width: 760px;
+  width: 800px;
   height: 100%;
   margin: auto;
   margin-top: 60px;
@@ -591,13 +591,14 @@ p {
 
  .custom-detail-center-join {
   padding-top: 50px;
-  width: 170px !important;
+  width: fit-content !important;
   height: 40px !important;
   font-size: 16px !important;
 
 } 
 
 .custom-detail-center-join-button {
+  width: fit-content !important;
   margin: 0px auto !important;
   margin-left: 20px !important;
 }
@@ -1008,7 +1009,34 @@ p {
   background-color: rgba(29, 29, 29, 1);
   opacity: 1;
   z-index: 10;
-
   display: flex;
   justify-content: space-between;
+}
+
+.profile-content-main-cover-title {
+  margin: 30px;
+}
+
+.trust-title {
+  font-family: var(--font-anek-bangla);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 30px;
+  text-align: center;
+  color: #ECECEC;
+  padding: 6px;
+  width: 200px;
+  height: 50px;
+}
+
+.outgoing-trust {
+  border: 3px solid blue;
+}
+
+.incoming-trust {
+  border: 2px solid yellow;
+}
+
+.mutual-trust {
+  border: 3px solid green;
 }

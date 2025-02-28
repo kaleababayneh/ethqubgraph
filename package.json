@@ -69,6 +69,7 @@
     "@circles-sdk/adapter-ethers": "^0.16.0-preview1",
     "@circles-sdk/sdk": "^0.16.0-preview1",
     "canvas-confetti": "^1.9.3",
+    "react-icons": "^5.5.0",
     "react-router-dom": "^7.2.0",
     "thirdweb": "^5.88.1",
     "vercel": "^41.1.3"

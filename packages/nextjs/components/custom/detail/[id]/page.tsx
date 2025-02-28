@@ -13,6 +13,20 @@ import confetti from 'canvas-confetti';
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
 
 
+import { CirclesConfig, Sdk } from '@circles-sdk/sdk';
+import {BrowserProviderContractRunner} from "@circles-sdk/adapter-ethers";
+
+
+export const circlesConfig: CirclesConfig = {
+  circlesRpcUrl: "https://static.94.138.251.148.clients.your-server.de/rpc/",
+  v1HubAddress: "0x29b9a7fbb8995b2423a71cc17cf9810798f6c543",
+  v2HubAddress: "0x3D61f0A272eC69d65F5CFF097212079aaFDe8267",
+  migrationAddress: "0x28141b6743c8569Ad8B20Ac09046Ba26F9Fb1c90",
+  nameRegistryAddress: "0x8D1BEBbf5b8DFCef0F7E2039e4106A76Cb66f968",
+  baseGroupMintPolicy: "0x79Cbc9C7077dF161b92a745345A6Ade3fC626A60",
+  profileServiceUrl: "https://static.94.138.251.148.clients.your-server.de/profiles/",
+};
+
 const TOKEN_DECIMAL = 1e18;
 
 
@@ -36,69 +50,76 @@ const DotRed = () => (
 
 const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
 
-  let activeAccount = useActiveAccount();
-    //let { address: connectedAddress } = useAccount();
-  let connectedAddress = activeAccount?.address;
-  const [priceFeedAddress, setPriceFeedAddress] = useState("");
+    let activeAccount = useActiveAccount();
+      //let { address: connectedAddress } = useAccount();
+      let connectedAddress = activeAccount?.address as `0x${string}` || "0x0000000000000000000000000000000000000000";
 
-  const { data, isLoading, error, address } = equbDetail;
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
-  const popupRef = useRef<HTMLDivElement>(null);
-  const CYCLE_TO_SECONDS = 60 * 60 * 24; 
+    const [totalBalance, setTotalBalance] = useState(0);
+    const [mintableToken, setMintableToken] = useState(0);
+  
+    const [listOfOutgoingTrust, setListOfOutgoingTrust] = useState<string[]>([]);
+    const [listOfIncomingTrust, setListOfIncomingTrust] = useState<string[]>([]);
+    const [listOfMutualTrust, setListOfMutualTrust] = useState<string[]>([]);
+    const [listAnyTrust, setListAnyTrust] = useState<string[]>([]);
+
+    const { data, isLoading, error, address } = equbDetail;
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const popupRef = useRef<HTMLDivElement>(null);
+    const CYCLE_TO_SECONDS = 60 * 60 * 24; 
 
 
-  const cycleEnd = (starting: any, cycDuration: any, currentCycle: any) => {
-    const now = new Date();
-    const startingTime = new Date(Number(starting) * 1000);
-    const cycleDuration = Number(cycDuration);
-    const cycleTime = cycleDuration ;
-    const cycleTimeMs =   currentCycle *  cycleTime * CYCLE_TO_SECONDS * 1000;
-    const cycleEndTime = new Date(startingTime.getTime() + cycleTimeMs);
-    return now > cycleEndTime;
-  }
+    const cycleEnd = (starting: any, cycDuration: any, currentCycle: any) => {
+      const now = new Date();
+      const startingTime = new Date(Number(starting) * 1000);
+      const cycleDuration = Number(cycDuration);
+      const cycleTime = cycleDuration ;
+      const cycleTimeMs =   currentCycle *  cycleTime * CYCLE_TO_SECONDS * 1000;
+      const cycleEndTime = new Date(startingTime.getTime() + cycleTimeMs);
+      return now > cycleEndTime;
+    }
 
-  const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract({ 
-    contractName: "EthqubFactory" 
-  });
+    const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract({ 
+      contractName: "EthqubFactory" 
+    });
 
-  if (isLoading)
-    return (
-      <p>
-         <SyncLoader size={20} margin={20} color='rgb(232, 218, 255)'/>
-      </p>
-    );
+    // if (isLoading)
+    //   return (
+    //     <p>
+    //       <SyncLoader size={20} margin={20} color='rgb(232, 218, 255)'/>
+    //     </p>
+    //   );
 
-  if (error)
-    return (
-      <p>
-        Error loading details for <strong>{address}</strong>: {error.message}
-      </p>
-    );
+    // if (error)
+    //   return (
+    //     <p>
+    //       Error loading details for <strong>{address}</strong>: {error.message}
+    //     </p>
+    //   );
 
-  if (!data)
-    return (
-      <p>
-         <SyncLoader size={20} margin={20} color='rgb(232, 218, 255)'/>
-      </p>
-    );
+    // if (!data)
+    //   return (
+    //     <p>
+    //       <SyncLoader size={20} margin={20} color='rgb(232, 218, 255)'/>
+    //     </p>
+    //   );
 
-    const equbTitle = data[0].toString();
-    const creationTime = data[1].toString();
-    const startingTime = data[2].toString();
-    const cycleStartTime = data[3].toString();
-    const lastTimeStamp = data[4].toString();
-    const poolAmount = data[5].toString();
-    const individualContribution = data[6].toString();
-    const currentCycle = data[7].toString();
-    const totalCycles = data[8].toString();
-    const cycleDuration = data[9].toString();
-    const numberOfMembers = data[10].toString();
-    const ipfsHash = data[11].toString();
-    const creator = data[12].toString();
-    const currentMember = data[13].toString();
-    const members = data[14].toString();
-    const luckyWinners = data[15].toString();
-    const numberOfCyclesDuePaid = data[16].toString();
+    const equbTitle = data ? data[0].toString() : "" ;
+    const creationTime = data ?  data[1].toString() : "";
+    const startingTime = data ?  data[2].toString() : "";
+    const cycleStartTime = data ?  data[3].toString() : "";
+    const lastTimeStamp = data ?  data[4].toString() : "";
+    const poolAmount = data ?  data[5].toString() : "";
+    const individualContribution = data ?  data[6].toString() : "";
+    const currentCycle = data ?  data[7].toString() : "";
+    const totalCycles = data ?  data[8].toString() : "";
+    const cycleDuration = data ?  data[9].toString() : "";
+    const numberOfMembers = data ?  data[10].toString() : "";
+    const ipfsHash = data ?  data[11].toString() : "";
+    const creator = data ?  data[12].toString() : "";
+    const currentMember = data ?  data[13].toString() : "";
+    const members = data ?  data[14].toString() : "";
+    const luckyWinners = data ?  data[15].toString() : "";
+    const numberOfCyclesDuePaid = data ?  data[16].toString() : "";
 
 
 
@@ -148,28 +169,127 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
          }
     };
 
-  const handleWithdraw = async () => {
+    const handleWithdraw = async () => {
 
-      try {
-          await writeYourContractAsync({
-            functionName: "withdrawEthqub",
-            args : [equbDetail.address],
-          },
-        );
-      } catch (e) {
-        console.error("Error setting greeting:", e);
-      }
+        try {
+            await writeYourContractAsync({
+              functionName: "withdrawEthqub",
+              args : [equbDetail.address],
+            },
+          );
+        } catch (e) {
+          console.error("Error setting greeting:", e);
+        }
+      };
+
+    const handleGetCycle = async () => {
+        await writeYourContractAsync({
+              functionName: "getCycle",
+              args: [address],
+          });
+    }
+
+
+    useEffect(() => {
+      const fetchAvatar = async () => {
+    
+  
+     const adapter = new BrowserProviderContractRunner();
+          await adapter.init();
+          const sdk = new Sdk(adapter,  circlesConfig);// { ...circlesConfig, circlesRpcUrl: "https://rpc.gnosischain.com" });
+          let avatar = await sdk.getAvatar(connectedAddress);
+    
+          const mintableToken = await avatar.getMintableAmount();
+          setMintableToken(mintableToken);
+    
+          const balanceToken = await avatar.getTotalBalance();
+          setTotalBalance(balanceToken);
+     
+          //const trustReceipt = await avatar.trust(inviteeAddress);
+    
+            avatar.getTrustRelations().then((trustRelations) => {
+            console.log('Trust relations:', trustRelations);
+            trustRelations.forEach((trusted) => { 
+              if (trusted.relation === 'trustedBy') {
+    
+                setListOfIncomingTrust((prev) => [...prev, trusted.objectAvatar]);
+                setListAnyTrust((prev) => [...prev, trusted.objectAvatar]);
+              }
+              else if (trusted.relation === 'trusts') {
+                setListOfOutgoingTrust((prev) => [...prev, trusted.objectAvatar]);
+                setListAnyTrust((prev) => [...prev, trusted.objectAvatar]);
+              }
+              else if (trusted.relation === 'mutuallyTrusts') {
+                setListOfMutualTrust((prev) => [...prev, trusted.objectAvatar]);
+                setListAnyTrust((prev) => [...prev, trusted.objectAvatar]);
+              }
+            }
+          );
+          });
+    
+    
+        };
+        fetchAvatar();
+      }, [connectedAddress]);
+
+     
+      
+
+
+    const findOutgoingTrust = async (address: string) => {
+
+      const array: string[] = [];
+      const adapter = new BrowserProviderContractRunner();
+      await adapter.init();
+      const sdk = new Sdk(adapter,  circlesConfig);
+      let avatar = await sdk.getAvatar(address as `0x${string}`);
+
+       const trustRelations = await avatar.getTrustRelations()
+       
+      console.log('Trust relations printed here:', trustRelations);
+      trustRelations.forEach((trusted) => { 
+          
+         if (trusted.relation === 'trusts') {
+          console.log("trusted everyyyy", trusted);
+            array.push(trusted.objectAvatar);
+          }
+          else if (trusted.relation === 'mutuallyTrusts') {
+            console.log("mutually trusted everyyyy", trusted);
+            array.push(trusted.objectAvatar);
+          }
+      });
+      
+
+      console.log("Array tx", array);
+      return array;
     };
+    
 
-  const handleGetCycle = async () => {
-      await writeYourContractAsync({
-            functionName: "getCycle",
-            args: [address],
-        });
-  }
-  console.log(cycleStartTime);
+    const handleEligibility = async () => {
+      console.log("membersArray", membersArray);
 
-  console.log(equbDetail);
+      for (let i = 0; i < membersArray.length; i++) {
+
+        const trustedArrays = await findOutgoingTrust(membersArray[i]);
+        console.log("connectedAddress", connectedAddress);
+        console.log("trustedArrays", trustedArrays);
+        for (let j = 0; j < trustedArrays.length; j++) {
+          if (trustedArrays[j] === connectedAddress.toLowerCase()) {
+            // pop up you are eligible
+            console.log("You are eligible to join this equb");    
+            alert("You are eligible to join this equb");
+
+            return true;
+          }
+        }
+      }
+      console.log("You are not eligible to join this equb");
+      alert("You are not eligible to join this equb");
+      return false;
+    }
+    
+
+    
   return (
     <>
       <div className='custom-equb-detail'>
@@ -212,6 +332,29 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
 
           </div>
           <div>
+
+            <div className='custom-detail-center-join'>
+              {isMember ? (
+                <button
+                  disabled
+                  className="relative inline-flex items-center justify-center p-0.5 overflow-hidden font-medium text-gray-500 rounded-lg focus:ring-4 focus:outline-none focus:ring-gray-200"
+                >
+                  <span className="relative px-4 py-2.5 transition-all ease-in duration-75rounded-md" style={{
+                      color: "#aaa",
+                  }}>
+                    .
+                  </span>
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleEligibility()}
+                  className="custom-detail-center-join-button relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400">
+                  <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
+                    Check Eligibility
+                  </span>
+                </button>
+              )}
+            </div>
 
             <div className='custom-detail-center-join'>
               {isMember ? (
