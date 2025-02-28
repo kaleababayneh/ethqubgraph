@@ -9,8 +9,18 @@ import { createThirdwebClient } from "thirdweb"
 import { defineChain } from "thirdweb/chains";
 import { useAccount } from "wagmi";
 import { useActiveAccount, ConnectButton } from "thirdweb/react";
+import { useEffect } from "react";
+
+
+import {
+  inAppWallet,
+  createWallet,
+} from "thirdweb/wallets";
  
  
+import { CirclesConfig, Sdk } from '@circles-sdk/sdk';
+import {BrowserProviderContractRunner} from "@circles-sdk/adapter-ethers";
+
 // const liskSepolia =  defineChain({
 //         id: 4202,
 //         rpc: "https://rpc.sepolia-api.lisk.com"
@@ -26,6 +36,18 @@ const sepolia =  defineChain({
   rpc: "https://gateway.tenderly.co/public/sepolia"
 });
 
+
+export const circlesConfig: CirclesConfig = {
+  circlesRpcUrl: "https://static.94.138.251.148.clients.your-server.de/rpc/",
+  v1HubAddress: "0x29b9a7fbb8995b2423a71cc17cf9810798f6c543",
+  v2HubAddress: "0x3D61f0A272eC69d65F5CFF097212079aaFDe8267",
+  migrationAddress: "0x28141b6743c8569Ad8B20Ac09046Ba26F9Fb1c90",
+  nameRegistryAddress: "0x8D1BEBbf5b8DFCef0F7E2039e4106A76Cb66f968",
+  baseGroupMintPolicy: "0x79Cbc9C7077dF161b92a745345A6Ade3fC626A60",
+  profileServiceUrl: "https://static.94.138.251.148.clients.your-server.de/profiles/",
+};
+
+
 const Header = () => {
       const [isDrawerOpen, setIsDrawerOpen] = useState(false);
       const burgerMenuRef = useRef<HTMLDivElement>(null);
@@ -35,16 +57,61 @@ const Header = () => {
       //let { address: connectedAddress } = useAccount();
       let connectedAddress = activeAccount?.address;
       
+      const [totalBalance, setTotalBalance] = useState(0);
+      
 
 
     const client = createThirdwebClient({
         clientId: "39e4f1ca58f49dac9fe5a1bdf1bda70b",
-      });
+    });
+
+    const wallets = [
+      inAppWallet({
+        auth: {
+          options: [
+            "google",
+            "farcaster",
+            "email",
+            "x",
+            "passkey",
+            "phone",
+            "telegram",
+            "apple",
+          ],
+        },
+      }),
+      createWallet("io.metamask"),
+      createWallet("com.coinbase.wallet"),
+      createWallet("me.rainbow"),
+      createWallet("io.rabby"),
+      createWallet("io.zerion.wallet"),
+    ];
 
       useOutsideClick(
         burgerMenuRef,
         useCallback(() => setIsDrawerOpen(false), []),
       );
+
+
+    
+      useEffect(() => {
+        const fetchAvatar = async () => {
+      
+    
+        const adapter = new BrowserProviderContractRunner();
+            await adapter.init();
+            const sdk = new Sdk(adapter,  circlesConfig);
+            let avatar = await sdk.getAvatar(connectedAddress  as `0x${string}`);
+
+            const balanceToken = await avatar.getTotalBalance();
+            setTotalBalance(balanceToken);
+      
+        
+            };
+          
+          fetchAvatar();
+        }, [connectedAddress, setTotalBalance]);
+      
   return (
     <div className='custom-header'>
         
@@ -64,7 +131,7 @@ const Header = () => {
 
         <div className='custom-header-right'>
              {/* <RainbowKitCustomConnectButton /> */}
-            <ConnectButton client={client} chains={[gnosisChain, sepolia]} autoConnect= {true} connectButton={{
+            <ConnectButton client={client} chains={[gnosisChain, sepolia]} wallets={wallets} autoConnect= {true} connectButton={{
                  label: "Connect Wallet",
                  className: "my-custom-class",
                  style: {
@@ -83,6 +150,13 @@ const Header = () => {
               <BlockieAvatar address={connectedAddress || ''} size={35} />
               </a>
             </div>}
+
+            {connectedAddress && <div className='custom-header-crc'>
+              <a href="/profile">
+                {totalBalance} CRC
+              </a>
+              </div>
+            }
         </div>
     </div>
   )

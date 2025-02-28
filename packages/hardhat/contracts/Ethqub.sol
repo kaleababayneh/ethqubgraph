@@ -68,7 +68,7 @@ contract Ethqub {
                 uint256 _cycleDuration, 
                 string memory _ipfsHash, 
                 uint256 _startingTime, 
-                uint256 /*_creditScore*/, 
+                uint256 _creditScore, 
                 address /*priceFeedAddress*/
         ) payable {
         creator = _creator;
@@ -81,7 +81,7 @@ contract Ethqub {
         cycleStartTime = _startingTime;
         currentCycle = 0;
         ipfsHash = _ipfsHash;
-        //creditScore = _creditScore;
+        creditScore = _creditScore;
 
         members.push(_creator);
         currentMembers.push(_creator);
@@ -180,7 +180,7 @@ contract Ethqub {
         return luckyWinner;
     }
 
-    function equbDetails() public view returns (string memory, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, string memory, address, address[] memory, address[] memory, address[] memory, uint256[] memory) {
+    function equbDetails() public view returns (string memory, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, uint256, string memory, address, address[] memory, address[] memory, address[] memory, uint256[] memory, uint256) {
         return (
             equbTitle, 
             creationTime, 
@@ -198,7 +198,8 @@ contract Ethqub {
             currentMembers,
             members,
             luckyWinners,
-            numberOfCyclesDuePaid
+            numberOfCyclesDuePaid,
+            creditScore
         );
     }
 

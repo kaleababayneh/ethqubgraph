@@ -65,6 +65,7 @@ const EqubDetail: React.FC<EqubDetailProps> = ({ equbDetails, filters }) => {
                 , numberOfMembers
                 , ipfsHash
                 ,// creator
+                
       
               ] = data || [];
           return (

@@ -46,7 +46,8 @@ contract EthqubFactory {
         address[] memory,
         address[] memory,
         address[] memory,
-        uint256[] memory
+        uint256[] memory,
+        uint256
     ) {
         require(address(ethqubMapping[contractAddress]) != address(0), "Contract does not exist");
         
@@ -75,7 +76,4 @@ contract EthqubFactory {
         Ethqub ethqubInstance = Ethqub(payable(contractAddress)); 
         return ethqubInstance.getCycle();
     }
-
-
-
 }

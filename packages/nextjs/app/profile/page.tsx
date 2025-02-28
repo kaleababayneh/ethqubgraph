@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useAccount } from 'wagmi';
 import Header from '~~/components/custom/Header';
 import JoinTopHeader from '~~/components/custom/JoinTopHeader';
-import { BlockieAvatar } from "~~/components/scaffold-eth";
+import { AddressInput, BlockieAvatar } from "~~/components/scaffold-eth";
 import { useEffect } from 'react';
 import Angle from '~~/components/custom/Angle';
 import AngleL from '~~/components/custom/AngleL';
@@ -35,6 +35,9 @@ export const circlesConfig: CirclesConfig = {
 
 const ProfileP = () => {
 
+  const [isMinting, setIsMinting] = useState(false);
+  const [isTrusting, setIsTrusting] = useState(false);
+
   const [totalBalance, setTotalBalance] = useState(0);
   const [mintableToken, setMintableToken] = useState(0);
 
@@ -42,6 +45,8 @@ const ProfileP = () => {
   const [listOfIncomingTrust, setListOfIncomingTrust] = useState<string[]>([]);
   const [listOfMutualTrust, setListOfMutualTrust] = useState<string[]>([]);
   const [listAnyTrust, setListAnyTrust] = useState<string[]>([]);
+  const [inputAddress, setInputAddress] = useState<string>('');
+
 
   let activeAccount = useActiveAccount();
   //let { address: connectedAddress } = useAccount();
@@ -55,7 +60,7 @@ const ProfileP = () => {
 
       const adapter = new BrowserProviderContractRunner();
       await adapter.init();
-      const sdk = new Sdk(adapter,  circlesConfig);// { ...circlesConfig, circlesRpcUrl: "https://rpc.gnosischain.com" });
+      const sdk = new Sdk(adapter,  circlesConfig);
       let avatar = await sdk.getAvatar(connectedAddress);
 
       const mintableToken = await avatar.getMintableAmount();
@@ -64,32 +69,30 @@ const ProfileP = () => {
       const balanceToken = await avatar.getTotalBalance();
       setTotalBalance(balanceToken);
  
-      //const trustReceipt = await avatar.trust(inviteeAddress);
 
-        avatar.getTrustRelations().then((trustRelations) => {
-        console.log('Trust relations:', trustRelations);
-        trustRelations.forEach((trusted) => { 
-          if (trusted.relation === 'trustedBy') {
+      avatar.getTrustRelations().then((trustRelations) => {
+      console.log('Trust relations:', trustRelations);
+      trustRelations.forEach((trusted) => { 
 
-            setListOfIncomingTrust((prev) => [...prev, trusted.objectAvatar]);
-            setListAnyTrust((prev) => [...prev, trusted.objectAvatar]);
-          }
-          else if (trusted.relation === 'trusts') {
-            setListOfOutgoingTrust((prev) => [...prev, trusted.objectAvatar]);
-            setListAnyTrust((prev) => [...prev, trusted.objectAvatar]);
-          }
-          else if (trusted.relation === 'mutuallyTrusts') {
-            setListOfMutualTrust((prev) => [...prev, trusted.objectAvatar]);
-            setListAnyTrust((prev) => [...prev, trusted.objectAvatar]);
-          }
+        if (trusted.relation === 'trustedBy') {
+          setListOfIncomingTrust((prev) => [...new Set([...prev, trusted.objectAvatar])]);
+          setListAnyTrust((prev) => [...new Set([...prev, trusted.objectAvatar])]);
         }
-      );
+
+        else if (trusted.relation === 'trusts') {
+          setListOfOutgoingTrust((prev) => [...new Set([...prev, trusted.objectAvatar])]);
+          setListAnyTrust((prev) => [...new Set([...prev, trusted.objectAvatar])]);
+        }
+
+        else if (trusted.relation === 'mutuallyTrusts') {
+          setListOfMutualTrust((prev) => [...new Set([...prev, trusted.objectAvatar])]);
+          setListAnyTrust((prev) => [...new Set([...prev, trusted.objectAvatar])]);
+        }
       });
-
-
+      });
     };
     fetchAvatar();
-  }, [connectedAddress]);
+  }, [connectedAddress, totalBalance, mintableToken, isMinting, isTrusting]);
 
 
   const handleMint = async () => {
@@ -98,7 +101,9 @@ const ProfileP = () => {
       await adapter.init();
       const sdk = new Sdk(adapter, circlesConfig);
       let avatar = await sdk?.getAvatar(connectedAddress);
+      setIsMinting(true);
       const mintTransaction = await avatar.personalMint();
+      setIsMinting(false);
       console.log('Mint transaction:', mintTransaction);
 
       const mintableToken = await avatar.getMintableAmount();
@@ -106,8 +111,25 @@ const ProfileP = () => {
 
       const balanceToken = await avatar.getTotalBalance();
       setTotalBalance(balanceToken);
+    } catch (error) {
+      console.error('Error minting tokens:', error);
+    }
+  };
 
-      console.log('Mint transaction:', mintTransaction);
+  const handleTrust = async () => {
+    try {
+      const adapter = new BrowserProviderContractRunner();
+      await adapter.init();
+      const sdk = new Sdk(adapter, circlesConfig);
+      let avatar = await sdk?.getAvatar(connectedAddress);
+      
+      setIsTrusting(true);
+      const trustReceipt = await avatar.trust(inputAddress  as `0x${string}`);
+      setIsTrusting(false);
+      setInputAddress('');
+      console.log('Trust receipt:', trustReceipt);
+
+      
 
     } catch (error) {
       console.error('Error minting tokens:', error);
@@ -115,15 +137,15 @@ const ProfileP = () => {
   };
 
 
-  //  const { data: equbList } = useScaffoldReadContract({
-  //         contractName: "EthqubFactory",
-  //         functionName: "getDeployedContracts",
-  //         chainId: 11155111,
-  //         watch: true,
-  //   });
-  const  equbList  = [
-    {}
-  ];
+   const { data: equbList } = useScaffoldReadContract({
+          contractName: "EthqubFactory",
+          functionName: "getDeployedContracts",
+          chainId: 11155111,
+          watch: true,
+    });
+  // const  equbList  = [
+  //   {}
+  // ];
 
 
   const isArray = Array.isArray(equbList);
@@ -164,7 +186,25 @@ const ProfileP = () => {
             </h1>
 
            
-            <button onClick={handleMint} className="mint-button">Mint</button>
+            <button onClick={handleMint} className="mint-button">
+              {isMinting ? 'Minting...' : 'Mint'}
+            </button>
+
+          
+            <div className="profile-content-sidebar-form">
+              <AddressInput
+                name="inviteeAddress"
+                value={inputAddress}
+                onChange={setInputAddress}
+                placeholder="Enter address"
+              />
+                  <button  
+                  onClick={handleTrust}
+                  className="mint-button">
+                        {isTrusting ? 'Loading...' : 'Trust'}
+                </button>
+            </div>
+          
 
             {/*
 

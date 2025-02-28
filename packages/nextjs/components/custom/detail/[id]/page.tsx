@@ -172,14 +172,8 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
         } catch (e) {
           console.error("Error setting greeting:", e);
         }
-      };
+    };
 
-    const handleGetCycle = async () => {
-        await writeYourContractAsync({
-              functionName: "getCycle",
-              args: [address],
-          });
-    }
 
 
     useEffect(() => {
@@ -188,7 +182,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
   
      const adapter = new BrowserProviderContractRunner();
           await adapter.init();
-          const sdk = new Sdk(adapter,  circlesConfig);// { ...circlesConfig, circlesRpcUrl: "https://rpc.gnosischain.com" });
+          const sdk = new Sdk(adapter,  circlesConfig);
           let avatar = await sdk.getAvatar(connectedAddress);
     
           const mintableToken = await avatar.getMintableAmount();
@@ -196,14 +190,11 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     
           const balanceToken = await avatar.getTotalBalance();
           setTotalBalance(balanceToken);
-     
-          //const trustReceipt = await avatar.trust(inviteeAddress);
     
-            avatar.getTrustRelations().then((trustRelations) => {
-            console.log('Trust relations:', trustRelations);
-            trustRelations.forEach((trusted) => { 
+          avatar.getTrustRelations().then((trustRelations) => {
+          console.log('Trust relations:', trustRelations);
+          trustRelations.forEach((trusted) => { 
               if (trusted.relation === 'trustedBy') {
-    
                 setListOfIncomingTrust((prev) => [...prev, trusted.objectAvatar]);
                 setListAnyTrust((prev) => [...prev, trusted.objectAvatar]);
               }
@@ -218,8 +209,6 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
             }
           );
           });
-    
-    
         };
         fetchAvatar();
       }, [connectedAddress, setTotalBalance, setMintableToken,isEligible]);
@@ -250,20 +239,17 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     const handleEligibility = async () => {
       await switchChain(gnosis);
       for (let i = 0; i < membersArray.length; i++) {
-
         const trustedArrays = await findOutgoingTrust(membersArray[i]);
         for (let j = 0; j < trustedArrays.length; j++) {
-
           if (trustedArrays[j] === connectedAddress.toLowerCase()) {
              setIsEligible(true);
              await switchChain(sepolia);
-             alert("You are eligible to join this Equb");
-            
+             alert("You are not trusted for this Equb");
             return true;
           }
         }
       }
-      alert("You are not eligible to join this Equb");
+      alert("You are not trusted to join this Equb");
       setIsEligible(false);
       return false;
     }
