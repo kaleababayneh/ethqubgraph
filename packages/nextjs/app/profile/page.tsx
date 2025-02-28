@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useAccount } from 'wagmi';
 import Header from '~~/components/custom/Header';
 import JoinTopHeader from '~~/components/custom/JoinTopHeader';
-import { Address } from '~~/components/scaffold-eth';
 import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { useEffect } from 'react';
 import Angle from '~~/components/custom/Angle';
@@ -14,9 +13,6 @@ import WalletProfileActive from '~~/components/custom/walletProfileActive';
 import WalletProfilePast from '~~/components/custom/walletProfilePast';
 import { CirclesConfig, Sdk } from '@circles-sdk/sdk';
 import {BrowserProviderContractRunner} from "@circles-sdk/adapter-ethers"
-import { GroupProfile, Profile, Profiles } from '@circles-sdk/profiles';
-
-
 
 export const circlesConfig: CirclesConfig = {
   circlesRpcUrl: "https://static.94.138.251.148.clients.your-server.de/rpc/",
@@ -29,17 +25,9 @@ export const circlesConfig: CirclesConfig = {
 };
 
 
- 
-
-const WalletAddress = "0x7a30d670ebEb9620E35bC6034AeE69c4Fa5BC50B";
-const Address2 =  "0xb2c687872791f1f39e2b9e52508a7b6963ff1d7b";
-
-
-
 const ProfileP = () => {
 
   const [totalBalance, setTotalBalance] = useState(0);
-  const [maxTransferable, setMaxTransferable] = useState(0);
   const [mintableToken, setMintableToken] = useState(0);
 
   let activeAccount = useActiveAccount();
@@ -54,11 +42,8 @@ const ProfileP = () => {
 
       const adapter = new BrowserProviderContractRunner();
       await adapter.init();
-      
-      // Force Circles SDK to use the Gnosis RPC instead of MetaMask
       const sdk = new Sdk(adapter,  circlesConfig);// { ...circlesConfig, circlesRpcUrl: "https://rpc.gnosischain.com" });
       let avatar = await sdk.getAvatar(connectedAddress);
-
 
       const mintableToken = await avatar.getMintableAmount();
       setMintableToken(mintableToken);
@@ -86,7 +71,7 @@ const ProfileP = () => {
       const sdk = new Sdk(adapter, circlesConfig);
       let avatar = await sdk?.getAvatar(connectedAddress);
       const mintTransaction = await avatar.personalMint();
-      setMintTransaction(mintTransaction);
+      console.log('Mint transaction:', mintTransaction);
 
       const mintableToken = await avatar.getMintableAmount();
       setMintableToken(mintableToken);
@@ -105,6 +90,7 @@ const ProfileP = () => {
    const { data: equbList } = useScaffoldReadContract({
           contractName: "EthqubFactory",
           functionName: "getDeployedContracts",
+          chainId: 11155111,
           watch: true,
     });
 
@@ -126,7 +112,7 @@ const ProfileP = () => {
         </div>
 
         <div className='profile-banner'>
-          <div>SHOW Circle</div>
+          <div className="show-circle">Show Circle</div>
           <div className='profile-banner-avator'>
           {connectedAddress && <BlockieAvatar address={connectedAddress} size={130}/>}
           </div>
@@ -140,15 +126,19 @@ const ProfileP = () => {
             </div>
 
             <h1>
-              Mintable Token: {mintableToken.toFixed(2)} CRC
-            </h1>
-
-            <h1>
               Total Balance: {totalBalance.toFixed(2)} CRC
             </h1>
 
+            <h1>
+              Mintable Token: {mintableToken.toFixed(2)} CRC
+            </h1>
 
-            {/* <div className='profile-content-sidebar-credit'>
+           
+            <button onClick={handleMint} className="mint-button">Mint</button>
+
+            {/*
+
+             <div className='profile-content-sidebar-credit'>
               <div className='profile-content-sidebar-credit-title'>
                 Credit Score
               </div>
@@ -160,12 +150,27 @@ const ProfileP = () => {
                 </div>
               </div> */}
 
-            </div> 
-
-          </div>
+          </div> 
 
           <div className='profile-content-main'>
-            {/* <div className='profile-content-main-active'>
+            <div className="profile-content-main-cover">
+              <div className="profile-content-main-cover-title outgoing-trust">
+                Outgoing Trust
+              </div>
+
+              <div className="profile-content-main-cover-title incoming-trust">
+                Incoming Trust
+              </div>
+
+              <div className="profile-content-main-cover-title">
+                Mutual Trust
+              </div>
+
+              
+
+            </div>
+
+            <div className='profile-content-main-active'>
                 <div className="profile-content-main-active-title">
                     Active Equbs  
                 </div>
@@ -222,22 +227,13 @@ const ProfileP = () => {
                   </div>
                 </div>
 
-            </div> */}
-       
+            </div>
           </div>
+
+
         </div>
     </div>
   )
 }
 
 export default ProfileP;
-
-
-
-
-// const newProfile: Profile = {
-//   name: "Kaleab Avatar Name",
-//   description: "Kaleab Updated description for the avatar.",
-//   imageUrl: "ipfs://QmQqzMTavQgT4f4T5v6PWBp7XNKtoPmC9jvn12WPT3gkSE",
-//   // previewImageUrl : "ipfs://QmQqzMTavQgT4f4T5v6PWBp7XNKtoPmC9jvn12WPT3gkSE",
-// };

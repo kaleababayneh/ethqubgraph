@@ -686,6 +686,10 @@ p {
   position: relative;
   margin: auto;
   margin-top: 30px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content:end;
 }
 
 .profile-banner-avator {
@@ -762,7 +766,7 @@ p {
 
 .profile-content-main {
   margin-left: 70px;
-
+  position: relative;;
 }
 
 
@@ -967,4 +971,44 @@ p {
 .custom-detail-popup-body-failed-title,
 .custom-detail-popup-body-failed-details {
   color: red;
+}
+
+.mint-button {
+  background-color: #4CAF50; /* Green background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 5px 32px; /* Some padding */
+  text-align: center; /* Centered text */
+  display: inline-block; /* Make the button inline-block */
+  font-size: 16px; /* Increase font size */
+  margin: 4px 2px; /* Some margin */
+  cursor: pointer; /* Pointer/hand icon */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.mint-button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+.show-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4CAF50; /* Darker green on hover */
+  font-family: var(--font-anek-bangla);
+  font-weight: 400;
+  font-size: 18px;
+  padding: 5px 30px;
+}
+
+.profile-content-main-cover {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(29, 29, 29, 1);
+  opacity: 1;
+  z-index: 10;
+
+  display: flex;
+  justify-content: space-between;
 }

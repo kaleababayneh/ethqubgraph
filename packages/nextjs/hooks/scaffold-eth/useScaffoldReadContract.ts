@@ -13,6 +13,8 @@ import {
   UseScaffoldReadConfig,
 } from "~~/utils/scaffold-eth/contract";
 
+const SEPOLIA_CHAIN_ID = 11155111;
+
 /**
  * Wrapper around wagmi's useContractRead hook which automatically loads (by name) the contract ABI and address from
  * the contracts present in deployedContracts.ts & externalContracts.ts corresponding to targetNetworks configured in scaffold.config.ts
@@ -32,7 +34,7 @@ export const useScaffoldReadContract = <
   chainId,
   ...readConfig
 }: UseScaffoldReadConfig<TContractName, TFunctionName>) => {
-  const selectedNetwork = useSelectedNetwork(chainId);
+  const selectedNetwork = useSelectedNetwork(SEPOLIA_CHAIN_ID);
   const { data: deployedContract } = useDeployedContractInfo({
     contractName,
     chainId: selectedNetwork.id as AllowedChainIds,
@@ -43,7 +45,7 @@ export const useScaffoldReadContract = <
   const defaultWatch = watch ?? true;
 
   const readContractHookRes = useReadContract({
-    chainId: selectedNetwork.id,
+    chainId: SEPOLIA_CHAIN_ID,
     functionName,
     address: deployedContract?.address,
     abi: deployedContract?.abi,
@@ -63,7 +65,7 @@ export const useScaffoldReadContract = <
   const queryClient = useQueryClient();
   const { data: blockNumber } = useBlockNumber({
     watch: defaultWatch,
-    chainId: selectedNetwork.id,
+    chainId:SEPOLIA_CHAIN_ID,
     query: {
       enabled: defaultWatch,
     },

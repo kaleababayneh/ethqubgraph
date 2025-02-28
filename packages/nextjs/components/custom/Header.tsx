@@ -11,17 +11,15 @@ import { useAccount } from "wagmi";
 import { useActiveAccount, ConnectButton } from "thirdweb/react";
  
  
-const liskSepolia =  defineChain({
-        id: 4202,
-        rpc: "https://rpc.sepolia-api.lisk.com"
-});
-
+// const liskSepolia =  defineChain({
+//         id: 4202,
+//         rpc: "https://rpc.sepolia-api.lisk.com"
+// });
 
 const gnosisChain =  defineChain({
     id : 100,
    rpc: "https://gnosis.drpc.org"
 });
-
 
 const sepolia =  defineChain({
   id: 11155111,
@@ -34,8 +32,6 @@ const Header = () => {
 
       
       let activeAccount = useActiveAccount();
-      //let { address: connectedAddress } = useAccount();
-      let connectedAddress = activeAccount?.address;
       //let { address: connectedAddress } = useAccount();
       let connectedAddress = activeAccount?.address;
       
@@ -68,7 +64,7 @@ const Header = () => {
 
         <div className='custom-header-right'>
              {/* <RainbowKitCustomConnectButton /> */}
-            <ConnectButton client={client} chains={[gnosisChain, liskSepolia, liskSepolia]} autoConnect= {true} connectButton={{
+            <ConnectButton client={client} chains={[gnosisChain, sepolia]} autoConnect= {true} connectButton={{
                  label: "Connect Wallet",
                  className: "my-custom-class",
                  style: {
