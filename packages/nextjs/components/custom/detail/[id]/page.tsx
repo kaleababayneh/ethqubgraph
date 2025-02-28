@@ -58,7 +58,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
 
     let activeAccount = useActiveAccount();
       //let { address: connectedAddress } = useAccount();
-    let connectedAddress = activeAccount?.address as `0x${string}` || "0x0000000000000000000000000000000000000000";
+    let connectedAddress = activeAccount?.address as `0x${string}`;
     const switchChain = useSwitchActiveWalletChain();
 
 

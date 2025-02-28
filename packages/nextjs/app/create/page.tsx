@@ -50,7 +50,7 @@ const Create = () => {
     const switchChain = useSwitchActiveWalletChain();
 
   let activeAccount = useActiveAccount();
-  let connectedAddress = activeAccount?.address as `0x${string}` || "0x0000000000000000000000000000000000000000";
+  let connectedAddress = activeAccount?.address;
 
   const [file, setFile] = useState<File>();
   const [url, setUrl] = useState("");
@@ -181,7 +181,7 @@ const Create = () => {
       const adapter = new BrowserProviderContractRunner();
       await adapter.init();
       const sdk = new Sdk(adapter, circlesConfig);
-      let avatar = await sdk.getAvatar(connectedAddress);
+      let avatar = await sdk.getAvatar(connectedAddress as `0x${string}`);
 
     
       const balanceToken = await avatar.getTotalBalance();
