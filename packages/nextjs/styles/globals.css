@@ -603,6 +603,15 @@ p {
   margin-left: 20px !important;
 }
 
+.custom-detail-center-join-button:active,
+.custom-detail-center-join-button:focus,
+.custom-detail-center-join-button:hover 
+{
+ outline: none;
+ border: none;
+ overflow: hidden !important;
+}
+
 .custom-detail-button {
   display: flex;
   justify-content: center;

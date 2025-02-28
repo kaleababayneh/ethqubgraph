@@ -11,6 +11,9 @@ import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth/useScaffoldWrite
 import { useActiveAccount } from "thirdweb/react";
 import confetti from 'canvas-confetti';
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
+import { useSwitchActiveWalletChain } from "thirdweb/react";
+import { gnosis, sepolia } from 'thirdweb/chains';
+
 
 
 import { CirclesConfig, Sdk } from '@circles-sdk/sdk';
@@ -52,7 +55,10 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
 
     let activeAccount = useActiveAccount();
       //let { address: connectedAddress } = useAccount();
-      let connectedAddress = activeAccount?.address as `0x${string}` || "0x0000000000000000000000000000000000000000";
+    let connectedAddress = activeAccount?.address as `0x${string}` || "0x0000000000000000000000000000000000000000";
+    const switchChain = useSwitchActiveWalletChain();
+
+
 
     const [totalBalance, setTotalBalance] = useState(0);
     const [mintableToken, setMintableToken] = useState(0);
@@ -62,6 +68,12 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     const [listOfMutualTrust, setListOfMutualTrust] = useState<string[]>([]);
     const [listAnyTrust, setListAnyTrust] = useState<string[]>([]);
 
+
+
+    const [isTrusted, setIsTrusted] = useState(false);
+    const [isCollateralized, setIsCollateralized] = useState(false);
+
+    const [isEligible, setIsEligible] = useState(false);
     const { data, isLoading, error, address } = equbDetail;
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const popupRef = useRef<HTMLDivElement>(null);
@@ -82,26 +94,6 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
       contractName: "EthqubFactory" 
     });
 
-    // if (isLoading)
-    //   return (
-    //     <p>
-    //       <SyncLoader size={20} margin={20} color='rgb(232, 218, 255)'/>
-    //     </p>
-    //   );
-
-    // if (error)
-    //   return (
-    //     <p>
-    //       Error loading details for <strong>{address}</strong>: {error.message}
-    //     </p>
-    //   );
-
-    // if (!data)
-    //   return (
-    //     <p>
-    //       <SyncLoader size={20} margin={20} color='rgb(232, 218, 255)'/>
-    //     </p>
-    //   );
 
     const equbTitle = data ? data[0].toString() : "" ;
     const creationTime = data ?  data[1].toString() : "";
@@ -230,7 +222,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     
         };
         fetchAvatar();
-      }, [connectedAddress]);
+      }, [connectedAddress, setTotalBalance, setMintableToken,isEligible]);
 
      
       
@@ -244,47 +236,35 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
       const sdk = new Sdk(adapter,  circlesConfig);
       let avatar = await sdk.getAvatar(address as `0x${string}`);
 
-       const trustRelations = await avatar.getTrustRelations()
-       
-      console.log('Trust relations printed here:', trustRelations);
+      const trustRelations = await avatar.getTrustRelations()
+      
       trustRelations.forEach((trusted) => { 
-          
-         if (trusted.relation === 'trusts') {
-          console.log("trusted everyyyy", trusted);
-            array.push(trusted.objectAvatar);
-          }
-          else if (trusted.relation === 'mutuallyTrusts') {
-            console.log("mutually trusted everyyyy", trusted);
-            array.push(trusted.objectAvatar);
-          }
+        if (trusted.relation === 'trusts') array.push(trusted.objectAvatar);
+        else if (trusted.relation === 'mutuallyTrusts') array.push(trusted.objectAvatar);
       });
       
-
-      console.log("Array tx", array);
       return array;
     };
     
 
     const handleEligibility = async () => {
-      console.log("membersArray", membersArray);
-
+      await switchChain(gnosis);
       for (let i = 0; i < membersArray.length; i++) {
 
         const trustedArrays = await findOutgoingTrust(membersArray[i]);
-        console.log("connectedAddress", connectedAddress);
-        console.log("trustedArrays", trustedArrays);
         for (let j = 0; j < trustedArrays.length; j++) {
-          if (trustedArrays[j] === connectedAddress.toLowerCase()) {
-            // pop up you are eligible
-            console.log("You are eligible to join this equb");    
-            alert("You are eligible to join this equb");
 
+          if (trustedArrays[j] === connectedAddress.toLowerCase()) {
+             setIsEligible(true);
+             await switchChain(sepolia);
+             alert("You are eligible to join this Equb");
+            
             return true;
           }
         }
       }
-      console.log("You are not eligible to join this equb");
-      alert("You are not eligible to join this equb");
+      alert("You are not eligible to join this Equb");
+      setIsEligible(false);
       return false;
     }
     
@@ -322,7 +302,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
 
                  {cycleEnd(cycleStartTime, cycleDuration, currentCycle) && (
                   <div className='custom-detail-center-reveal custom-detail-center-join'>
-                    <button onClick={handleWithdraw} className="custom-detail-center-join-button relative inline-flex items-center justify-center p-0.5 overflow-hidden font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400">
+                    <button onClick={handleWithdraw} className="custom-detail-center-join-button relative inline-flex items-center justify-center p-0.5 overflow-hidden font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900">
                       <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
                         Reveal Winner
                       </span>
@@ -337,7 +317,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
               {isMember ? (
                 <button
                   disabled
-                  className="relative inline-flex items-center justify-center p-0.5 overflow-hidden font-medium text-gray-500 rounded-lg focus:ring-4 focus:outline-none focus:ring-gray-200"
+                  className="relative inline-flex items-center justify-center p-0.5 overflow-hidden font-medium text-gray-500 rounded-lg"
                 >
                   <span className="relative px-4 py-2.5 transition-all ease-in duration-75rounded-md" style={{
                       color: "#aaa",
@@ -348,19 +328,21 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
               ) : (
                 <button
                   onClick={() => handleEligibility()}
-                  className="custom-detail-center-join-button relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400">
+                  className="custom-detail-center-join-button relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 ">
                   <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
                     Check Eligibility
                   </span>
                 </button>
               )}
             </div>
-
+            {
+              isEligible && (
+            
             <div className='custom-detail-center-join'>
               {isMember ? (
                 <button
                   disabled
-                  className="relative inline-flex items-center justify-center p-0.5 overflow-hidden font-medium text-gray-500 rounded-lg focus:ring-4 focus:outline-none focus:ring-gray-200"
+                  className="relative inline-flex items-center justify-center p-0.5 overflow-hidden font-medium text-gray-500 rounded-lg "
                 >
                   <span className="relative px-4 py-2.5 transition-all ease-in duration-75rounded-md" style={{
                       color: "#aaa",
@@ -371,7 +353,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
               ) : (
                 <button
                   onClick={() => handleJoin(individualContribution)}
-                  className="custom-detail-center-join-button relative inline-flex items-center justify-center p-0.5 overflow-hidden font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
+                  className="custom-detail-center-join-button relative inline-flex items-center justify-center p-0.5 overflow-hidden font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white  "
                 >
                   <span className="relative px-4 py-2.5 transition-all ease-in duration-75 dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
                     Join Equb
@@ -379,6 +361,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
                 </button>
               )}
             </div>
+            )}
 
             <div className='custom-detail-button' onClick={() => setIsPopupVisible(!isPopupVisible)}>
                 {isPopupVisible ? "Hide Details" : "Show Detail"} 
