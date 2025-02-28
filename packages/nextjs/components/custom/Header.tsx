@@ -153,7 +153,7 @@ const Header = () => {
 
             {connectedAddress && <div className='custom-header-crc'>
               <a href="/profile">
-                {totalBalance} CRC
+                {totalBalance.toFixed(0)} CRC
               </a>
               </div>
             }

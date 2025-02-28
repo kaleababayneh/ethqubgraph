@@ -13,7 +13,8 @@ import confetti from 'canvas-confetti';
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
 import { useSwitchActiveWalletChain } from "thirdweb/react";
 import { gnosis, sepolia } from 'thirdweb/chains';
-
+import { FaXmark } from "react-icons/fa6";
+import { FaCheck } from "react-icons/fa6";
 
 
 import { CirclesConfig, Sdk } from '@circles-sdk/sdk';
@@ -31,6 +32,7 @@ export const circlesConfig: CirclesConfig = {
 };
 
 const TOKEN_DECIMAL = 1e18;
+const receipentAddress = "0x627836D7E925D882940Fad5cD1f818B0e8d6496A";
 
 
 interface EqubDetailEachEveryProps {
@@ -72,6 +74,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
 
     const [isTrusted, setIsTrusted] = useState(false);
     const [isCollateralized, setIsCollateralized] = useState(false);
+    const [isStaked, setIsStaked] = useState(false);
 
     const [isEligible, setIsEligible] = useState(false);
     const { data, isLoading, error, address } = equbDetail;
@@ -113,10 +116,48 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     const luckyWinners = data ?  data[15].toString() : "";
     const numberOfCyclesDuePaid = data ?  data[16].toString() : "";
 
-
-
     const membersArray = members.split(',').map((member: string) => member.trim().toLowerCase());
     const isMember = connectedAddress ? membersArray.includes(connectedAddress.toLowerCase()) : false;
+
+
+    useEffect(() => {
+      const fetchAvatar = async () => {
+    
+  
+     const adapter = new BrowserProviderContractRunner();
+          await adapter.init();
+          const sdk = new Sdk(adapter,  circlesConfig);
+          let avatar = await sdk.getAvatar(connectedAddress);
+    
+          const mintableToken = await avatar.getMintableAmount();
+          setMintableToken(mintableToken);
+    
+          const balanceToken = await avatar.getTotalBalance();
+          setTotalBalance(balanceToken);
+
+    
+          avatar.getTrustRelations().then((trustRelations) => {
+          console.log('Trust relations:', trustRelations);
+          trustRelations.forEach((trusted) => { 
+              if (trusted.relation === 'trustedBy') {
+                setListOfIncomingTrust((prev) => [...prev, trusted.objectAvatar]);
+                setListAnyTrust((prev) => [...prev, trusted.objectAvatar]);
+              }
+              else if (trusted.relation === 'trusts') {
+                setListOfOutgoingTrust((prev) => [...prev, trusted.objectAvatar]);
+                setListAnyTrust((prev) => [...prev, trusted.objectAvatar]);
+              }
+              else if (trusted.relation === 'mutuallyTrusts') {
+                setListOfMutualTrust((prev) => [...prev, trusted.objectAvatar]);
+                setListAnyTrust((prev) => [...prev, trusted.objectAvatar]);
+              }
+            }
+          );
+          });
+        };
+        fetchAvatar();
+    }, [connectedAddress, setTotalBalance, setMintableToken,isEligible]);
+
   
     const formatDateTimeLocal = (dateString: any) => {
       const date = new Date(Number(dateString) * 1000);
@@ -174,49 +215,6 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
         }
     };
 
-
-
-    useEffect(() => {
-      const fetchAvatar = async () => {
-    
-  
-     const adapter = new BrowserProviderContractRunner();
-          await adapter.init();
-          const sdk = new Sdk(adapter,  circlesConfig);
-          let avatar = await sdk.getAvatar(connectedAddress);
-    
-          const mintableToken = await avatar.getMintableAmount();
-          setMintableToken(mintableToken);
-    
-          const balanceToken = await avatar.getTotalBalance();
-          setTotalBalance(balanceToken);
-    
-          avatar.getTrustRelations().then((trustRelations) => {
-          console.log('Trust relations:', trustRelations);
-          trustRelations.forEach((trusted) => { 
-              if (trusted.relation === 'trustedBy') {
-                setListOfIncomingTrust((prev) => [...prev, trusted.objectAvatar]);
-                setListAnyTrust((prev) => [...prev, trusted.objectAvatar]);
-              }
-              else if (trusted.relation === 'trusts') {
-                setListOfOutgoingTrust((prev) => [...prev, trusted.objectAvatar]);
-                setListAnyTrust((prev) => [...prev, trusted.objectAvatar]);
-              }
-              else if (trusted.relation === 'mutuallyTrusts') {
-                setListOfMutualTrust((prev) => [...prev, trusted.objectAvatar]);
-                setListAnyTrust((prev) => [...prev, trusted.objectAvatar]);
-              }
-            }
-          );
-          });
-        };
-        fetchAvatar();
-      }, [connectedAddress, setTotalBalance, setMintableToken,isEligible]);
-
-     
-      
-
-
     const findOutgoingTrust = async (address: string) => {
 
       const array: string[] = [];
@@ -226,6 +224,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
       let avatar = await sdk.getAvatar(address as `0x${string}`);
 
       const trustRelations = await avatar.getTrustRelations()
+      console.log('Trust relations: of ',address, "are the following", trustRelations);
       
       trustRelations.forEach((trusted) => { 
         if (trusted.relation === 'trusts') array.push(trusted.objectAvatar);
@@ -234,6 +233,22 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
       
       return array;
     };
+
+    const handleCollateralStake = async (amountToTransfer: number) => {
+      await switchChain(gnosis);
+      const adapter = new BrowserProviderContractRunner();
+      await adapter.init();
+      const sdk = new Sdk(adapter,  circlesConfig);
+      let avatar = await sdk.getAvatar(connectedAddress);
+
+      console.log("Collateralizing...");
+      console.log("Amount to transfer: ", amountToTransfer);
+      setIsCollateralized(false);
+      const transferReceipt = await avatar.transfer(receipentAddress, amountToTransfer);
+      setIsCollateralized(true);
+      console.log("Transfer receipt: ", transferReceipt)
+    };
+
     
 
     const handleEligibility = async () => {
@@ -243,14 +258,12 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
         for (let j = 0; j < trustedArrays.length; j++) {
           if (trustedArrays[j] === connectedAddress.toLowerCase()) {
              setIsEligible(true);
-             await switchChain(sepolia);
-             alert("You are not trusted for this Equb");
+             alert("You are trusted for this Equb");
             return true;
           }
         }
       }
       alert("You are not trusted to join this Equb");
-      setIsEligible(false);
       return false;
     }
     
@@ -308,22 +321,61 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
                   <span className="relative px-4 py-2.5 transition-all ease-in duration-75rounded-md" style={{
                       color: "#aaa",
                   }}>
-                    .
+                    
+                  </span>
+                </button>
+              ) : (
+                <>
+                {isEligible ? (
+                  <button
+                  disabled
+                  className="relative inline-flex items-center justify-center p-0.5 overflow-hidden font-medium text-gray-500 rounded-lg "
+                >
+                  <span className="relative px-4 py-2.5 transition-all ease-in duration-75rounded-md" style={{
+                      color: "#aaa",
+                  }}>
+                    Already Eligible
+                  </span>
+                </button>
+                ) : (
+                  <button
+                    onClick={() => handleEligibility()}
+                    className="custom-detail-center-join-button relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900">
+                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
+                      Check Eligibility
+                    </span>
+                  </button>
+                )}
+                </>
+              )}
+            </div>
+
+
+            <div className='custom-detail-center-join'>
+              {isMember ? (
+                <button
+                  disabled
+                  className="relative inline-flex items-center justify-center p-0.5 overflow-hidden font-medium text-gray-500 rounded-lg"
+                >
+                  <span className="relative px-4 py-2.5 transition-all ease-in duration-75rounded-md" style={{
+                      color: "#aaa",
+                  }}>
+                    
                   </span>
                 </button>
               ) : (
                 <button
-                  onClick={() => handleEligibility()}
+                  onClick={handleCollateralStake.bind(null, Number(10))}
                   className="custom-detail-center-join-button relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 ">
                   <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
-                    Check Eligibility
+                    Stake Collateral CRC
                   </span>
                 </button>
               )}
             </div>
-            {
-              isEligible && (
-            
+
+
+            { (isEligible && isCollateralized) && (
             <div className='custom-detail-center-join'>
               {isMember ? (
                 <button

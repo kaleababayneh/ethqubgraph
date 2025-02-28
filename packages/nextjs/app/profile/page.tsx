@@ -18,6 +18,18 @@ const Dot = () => (
   <span className="inline-block w-1.5 h-1.5 bg-white rounded-full mr-2"></span>
 );
 
+const DotG = () => (
+  <span className="inline-block w-1.5 h-1.5 bg-green-600 rounded-full mr-2"></span>
+);
+
+const DotB = () => (
+  <span className="inline-block w-1.5 h-1.5 bg-blue-600 rounded-full mr-2"></span>
+);
+
+const DotY = () => (
+  <span className="inline-block w-1.5 h-1.5 bg-yellow-200 rounded-full mr-2"></span>
+);
+
 const DotRed = () => (
   <span className="inline-block w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
 );
@@ -228,8 +240,8 @@ const ProfileP = () => {
                   <h1 className="outgoing-trust trust-title"> Outgoing Trust </h1>
                   <ul>
                     {listOfOutgoingTrust.map((address, index) => (
-                       <div key={index}>
-                        <Dot/> {address?.slice(0, 6)}... {address?.slice(-6)}
+                       <div key={index} style={{marginLeft: '10px', color: 'yellow', fontSize: '18px'}}>
+                        <DotY/> {address?.slice(0, 6)}... {address?.slice(-6)}
                       </div>
                     ))}
                   </ul>
@@ -240,8 +252,8 @@ const ProfileP = () => {
                   <h1 className="incoming-trust trust-title"> Incoming Trust </h1>
                   <ul>
                     {listOfIncomingTrust.map((address, index) => (
-                        <div key={index}>
-                          <Dot/> {address?.slice(0, 6)}... {address?.slice(-6)}
+                        <div key={index} style={{marginLeft: '10px', color: 'blue',  fontSize: '18px'}}>
+                          <DotB/> {address?.slice(0, 6)}... {address?.slice(-6)}
                       </div>
                     ))}
                   </ul>
@@ -251,8 +263,8 @@ const ProfileP = () => {
                   <h1 className="mutual-trust trust-title">  Mutual Trust </h1>
                   
                     {listOfMutualTrust.map((address, index) => (
-                       <div key={index}>
-                        <Dot/> {address?.slice(0, 6)}... {address?.slice(-6)}
+                       <div key={index} style={{marginLeft: '10px', color: 'green', fontSize: '18px'}}>
+                        <DotG/> {address?.slice(0, 6)}... {address?.slice(-6)}
                       </div>
                     ))}
                   

@@ -735,7 +735,8 @@ p {
 
 }
 .profile-content-sidebar-address{
-  margin-top: 120px;
+  margin-top: 200px;
+  margin-bottom: 50px;
 }
 
 .profile-content-sidebar-credit{
@@ -1033,21 +1034,26 @@ p {
   line-height: 30px;
   text-align: center;
   color: #ECECEC;
+  background: rgb(19, 20, 24);
+  border: 1px solid rgb(38, 40, 48);
+
   padding: 6px;
   width: 200px;
-  height: 50px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 .outgoing-trust {
-  border: 3px solid blue;
 }
 
 .incoming-trust {
-  border: 2px solid yellow;
 }
 
 .mutual-trust {
-  border: 3px solid green;
 }
 
 .profile-content-sidebar-form {
