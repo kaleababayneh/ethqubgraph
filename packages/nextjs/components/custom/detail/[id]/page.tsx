@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Header from '~~/components/custom/Header';
 import JoinTopHeader from '~~/components/custom/JoinTopHeader';
 import EachPlaceHoder from '~~/components/custom/EachPlaceHolder';
@@ -13,8 +13,7 @@ import confetti from 'canvas-confetti';
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
 import { useSwitchActiveWalletChain } from "thirdweb/react";
 import { gnosis, sepolia } from 'thirdweb/chains';
-import { FaXmark } from "react-icons/fa6";
-import { FaCheck } from "react-icons/fa6";
+
 
 
 import { CirclesConfig, Sdk } from '@circles-sdk/sdk';
@@ -157,7 +156,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
           });
         };
         fetchAvatar();
-    }, [connectedAddress, setTotalBalance, setMintableToken, isEligible]);
+    }, [connectedAddress, setTotalBalance, setMintableToken, isEligible, isCollateralized]);
 
   
     const formatDateTimeLocal = (dateString: any) => {
@@ -256,41 +255,60 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
 
     
 
-    const handleEligibility = async () => {
+    const checkEligibility = useCallback(async () => {
       await switchChain(gnosis);
+      console.log("Checking eligibility...");
+  
+      const collateralized = totalBalance > creditScore;
+      let eligible = false;
+  
       for (let i = 0; i < membersArray.length; i++) {
+        console.log("111111")
         const trustedArrays = await findOutgoingTrust(membersArray[i]);
+        console.log("Trusted arrays: ", trustedArrays);
         for (let j = 0; j < trustedArrays.length; j++) {
           if (trustedArrays[j] === connectedAddress.toLowerCase()) {
-             setIsEligible(true);  
-             break;
-          }
+          console.log("is trusted", connectedAddress);
+          eligible = true;
+          break;
         }
       }
-
-      if (totalBalance > creditScore) {
-        setIsCollateralized(true);
-      }
-
-      if (isEligible && isCollateralized) {
+    }
+  
+      // Update state after determining values.
+      setIsCollateralized(collateralized);
+      setIsEligible(eligible);
+  
+      // Use local variables for control flow, as state updates are asynchronous.
+      if (eligible && collateralized) {
         alert("You are eligible to join this Equb");
         return true;
-      }
-      if (!isEligible) {
-        setIsEligible(false);
+      } else if (!eligible) {
         alert("You are not trusted to join this Equb");
         return false;
-      }
-
-      if (!isCollateralized) {
-        setIsCollateralized(false);
+      } else if (!collateralized) {
         alert("You do not have enough CRC to join this Equb");
         return false;
       }
-
       alert("You are not trusted to join this Equb");
       return false;
-    }
+    }, [
+      switchChain,
+      totalBalance,
+      creditScore,
+      membersArray,
+      connectedAddress,
+      findOutgoingTrust,
+    ]);
+  
+    // The button's onClick now uses the checkEligibility function.
+    const handleEligibility = async () => {
+      await checkEligibility();
+    };
+  
+
+  
+
     
 
     

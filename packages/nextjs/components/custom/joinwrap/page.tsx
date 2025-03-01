@@ -49,7 +49,7 @@ const JoinWrap: React.FC<EqubDetailEachProps> = ({ equbDetails })  => {
             <EachFilter name="numberOfParticipants" value={filters.numberOfParticipants} onChange={handleChange} />
             <EachFilter name="contributionPerRound" value={filters.contributionPerRound} onChange={handleChange} />
             <EachFilter name="poolDuration" value={filters.poolDuration} onChange={handleChange} />
-            <EachFilter name="minCreditScore" value={filters.minCreditScore} onChange={handleChange} />
+            <EachFilter name="minCRCScore" value={filters.minCreditScore} onChange={handleChange} />
           </form>
         </div>
         <div className='custom-join-main'>
