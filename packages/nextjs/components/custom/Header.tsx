@@ -55,7 +55,7 @@ const Header = () => {
       
       let activeAccount = useActiveAccount();
       //let { address: connectedAddress } = useAccount();
-      let connectedAddress = activeAccount?.address;
+      let connectedAddress = activeAccount?.address.toLocaleLowerCase() || "";
       
       const [totalBalance, setTotalBalance] = useState(0);
       
@@ -101,7 +101,7 @@ const Header = () => {
         const adapter = new BrowserProviderContractRunner();
             await adapter.init();
             const sdk = new Sdk(adapter,  circlesConfig);
-            let avatar = await sdk.getAvatar(connectedAddress  as `0x${string}`);
+            let avatar = await sdk?.getAvatar(connectedAddress  as `0x${string}`);
 
             const balanceToken = await avatar.getTotalBalance();
             setTotalBalance(balanceToken);

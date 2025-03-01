@@ -38,9 +38,9 @@ const ScaffoldEthApp =  ({ children }: { children: React.ReactNode }) => {
           <ThemeProvider enableSystem>
             <ScaffoldEthAppWithProviders>  
               <CirclesSDK>
-                <Router>
+               
                     {children}
-                  </Router>
+                
               </CirclesSDK>
             </ScaffoldEthAppWithProviders>
           </ThemeProvider>
