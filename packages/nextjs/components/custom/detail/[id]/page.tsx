@@ -71,11 +71,11 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
     const [listOfMutualTrust, setListOfMutualTrust] = useState<string[]>([]);
     const [listAnyTrust, setListAnyTrust] = useState<string[]>([]);
 
-    const [isTrusted, setIsTrusted] = useState(false);
-    const [isCollateralized, setIsCollateralized] = useState(true);
-    const [isStaked, setIsStaked] = useState(true);
 
     const [isEligible, setIsEligible] = useState(false);
+    const [isCollateralized, setIsCollateralized] = useState(false);
+
+
     const { data, isLoading, error, address } = equbDetail;
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const popupRef = useRef<HTMLDivElement>(null);
@@ -250,9 +250,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
       const maxTransferable = await avatar.getMaxTransferableAmount(receipentAddress)
       console.log(`Maximum transferable amount: ${maxTransferable}`);
       
-      // setIsCollateralized(false);
       const transferReceipt = await avatar.transfer(receipentAddress, amountToTransfer);
-      // setIsCollateralized(true);
       console.log("Transfer receipt: ", transferReceipt)
     };
 
@@ -264,12 +262,32 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
         const trustedArrays = await findOutgoingTrust(membersArray[i]);
         for (let j = 0; j < trustedArrays.length; j++) {
           if (trustedArrays[j] === connectedAddress.toLowerCase()) {
-             setIsEligible(true);
-             alert("You are trusted for this Equb");
-            return true;
+             setIsEligible(true);  
+             break;
           }
         }
       }
+
+      if (totalBalance > creditScore) {
+        setIsCollateralized(true);
+      }
+
+      if (isEligible && isCollateralized) {
+        alert("You are eligible to join this Equb");
+        return true;
+      }
+      if (!isEligible) {
+        setIsEligible(false);
+        alert("You are not trusted to join this Equb");
+        return false;
+      }
+
+      if (!isCollateralized) {
+        setIsCollateralized(false);
+        alert("You do not have enough CRC to join this Equb");
+        return false;
+      }
+
       alert("You are not trusted to join this Equb");
       return false;
     }
@@ -333,7 +351,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
                 </button>
               ) : (
                 <>
-                {isEligible ? (
+                {(isEligible && isCollateralized) ? (
                   <button
                   disabled
                   className="relative inline-flex items-center justify-center p-0.5 overflow-hidden font-medium text-gray-500 rounded-lg "
@@ -347,7 +365,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
                 </button>
                 ) : (
                   <button
-                    onClick={() => handleEligibility()}
+                    onClick={handleEligibility}
                     className="custom-detail-center-join-button relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900">
                     <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
                       Check Eligibility
@@ -358,32 +376,7 @@ const Detail : React.FC<EqubDetailEachEveryProps> = ({ equbDetail}) => {
               )}
             </div>
 
-{/* 
-            <div className='custom-detail-center-join'>
-              {isMember ? (
-                <button
-                  disabled
-                  className="relative inline-flex items-center justify-center p-0.5 overflow-hidden font-medium text-gray-500 rounded-lg"
-                >
-                  <span className="relative px-4 py-2.5 transition-all ease-in duration-75rounded-md" style={{
-                      color: "#aaa",
-                  }}>
-                    
-                  </span>
-                </button>
-              ) : (
-                <button
-                  onClick={handleCollateralStake.bind(null, Number(10))}
-                  className="custom-detail-center-join-button relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 ">
-                  <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
-                    Stake Collateral CRC
-                  </span>
-                </button>
-              )}
-            </div> */}
-
-
-            { (isMember || isEligible && isCollateralized) && (
+            { (isMember || (isEligible && isCollateralized)) && (
             <div className='custom-detail-center-join'>
               {isMember ? (
                 <button

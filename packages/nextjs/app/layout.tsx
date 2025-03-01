@@ -5,8 +5,12 @@ import { ThemeProvider } from "~~/components/ThemeProvider";
 import "~~/styles/globals.css";
 import { ThirdwebProvider } from "thirdweb/react";
 
+import React from "react";
+import { CirclesSDK } from "../contexts/CirclesSDK";
+
 import { Climate_Crisis} from "next/font/google"
 import { Anek_Bangla } from "next/font/google";
+
 
 const ClimateCrisis = Climate_Crisis({
   variable: "--font-climate-crisis",
@@ -21,14 +25,6 @@ const AnekBangla = Anek_Bangla({
 
 //export const metadata = getMetadata({ title: " ETHqub", description: " ETHqub: Community Saving & Lending",  });
 
-
-
-import React, { useState } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
-import { CirclesSDK } from "../contexts/CirclesSDK";
-
-
-
 const ScaffoldEthApp =  ({ children }: { children: React.ReactNode }) => {
 
   return (
@@ -37,10 +33,8 @@ const ScaffoldEthApp =  ({ children }: { children: React.ReactNode }) => {
       <ThirdwebProvider>
           <ThemeProvider enableSystem>
             <ScaffoldEthAppWithProviders>  
-              <CirclesSDK>
-               
-                    {children}
-                
+              <CirclesSDK>              
+                {children}
               </CirclesSDK>
             </ScaffoldEthAppWithProviders>
           </ThemeProvider>
@@ -51,30 +45,4 @@ const ScaffoldEthApp =  ({ children }: { children: React.ReactNode }) => {
 };
 
 export default ScaffoldEthApp;
-
-{/*
-  
-      return (
-        <CirclesSDK>
-          <Router>
-                          <Routes>
-                            {/* Route for Circles Onboarding *
-                            <Route
-                              path="/"
-                              element={
-                                <CirclesOnboarding setTrustRelations={setTrustRelations} />
-                              }
-                            />
-
-                            {/* Route for Dashboard *
-                            <Route
-                              path="/dashboard"
-                              element={<Dashboard trustRelations={trustRelations} />}
-                            />
-                          </Routes>
-          </Router>
-        </CirclesSDK>
-      );
-    }
-  */}
 

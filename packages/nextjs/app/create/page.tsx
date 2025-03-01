@@ -177,6 +177,22 @@ const Create = () => {
   };
 
   useEffect( () => {
+      if (Number(minCreditScore) > Number(totalBalance) && minCreditScore != "0" )  {
+        TostifyFunction("Min CRC Score should be less than total balance");
+      }
+        
+      
+      if (Number(new Date(startingTime)) < Number(new Date())) {
+        TostifyFunction("Starting time should be greater than current time");
+      }
+
+      if (poolAmount && totalCycles && Number(totalCycles) > 0) {
+        const contribution = Number(poolAmount) / Number(totalCycles);
+        setIndividualContribution(contribution.toFixed(3));
+      } else {
+        setIndividualContribution('');
+    }
+    
     const fetchAvatar = async () => {
       const adapter = new BrowserProviderContractRunner();
       await adapter.init();
@@ -186,25 +202,6 @@ const Create = () => {
     
       const balanceToken = await avatar.getTotalBalance();
       setTotalBalance(balanceToken);
-
-     
-      if (Number(minCreditScore) > Number(totalBalance) && minCreditScore != "0" )  {
-        TostifyFunction("Min CRC Score should be less than total balance");
-      }
-      
-      console.log("Starting Time", startingTime);
-      console.log("Current Time", new Date().getTime());
-
-      if (Number(new Date(startingTime)) < Number(new Date())) {
-        TostifyFunction("Starting time should be greater than current time");
-      }
-
-      if (poolAmount && totalCycles && Number(totalCycles) > 0) {
-        const contribution = Number(poolAmount) / Number(totalCycles);
-        setIndividualContribution(contribution.toFixed(3));
-    } else {
-      setIndividualContribution('');
-    }
   }
   fetchAvatar();
   }, [poolAmount, totalCycles, minCreditScore, startingTime]);
