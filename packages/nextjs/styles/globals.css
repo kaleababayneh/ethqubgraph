@@ -992,7 +992,7 @@ p {
   text-align: center; /* Centered text */
   display: inline-block; /* Make the button inline-block */
   font-size: 16px; /* Increase font size */
-  margin: 4px 2px; /* Some margin */
+  margin: 10px 2px; /* Some margin */
   cursor: pointer; /* Pointer/hand icon */
   transition: background-color 0.3s ease; /* Smooth transition */
 }
